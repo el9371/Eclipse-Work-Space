@@ -1,0 +1,28 @@
+package Assign2;
+
+import java.util.*;
+
+interface Voter {
+	public void vote();
+}
+
+public class Student implements Voter {
+
+	protected String name_;
+	protected int studentID_;
+	protected int grade_;
+	protected Department department_;
+	
+	public Student(String name, int studentID, int grade, Department department) {
+		this.name_ = name;
+		this.studentID_ = studentID;
+		this.grade_ = grade;
+		this.department_ = department;
+	}
+	
+	public void vote() {
+		ArrayList<Candidate> candidate = this.department_.getCandidate();
+		int rand = (int)(Math.random()*candidate.size());
+		candidate.get(rand).vote();
+	}
+}

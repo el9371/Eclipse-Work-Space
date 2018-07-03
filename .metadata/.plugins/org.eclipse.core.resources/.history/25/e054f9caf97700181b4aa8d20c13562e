@@ -1,0 +1,104 @@
+package Assign2;
+
+import java.util.*;
+import java.io.*;
+
+public class ElectionSim {
+	private String departmentInput_;
+	private String studentInput_;
+	private String output_;
+	private ArrayList<Department> department_;
+	private ArrayList<Candidate> candidate_;
+	
+	public ElectionSim(String departmentInput, String studentInput, String output) {
+		this.departmentInput_ = departmentInput;
+		this.studentInput_ = studentInput;
+		this.output_ = output;
+		this.department_ = new ArrayList<>();
+		this.department_.add(null);
+		this.candidate_ = new ArrayList<>();
+		Scanner dinputStream, sinputStream;
+		////////////////////////////saving in department_
+		try {
+			dinputStream = new Scanner(new FileInputStream(this.departmentInput_));
+			dinputStream.nextLine();
+			while (dinputStream.hasNextLine()) {
+				String depName = dinputStream.nextLine().split(",")[1];
+				//System.out.println(dinputStream.nextLine());
+				//department_.add(new Department(depName));
+				this.department_.add(new Department(depName));
+				//System.out.println(depName);
+			} 
+		}
+		catch(FileNotFoundException e) {
+			System.out.print("File Not Found.");
+			System.exit(0);
+		}
+		//////////////////////////saving student
+		try {
+			sinputStream = new Scanner(new FileInputStream(this.studentInput_));
+			sinputStream.nextLine();
+			while (sinputStream.hasNextLine()) {
+				//System.out.println(sinputStream.nextLine());
+				String[] stud = sinputStream.nextLine().split(",");
+				//System.out.println(stud[3]);
+				if (Boolean.valueOf(stud[3])) {
+					//System.out.println(str2int(stud[1]));
+					Department d = this.department_.get(str2int(stud[1]));
+					Candidate c = new Candidate(stud[2], str2int(stud[0]), d);
+					d.addCandidate(c);
+					this.candidate_.add(c);
+				} 
+				else {
+					//System.out.println("bye");
+					Department d = this.department_.get(str2int(stud[1]));
+					Student s = new Student(stud[2], str2int(stud[0]), d);
+					d.addStudent(s);
+				}
+				//department_.add(new Department(tmpstr[1]));
+			} 
+		}
+		catch(FileNotFoundException e) {
+			System.out.print("File Not Found.");
+			System.exit(0);
+		}
+	}
+	
+	public int str2int(String str) {
+		try {
+			return Integer.parseInt(str);
+		}
+		catch(NumberFormatException e) {
+			System.out.println("Invalid input.");
+			System.exit(0);
+		}
+		return 0;
+	}
+	
+	public void runSimulation() {
+		
+		for(Iterator<Department> it = this.department_.iterator(); it.hasNext();) {
+			Candidate selected = null;
+			
+			for(Iterator<Student> sit = (it.next()).getStudent().iterator(); sit.hasNext();)
+				System.out.println(sit.next().getName());
+				//sit.next().vote();
+			/*
+			for(Iterator<Candidate> cit = it.next().getCandidate().iterator(); cit.hasNext();) {
+				Candidate c = cit.next();
+				if (selected == null)
+					selected = c;
+				else 
+					if (selected.getNumOfVote() < c.getNumOfVote())
+						selected = c;
+			}
+			System.out.println("======== Elected Candidate ========");
+			System.out.println("Department Name: " + selected.getDepartment().getName());
+			System.out.println("name: " + selected.getName());
+			System.out.println("Student_ID: " + selected.getID());
+			System.out.println("Votes: " + selected.getNumOfVote());
+			System.out.println("===================================");
+			*/
+		}
+	}
+}
