@@ -33,18 +33,18 @@ public class pocket {
 	
 	//constant number
 	protected int number;
-	protected double const_speed, const_ad, const_ap, const_adD, const_apD, const_HP, const_MP;
+	protected double const_speed, const_ad, const_ap, const_adD, const_apD, const_HP;// const_MP;
 	protected Type[] type = new Type[2];
 	//individual value
 	protected String name;
 	protected int level;
 	protected double iv;
 	//buff stack 
-	private int b_speed, d_speed, b_ad, d_ad, b_ap, d_ap, b_adD, d_adD, b_apD, d_apD; 
+	private int b_speed, d_speed, b_ad, d_ad, b_ap, d_ap, b_adD, d_adD, b_apD, d_apD, status, HP, maxHP;//MP, maxMP 
 	
-	protected void settingStat(int _number, double _speed, double _ad, double _ap, double _adD, double _apD, double _HP, double _MP, Type[] _type) {
+	protected void settingStat(int _number, double _speed, double _ad, double _ap, double _adD, double _apD, double _HP, Type[] _type) {
 		this.number = _number; this.const_speed = _speed; this.const_ad = _ad; this.const_adD = _adD; this.const_ap = _ap; 
-		this.const_apD = _apD; this.const_HP = _HP; this.const_MP = _MP; this.type = _type;
+		this.const_apD = _apD; this.const_HP = _HP; this.type = _type; //this.const_MP = _MP;
 		this.b_speed = 0; this.b_ad = 0; this.b_adD = 0; this.b_ap = 0; this.b_apD = 0;
 		this.d_speed = 0; this.d_ad = 0; this.d_adD = 0; this.d_ap = 0; this.d_apD = 0;
 	}
