@@ -7,17 +7,12 @@ public class n001_Bulbasaur extends pocket {
 	
 	public n001_Bulbasaur(String _name, int _level, int _iv) {
 		this.name = _name; this.level = _level; this.iv = _iv;
-		this.settingStat(_number, _speed, _ad, _ap, _adD, _apD , _HP, _type );
+		this.pocket(_number, _speed, _ad, _ap, _adD, _apD , _HP, _type );
 	}
 	
 	public n001_Bulbasaur( int _level, int _iv) {
 		this.name = "pencil"; this.level = _level; this.iv = _iv;
-		this.settingStat(_number, _speed, _ad, _ap, _adD, _apD , _HP, _type);
-	}
-	
-	public n001_Bulbasaur() {
-		this.name = "pencil"; this.level = 1; this.iv = 1;
-		this.settingStat(_number, _speed, _ad, _ap, _adD, _apD , _HP, _type);
+		this.pocket(_number, _speed, _ad, _ap, _adD, _apD , _HP, _type);
 	}
 	
 }
