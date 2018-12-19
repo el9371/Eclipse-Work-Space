@@ -53,6 +53,7 @@ public class pocket {
 	protected pocket(int _number, double _speed, double _ad, double _ap, double _adD, double _apD, double _HP, Type[] _type) {
 		this.number = _number; this.const_speed = _speed; this.const_ad = _ad; this.const_adD = _adD; this.const_ap = _ap; 
 		this.const_apD = _apD; this.const_HP = _HP; this.type = _type; this.state = State.NTH;//this.const_MP = _MP;
+		
 	}
 	//////////////////////////////////////////Setting for battle/////////////////////////////////
 	// reset on spawning
