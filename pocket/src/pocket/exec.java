@@ -1,4 +1,5 @@
 package pocket;
+import javax.swing.*;
 import java.util.*;
 
 enum Type{
@@ -8,12 +9,18 @@ enum States{
 	BURN, PARALYSIS, ADDICTION, FROZEN, SLEEPING, REACTION, NTH
 }
 
+class MyFrame extends JFrame {
+	public MyFrame() {
+		setSize(400, 300);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setTitle("POCKETMON");
+		setVisible(true);
+	}
+}
+
 public class exec {
 	public static void main(String[] args)
 	{
-		int alpha = 10;
-		double beta = 0;
-		beta = (double)(alpha * 5 / 3);
-		System.out.println(beta);
+		MyFrame frame = new MyFrame();
 	}
 }
