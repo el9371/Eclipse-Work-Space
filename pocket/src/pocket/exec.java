@@ -4,8 +4,8 @@ import java.util.*;
 public class exec {
 	public static void main(String[] args)
 	{
-		System.out.println("Hello world!");
-		Scanner Keyboard = new Scanner(System.in);
-		System.out.println(Keyboard.nextLine());
+		int alpha = 10, beta = 0;
+		beta = (double)(alpha * 5 / 3)
+		System.out.println(beta);
 	}
 }
