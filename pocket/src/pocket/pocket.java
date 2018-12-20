@@ -48,10 +48,10 @@ public class pocket {
 	private int HP, maxHP;//MP, maxMP 
 	//////////////////////////////////////////////////First Setting//////////////////////
 	// never changed excluding special thing
-	protected pocket(int _number, int _speed, int _ad, int _ap, int _adD, int _apD, int _HP, Type[] _type) {
+	protected void init(int _number, int _speed, int _ad, int _ap, int _adD, int _apD, int _HP, Type[] _type) {
 		this.number = _number; this.const_speed = _speed; this.const_ad = _ad; this.const_adD = _adD; this.const_ap = _ap; 
-		this.const_apD = _apD; this.const_HP = _HP; this.type = _type; this.state = State.NTH;//this.const_MP = _MP;
-		this.maxHP = (double)(this.const_HP * 2 * this.level / 100 + 10 + this.level) * this.iv; this.HP = this.maxHP;
+		this.const_apD = _apD; this.const_HP = _HP; this.type = _type; this.state = States.NTH;//this.const_MP = _MP;
+		this.maxHP = (int)(((double)this.const_HP * 2.0 * (double)this.level / 100.0 + 10.0 + (double)this.level) * this.iv); this.HP = this.maxHP;
 	}
 	//////////////////////////////////////////Setting for battle/////////////////////////////////
 	// reset on spawning
@@ -62,34 +62,24 @@ public class pocket {
 	}
 	
 	////////////////////////////////////////////////accessor////////////////////////////////////
-	public double getSpeed() {
-		double speed = this.isMin(this.level * this.iv * this.const_speed );
-		speed = this.isMax(speed);
-		return speed * this.buff_stack(this.b_speed);
+	public int getSpeed() {
+		return (int)(this.calculating_ability(this.const_speed) * this.buff_stack(this.b_speed));
 	}
 	
-	public double getAd() {
-		double ad = this.isMin(this.level * this.iv * this.const_ad );
-		ad = this.isMax(ad);
-		return ad * this.buff_stack(this.b_ad);
+	public int getAD() {
+		return (int)(this.calculating_ability(this.const_ad) * this.buff_stack(this.b_ad));
 	}
 	
-	public double getAdD() {
-		double adD = this.isMin(this.level * this.iv * this.const_adD );
-		adD = this.isMax(adD);
-		return adD * this.buff_stack(this.b_adD);
+	public int getADD() {
+		return (int)(this.calculating_ability(this.const_adD) * this.buff_stack(this.b_adD));
 	}
 	
-	public double getAp() {
-		double ap = this.isMin(this.level * this.iv * this.const_ap );
-		ap = this.isMax(ap);
-		return ap * this.buff_stack(this.b_ap);
+	public int getAP() {
+		return (int)(this.calculating_ability(this.const_ap) * this.buff_stack(this.b_ap));
 	}
 	
-	public double getApD() {
-		double apD = this.isMin(this.level * this.iv * this.const_apD);
-		apD = this.isMax(apD);
-		return apD * this.buff_stack(this.b_apD);
+	public int getAPD() {
+		return (int)(this.calculating_ability(this.const_apD) * this.buff_stack(this.b_apD));
 	}
 	
 	public double getAccuracy( ) {
@@ -155,20 +145,15 @@ public class pocket {
 		return false;
 	}
 	
-	private double isMin(double n) {
-		if (n < 10) return 10;
-		return n;
-	}
-	
-	private double isMax(double n) {
-		if (n > 160) return 160;
-		return n;
+	private double calculating_ability(int n) {
+		return (double)(n * 2 * this.level) / 100.0 + 5.0 *this.iv;
 	}
 	
 	private double buff_stack(int n) {
 		if (n < 0) return 1 / (1+n);
 		return (1 + 0.5 * n);
 	}
+	
 }
 
 
