@@ -1,5 +1,7 @@
 package pocket;
 
+
+
 // 타입 			전기 0, 격투 1, 불 2, 비행 3, 고스트 4, 풀 5, 땅 6, 얼음 7, 노멀 8, 독 9, 바위 10, 물 11, 없음 12
 // 상태이상 	화상 0, 마비 1, 중독 2, 얼음 3, 잠 4, 반동 5, 없음 6
 /* 관련 규칙들
@@ -24,15 +26,6 @@ package pocket;
  */
 
 public class pocket {
-	
-	enum Type{
-		ELECTRICITY, FIGHTHING, FIRE, FLYING, GHOST, GRASS, GROUND, ICE, NORMAL, POISON, ROCK, WATER, NTH
-	}
-	
-	enum States{
-		BURN, PARALYSIS, ADDICTION, FROZEN, SLEEPING, REACTION, NTH
-	}
-	
 	/////////////////////////////////////////////constant number/////////////////////////////////////
 	protected int number;
 	protected int const_speed, const_ad, const_ap, const_adD, const_apD, const_HP;// const_MP;
