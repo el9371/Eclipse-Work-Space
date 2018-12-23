@@ -11,8 +11,10 @@ enum States{
 
 public class exec{
 	
+	dialog dia;
 	public static void main(String[] args)
 	{
+		String[] abc = {"어서오시게!", "이곳에서는 다양한 생물체들이 존재한다네","사람들은 그들을 '포켓몬'이라고 부르지","이 세상은 포켓몬들과 공존하면서 살고있지","설명이 길었군. 자네의 이름은 어떻게 되는가?"};
 		
 		JFrame Main = new JFrame();
 		Main.setTitle("POCKETMON");
@@ -26,9 +28,15 @@ public class exec{
 		img_dr5.setLocation(240,20);
 		contentPane.add(img_dr5);
 		
-		contentPane.add(new dialog("어서오시게!"));
+		contentPane.add(new dialog(abc));
 		
 		Main.setSize(600,400);
 		Main.setVisible(true);
 	}
+	
+	private boolean setDialog(String _s) {
+		dia = new dialog(_s);
+	}
+	
 }
+
