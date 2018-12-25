@@ -25,7 +25,7 @@ package pocket;
  * 대괄호[] 식은 상황에 따라 적용 
  */
 
-public class pocket {
+public class Pocket {
 	/////////////////////////////////////////////constant number/////////////////////////////////////
 	protected int number;
 	protected int const_speed, const_ad, const_ap, const_adD, const_apD, const_HP;// const_MP;

@@ -1,4 +1,4 @@
 package pocket;
 
-public class s033_Tackle extends skill {
+public class s033_Tackle extends Skill {
 }
