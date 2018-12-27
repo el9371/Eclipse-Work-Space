@@ -14,6 +14,9 @@ enum States{
 public class Exec{
 	public static void main(String[] args)
 	{
+		int userx = 0, usery = 0;
+		//int[][] obstacles;
+		
 		JFrame Main = new JFrame();
 		Main.setTitle("POCKETMON");
 		Main.setLayout(new FlowLayout());
@@ -21,51 +24,87 @@ public class Exec{
 		Container contentPane = Main.getContentPane();
 		contentPane.setLayout(null);
 		
-		JLabel map = new JLabel(new ImageIcon("images\\map.png"));
-		map.setSize(640, 576);
+		//////////////////////////////////map setting/////////////////////////
+		JLabel map = new JLabel(new ImageIcon("images\\test_map.png"));
+		map.setSize(640, 288);
 		map.setLocation(0,0);
 		
-		JLabel user = new JLabel(new ImageIcon("images\\user.png"));
-		user.setSize(32, 32);
-		user.setLocation(320,320);
-		
+		//////////////////////////////////character setting////////////////////////
+		JLabel user_front = new JLabel(new ImageIcon("images\\user_front.png"));
+		user_front.setSize(16, 16);
+		user_front.setLocation(0,0);
+		JLabel user_back = new JLabel(new ImageIcon("images\\user_back.png"));
+		user_back.setSize(16, 16);
+		user_back.setLocation(0,0);
+		user_back.setVisible(false);
+		JLabel user_left = new JLabel(new ImageIcon("images\\user_left.png"));
+		user_left.setSize(16, 16);
+		user_left.setLocation(0,0);
+		user_left.setVisible(false);
+		JLabel user_right = new JLabel(new ImageIcon("images\\user_right.png"));
+		user_right.setSize(16, 16);
+		user_right.setLocation(0,0);
+		user_right.setVisible(false);
 		
 		
 		class Key implements KeyListener {
-			int userx = 320, usery = 320;
-			JLabel _user = user;
+			int _userx = userx, _usery = usery;
+			JLabel _puser, _user = user_front;
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if (e.getKeyCode() == 37) userx -= 20;
-				else if (e.getKeyCode() == 38) usery -= 20;
-				else if (e.getKeyCode() == 39) userx += 20;
-				else if (e.getKeyCode() == 40) usery += 20;
-				_user.setLocation(userx, usery);
+				/////////////////////////moving character ////////////////////
+				if (e.getKeyCode() >= 37 && e.getKeyCode() <= 40) {
+					_puser = _user;
+					if (e.getKeyCode() == 37) {
+						_userx -= 16;
+						_user = user_left;
+					}
+					else if (e.getKeyCode() == 38) {
+						_usery -= 16;
+						_user = user_back;
+					}
+					else if (e.getKeyCode() == 39) {
+						_userx += 16;
+						_user = user_right;
+					}
+					else if (e.getKeyCode() == 40) {
+						_usery += 16;
+						_user = user_front;
+					}
+					_puser.setVisible(false);
+					_user.setLocation(_userx, _usery);
+					_user.setVisible(true);
+				}
 			}
-
 			@Override
 			public void keyReleased(KeyEvent e) {
 				// TODO Auto-generated method stub
-				
 			}
-
 			@Override
 			public void keyTyped(KeyEvent e) {
 				// TODO Auto-generated method stub
-				
 			}
-			
+		}
+		
+		class Obstacles {
+			int x_min, x_max, y_min, y_max;
+			public Obstacles(int xmin, int xmax, int ymin, int ymax) {
+				x_min = xmin; x_max = xmax; y_min = ymin; y_max = ymax;
+			}
+			public boolean isRestricted()
 		}
 		
 		Main.addKeyListener(new Key());
 		
 		
-		Main.setSize(640, 576);
+		Main.setSize(655, 325);
 		Main.setVisible(true);
 		
-		contentPane.add(user);
+		contentPane.add(user_front);
+		contentPane.add(user_back);
+		contentPane.add(user_right);
+		contentPane.add(user_left);
 		contentPane.add(map);
-		
 	}
 	
 }
