@@ -25,16 +25,22 @@ public class InGame {
 	{
 		/////////////////////////////test map construction//////////////////////////
 		boolean[][] ob = new boolean[40][18];
-		for(int i = 0; i < 40; i++)
-			for(int j =0; j<18;j++)
-				ob[i][j]=false;
-		for (int i = 14; i<30;i++)
-			ob[i][8] = true;
-		ob[14][9] = true; ob[14][10] = true; ob[14][11] = true; ob[15][11] = true;
-		for (int i = 18; i < 28; i++)
-			ob[i][11] = true;
-		for (int i = 30; i < 34; i++)
-			ob[i][11] = true;
+		for(int i = 0; i < 40; i++)for(int j =0; j<18;j++)ob[i][j]=false;
+		for (int i = 14; i<30;i++) ob[i][8] = true;
+		ob[14][9] = true; ob[14][10] = true; ob[14][11] = true; ob[15][11] = true; ob[33][7] = true;
+		for (int i = 18; i < 28; i++)ob[i][11] = true;
+		for (int i = 30; i < 34; i++)ob[i][11] = true;
+		for (int i = 0; i < 4; i ++)ob[i][7] = true;
+		for (int i = 0; i < 8;i++ )ob[3][i] = true;
+		for(int i = 3; i < 16; i ++)ob[i][0] = true;
+		for(int i = 16; i < 40 ; i++)for(int j = 0; j <3; j++)ob[i][j] = true;
+		for(int i = 26; i < 40; i++) {ob[i][3] = true; ob[i][4] = true;}
+		for (int i = 34; i < 40; i++) ob[i][5] = true;
+		for (int i = 36 ; i < 40; i++) for (int j = 6; j < 10; j ++) ob[i][j] = true;
+		for(int i = 34 ; i < 40; i++) for (int j = 10; j < 18; j++) ob[i][j] = true;
+		for(int i = 30; i < 34; i++) ob[i][12] = true;
+		for(int i = 24; i < 34; i++) for(int j = 13; j < 18 ; j++) ob[i][j] = true;
+		
 		nextMap = new Map("testMap",0,40,18,ob,setImageScale(new ImageIcon("images\\test_map.png")));
 		/////////////////////////////test map construction//////////////////////////
 		
@@ -105,7 +111,7 @@ public class InGame {
 				_puser.setVisible(false);
 				_user.setLocation(framex * resolution, framey * resolution);
 				_user.setVisible(true);
-				System.out.println("x="+userx+" y="+usery +" fx="+framex+" fy="+framey+" px="+(userx - 5)* -1 * resolution+" py="+(usery - 5) * -1 * resolution);
+				System.out.println("x="+userx+" y="+usery );
 			}
 		}
 		@Override
