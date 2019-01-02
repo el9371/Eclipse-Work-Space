@@ -6,12 +6,12 @@ import java.util.*;
 public class Map {
 	private String name;
 	private int number, width, height;
-	private int[][] obstacles;
+	private boolean[][] obstacles;
 	//private Npc npc;
 	private Map nextMap;
 	private ImageIcon imageFile;
 	
-	public Map(String name, int number, int width, int height, int[][] obstacles, ImageIcon imageFile) {
+	public Map(String name, int number, int width, int height, boolean[][] obstacles, ImageIcon imageFile) {
 		super();
 		this.name = name;
 		this.number = number;
@@ -21,10 +21,9 @@ public class Map {
 		this.imageFile = imageFile;
 	}
 	
-	public boolean testTile(int x, int y) {
-		if (x>=0 && y>=0 && x < this.width && y < this.height)
-			if(this.obstacles[x][y] == 0 || this.obstacles[x][y] == 1) return false;
-		return true;
+	public boolean isObstacles(int x, int y) {
+		if (x < 0 || x >= this.width || y < 0 || y >= this.height) return true;
+		return this.obstacles[x][y];
 	}
 	
 	public String getName() {
@@ -59,11 +58,11 @@ public class Map {
 		this.height = height;
 	}
 
-	public int[][] getObstacles() {
+	public boolean[][] getObstacles() {
 		return obstacles;
 	}
 
-	public void setObstacles(int[][] obstacles) {
+	public void setObstacles(boolean[][] obstacles) {
 		this.obstacles = obstacles;
 	}
 
