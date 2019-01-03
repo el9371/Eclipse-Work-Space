@@ -2,6 +2,8 @@ package pocket;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.*;
@@ -11,6 +13,7 @@ public class InGame {
 	//resolution must be multiple of 16
 	private final int resolution = 32;
 	private int userx = 31, usery = 8, framex = 5, framey = 5, mapLocationx, mapLocationy;
+	private boolean canIMove = true;
 	private Map nextMap;
 	
 	private JFrame Main = new JFrame();
@@ -20,6 +23,8 @@ public class InGame {
 	private JLabel user_back = new JLabel(setImageScale(new ImageIcon("images\\user_back.png")));
 	private JLabel user_left = new JLabel(setImageScale(new ImageIcon("images\\user_left.png")));
 	private JLabel user_right = new JLabel(setImageScale(new ImageIcon("images\\user_right.png")));
+	private JLabel Dialogue0 = new JLabel(setImageScale(new ImageIcon("images\\dialogue0.png")));
+	private JLabel Dialogue = new JLabel("¿œ¿ÃªÔªÁø¿¿∞ƒ•∆»±∏Ω ¿œ¿ÃªÔªÁø¿¿∞ƒ•∆»±∏Ω ¿œ");
 	
 	public InGame()
 	{
@@ -40,6 +45,7 @@ public class InGame {
 		for(int i = 34 ; i < 40; i++) for (int j = 10; j < 18; j++) ob[i][j] = true;
 		for(int i = 30; i < 34; i++) ob[i][12] = true;
 		for(int i = 24; i < 34; i++) for(int j = 13; j < 18 ; j++) ob[i][j] = true;
+		for(int i = 18; i < 24; i++) for(int j = 15; j < 18; j++) ob[i][j] =true;
 		
 		nextMap = new Map("testMap",0,40,18,ob,setImageScale(new ImageIcon("images\\test_map.png")));
 		/////////////////////////////test map construction//////////////////////////
@@ -55,6 +61,13 @@ public class InGame {
 		mapLocationx = (userx - 5)* -1 * resolution; mapLocationy = (usery - 5) * -1 * resolution;
 		map.setLocation(mapLocationx, mapLocationy);
 		//map.setLocation(0, 0);
+		/////////////////////////////////Dialogue Setting///////////////////////
+		Dialogue0.setSize(resolution * 11, resolution * 5);
+		Dialogue0.setLocation(0, resolution * 11);
+		Dialogue.setSize(resolution * 9, resolution * 3);
+		Dialogue.setLocation(resolution, resolution * 12);
+		Dialogue.setFont(new Font("±º∏≤", Font.PLAIN, 8 + resolution / 8));
+		Dialogue.setVisible(false);
 		//////////////////////////////////character setting////////////////////////
 		
 		user_front.setSize(resolution, resolution);
@@ -71,13 +84,17 @@ public class InGame {
 		
 		Main.addKeyListener(new Key());
 		
-		Main.setSize(11*resolution+15, 11*resolution+37);
+		Main.setSize(11*resolution+15, 16*resolution+37);
 		Main.setVisible(true);
+		
+		contentPane.add(Dialogue);
+		contentPane.add(Dialogue0);
 		
 		contentPane.add(user_front);
 		contentPane.add(user_back);
 		contentPane.add(user_right);
 		contentPane.add(user_left);
+		
 		contentPane.add(map);
 	}
 	
@@ -85,8 +102,8 @@ public class InGame {
 		JLabel _puser, _user = user_front;
 		@Override
 		public void keyPressed(KeyEvent e) {
-			/////////////////////////moving character ////////////////////
-			if (e.getKeyCode() >= 37 && e.getKeyCode() <= 40) {
+			////////////////////////////////////moving character ////////////////////////////////
+			if (e.getKeyCode() >= 37 && e.getKeyCode() <= 40 && canIMove) {
 				_puser = _user;
 				if (e.getKeyCode() == 37) {
 					//is it possible to move ?
@@ -112,6 +129,13 @@ public class InGame {
 				_user.setLocation(framex * resolution, framey * resolution);
 				_user.setVisible(true);
 				System.out.println("x="+userx+" y="+usery );
+			} else if ( e.getKeyChar() == 'a') {
+				if (canIMove) { 
+					DialogueText d = new DialogueText(1, " ¥Î»≠√¢ Ω««Ë¡ﬂ "); 
+					setDialogue(d);
+					canIMove = false;
+					}
+				else {Dialogue.setVisible(false); canIMove = true;}
 			}
 		}
 		@Override
@@ -123,7 +147,7 @@ public class InGame {
 			// TODO Auto-generated method stub
 		}
 	}
-	/////////////////////////////////frame setting tools////////////////////////
+	
 	private void moveLeft() {
 		userx -= 1;
 		//ordinary case 
@@ -166,6 +190,35 @@ public class InGame {
 		else framey -= 1;
 	}
 	
+	/////////////////////////////////Set Dialogue /////////////////////////////////
+	class DialogueText {
+		private int _type;
+		private String _text;
+		private DialogueText _next;
+		public DialogueText(int _type, String _text) {
+			this._type = _type;
+			this._text = _text;
+			this._next = null;
+		} public void set_next(DialogueText d) {
+			this._next = d;
+		}
+		public int get_type() {
+			return _type;
+		}
+		public String get_text() {
+			return _text;
+		}
+		public DialogueText get_next() {
+			return _next;
+		}
+	}
+	private void setDialogue(DialogueText dt) {
+		Dialogue.setText(dt.get_text());
+		Dialogue.setVisible(true);
+	}
+	
+	
+	/////////////////////////////////frame setting tools////////////////////////
 	
 	private ImageIcon setImageScale(ImageIcon i) {
 		Image tmp = i.getImage();
