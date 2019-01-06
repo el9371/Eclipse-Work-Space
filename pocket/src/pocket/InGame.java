@@ -15,7 +15,8 @@ public class InGame {
 	private int userx = 31, usery = 8, framex = 5, framey = 5, mapLocationx, mapLocationy;
 	private boolean canIMove = true;
 	private Map nextMap;
-	
+	private HashMap<NPC,JLabel[]> npces = new HashMap<NPC,JLabel[]>();
+	private ArrayList<NPC> npc = new ArrayList<NPC>();
 	private JFrame Main = new JFrame();
 	private Container contentPane;
 	private JLabel map;
@@ -28,6 +29,18 @@ public class InGame {
 	
 	public InGame()
 	{
+		Main.setTitle("POCKETMON");
+		Main.setLayout(new FlowLayout());
+		Main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//exit when pushing close button
+		contentPane = Main.getContentPane();
+		contentPane.setLayout(null);
+		
+		//////////////////////////////test npc construction///////////////////////////////
+		ImageIcon[] img = {setImageScale(new ImageIcon("images\\boldchild_left.png")),setImageScale(new ImageIcon("images\\boldchild_back.png")),setImageScale(new ImageIcon("images\\boldchild_right.png")),setImageScale(new ImageIcon("images\\boldchild_front.png"))};
+		NPC testn = new NPC(0,"Hanyang",img);
+		NPC[] testnpc = {testn};
+		HashMap<NPC,int[]> testlocation = new HashMap<NPC,int[]>();
+		testlocation.put(testn, new int[]{32,10});
 		/////////////////////////////test map construction//////////////////////////
 		boolean[][] ob = new boolean[40][18];
 		for(int i = 0; i < 40; i++)for(int j =0; j<18;j++)ob[i][j]=false;
@@ -47,14 +60,10 @@ public class InGame {
 		for(int i = 24; i < 34; i++) for(int j = 13; j < 18 ; j++) ob[i][j] = true;
 		for(int i = 18; i < 24; i++) for(int j = 15; j < 18; j++) ob[i][j] =true;
 		
-		nextMap = new Map("testMap",0,40,18,ob,setImageScale(new ImageIcon("images\\test_map.png")));
+		nextMap = new Map("testMap",0,40,18,ob,testnpc,testlocation,setImageScale(new ImageIcon("images\\test_map.png")));
+		setNPC(nextMap);
 		/////////////////////////////test map construction//////////////////////////
 		
-		Main.setTitle("POCKETMON");
-		Main.setLayout(new FlowLayout());
-		Main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//exit when pushing close button
-		contentPane = Main.getContentPane();
-		contentPane.setLayout(null);
 		//////////////////////////////////map setting/////////////////////////
 		map = new JLabel(nextMap.getImageFile());
 		map.setSize(nextMap.getWidth() * resolution, nextMap.getHeight() * resolution);
@@ -128,6 +137,7 @@ public class InGame {
 				_puser.setVisible(false);
 				_user.setLocation(framex * resolution, framey * resolution);
 				_user.setVisible(true);
+				moveNPC(nextMap);
 				System.out.println("x="+userx+" y="+usery );
 			} else if ( e.getKeyChar() == 'a') {
 				if (canIMove) { 
@@ -199,7 +209,18 @@ public class InGame {
 			this._type = _type;
 			this._text = _text;
 			this._next = null;
-		} public void set_next(DialogueText d) {
+		} 
+		public DialogueText(String _text) {
+			this._text = _text;
+			this._type = 0;
+			this._next = null;
+		}
+		public DialogueText(String _text, DialogueText _next) {
+			this._text = _text;
+			this._type = 0;
+			this._next = _next;
+		}
+		public void set_next(DialogueText d) {
 			this._next = d;
 		}
 		public int get_type() {
@@ -216,7 +237,44 @@ public class InGame {
 		Dialogue.setText(dt.get_text());
 		Dialogue.setVisible(true);
 	}
+	////////////////////////////////////Set NPC ////////////////////////////////////
+	private void setNPC(Map m) {
+		for(int i = 0; i < m.getNpc().length; i++)
+		{
+			NPC n = m.getNpc()[i];
+			JLabel tmp0 = new JLabel(n.getImg()[0]);
+			JLabel tmp1 = new JLabel(n.getImg()[1]);
+			JLabel tmp2 = new JLabel(n.getImg()[2]);
+			JLabel tmp3 = new JLabel(n.getImg()[3]);
+			tmp0.setSize(resolution, resolution);
+			tmp1.setSize(resolution, resolution);
+			tmp2.setSize(resolution, resolution);
+			tmp3.setSize(resolution, resolution);
+			tmp3.setLocation((m.getNPCLocation().get(n)[0] - userx + framex)*resolution,(m.getNPCLocation().get(n)[1] - usery + framey)*resolution);
+			System.out.println((m.getNPCLocation().get(n)[0] - userx + framex)*resolution + "  " + (m.getNPCLocation().get(n)[1] - usery + framey)*resolution );
+			tmp0.setVisible(false);
+			tmp1.setVisible(false);
+			tmp2.setVisible(false);
+			contentPane.add(tmp0);
+			contentPane.add(tmp1);
+			contentPane.add(tmp2);
+			contentPane.add(tmp3);
+			JLabel[] tmp = {tmp0, tmp1, tmp2, tmp3};
+			npc.add(n);
+			npces.put(n, tmp);
+		}
+		
+	}
 	
+	private void moveNPC(Map m) {
+		for (int i = 0; i < npc.size(); i++)
+		{
+			NPC n = npc.get(i);
+			JLabel[] tmp = npces.get(n);
+			for(int j = 0; j < 4; j++)
+				tmp[j].setLocation((m.getNPCLocation().get(n)[0] - userx + framex)*resolution,(m.getNPCLocation().get(n)[1] - usery + framey)*resolution);
+		}
+	}
 	
 	/////////////////////////////////frame setting tools////////////////////////
 	
