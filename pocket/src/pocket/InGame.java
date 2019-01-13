@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.*;
+import pocket.NPC.DialogueText;
 
 
 public class InGame {
@@ -15,8 +16,9 @@ public class InGame {
 	private int userx = 31, usery = 8, framex = 5, framey = 5, mapLocationx, mapLocationy;
 	private boolean canIMove = true;
 	private Map nextMap;
-	private HashMap<NPC,JLabel[]> npces = new HashMap<NPC,JLabel[]>();
-	private ArrayList<NPC> npc = new ArrayList<NPC>();
+	private NPC.DialogueText nextDialogue;
+	private HashMap<NPC,JLabel[]> npces = new HashMap<NPC,JLabel[]>();	//NPC & IMAGE
+	private ArrayList<NPC> npc = new ArrayList<NPC>();					//NPC LIST IN WORLD
 	private JFrame Main = new JFrame();
 	private Container contentPane;
 	private JLabel map;
@@ -38,6 +40,12 @@ public class InGame {
 		//////////////////////////////test npc construction///////////////////////////////
 		ImageIcon[] img = {setImageScale(new ImageIcon("images\\boldchild_left.png")),setImageScale(new ImageIcon("images\\boldchild_back.png")),setImageScale(new ImageIcon("images\\boldchild_right.png")),setImageScale(new ImageIcon("images\\boldchild_front.png"))};
 		NPC testn = new NPC(0,"Hanyang",img);
+		NPC.DialogueText tmpdialog = testn.new DialogueText("안녕 나는 12세에 탈모온 초딩이야");
+		tmpdialog.setNextDialogue(testn.new DialogueText("넌 너가 탈모에서 안전할것같지?"));
+		tmpdialog.setNextDialogue(testn.new DialogueText("나와 대결에서 지면 탈모빔을 시전할거야!"));
+		tmpdialog.setNextDialogue(testn.new DialogueText("자 배틀이다!"));
+		testn.setDt(tmpdialog);
+		tmpdialog.printDialogue();
 		NPC[] testnpc = {testn};
 		HashMap<NPC,int[]> testlocation = new HashMap<NPC,int[]>();
 		testlocation.put(testn, new int[]{32,10});
@@ -140,12 +148,19 @@ public class InGame {
 				moveNPC(nextMap);
 				System.out.println("x="+userx+" y="+usery );
 			} else if ( e.getKeyChar() == 'a') {
-				if (canIMove) { 
-					DialogueText d = new DialogueText(1, " 대화창 실험중 "); 
-					setDialogue(d);
-					canIMove = false;
+				int npcx = userx, npcy = usery;
+				if (user_front.isVisible()) npcy+=1;
+				else if (user_back.isVisible()) npcy-=1;
+				else if (user_right.isVisible()) npcx+=1;
+				else npcx -=1;
+				for (NPC tmpnpc : npc) {
+					int[] npclocation = nextMap.getNPCLocation().get(tmpnpc);
+					if (canIMove && npcx == npclocation[0] && npcy == npclocation[1]) {
+						nextDialogue = tmpnpc.getDt();
+						setDialogue(nextDialogue);
 					}
-				else {Dialogue.setVisible(false); canIMove = true;}
+					else if (!canIMove) setDialogue(nextDialogue);
+				}
 			}
 		}
 		@Override
@@ -201,41 +216,18 @@ public class InGame {
 	}
 	
 	/////////////////////////////////Set Dialogue /////////////////////////////////
-	class DialogueText {
-		private int _type;
-		private String _text;
-		private DialogueText _next;
-		public DialogueText(int _type, String _text) {
-			this._type = _type;
-			this._text = _text;
-			this._next = null;
-		} 
-		public DialogueText(String _text) {
-			this._text = _text;
-			this._type = 0;
-			this._next = null;
+	
+	private void setDialogue(NPC.DialogueText dt) {
+		if (dt == null) {
+			Dialogue.setVisible(false);
+			canIMove = true;
 		}
-		public DialogueText(String _text, DialogueText _next) {
-			this._text = _text;
-			this._type = 0;
-			this._next = _next;
-		}
-		public void set_next(DialogueText d) {
-			this._next = d;
-		}
-		public int get_type() {
-			return _type;
-		}
-		public String get_text() {
-			return _text;
-		}
-		public DialogueText get_next() {
-			return _next;
-		}
-	}
-	private void setDialogue(DialogueText dt) {
+		else {
 		Dialogue.setText(dt.get_text());
 		Dialogue.setVisible(true);
+		nextDialogue = nextDialogue.get_next();
+		canIMove = false;
+		}
 	}
 	////////////////////////////////////Set NPC ////////////////////////////////////
 	private void setNPC(Map m) {
