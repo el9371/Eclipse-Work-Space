@@ -24,6 +24,7 @@ public class Battle {
 	private JProgressBar hpBarMine = new JProgressBar();
 	private JLabel pocketYour = new JLabel(Exec.setImageScale(new ImageIcon("images\\Gengar.png")));
 	private JLabel pocketMine = new JLabel(Exec.setImageScale(new ImageIcon("images\\Gengar.png")));
+	private JLabel maxHpMine = new JLabel("134 / 134 ");
 	
 	public Battle(int _resolution,Pocket _mine, Pocket _your) {
 		this.resolution = _resolution; this.mine = _mine; this.your = _your;
@@ -52,7 +53,7 @@ public class Battle {
 		hpYour.setBounds(resolution/2 + 2, (int)(1.7*resolution), 2*resolution, resolution);
 		hpYour.setFont(new Font("±¼¸²", Font.BOLD, resolution /2));
 		pocketYour.setBounds((int)(6.5*resolution), resolution/2, 4*resolution, 4*resolution);
-		hpBarYour.setBounds(2*resolution, (int)(1.9*resolution), 4*resolution, resolution/2);
+		hpBarYour.setBounds(2*resolution, (int)(1.95*resolution), 4*resolution, resolution/2);
 		hpBarYour.setValue(100);
 		
 		nameMine.setBounds((int)(resolution*5), (int)(6.2*resolution), 4*resolution, resolution);
@@ -64,6 +65,8 @@ public class Battle {
 		pocketMine.setBounds((int)(0.5*resolution), (int)(6.5*resolution), 4*resolution, 4*resolution);
 		hpBarMine.setBounds((int)(resolution*6.5) + 2, (int)(7.65*resolution), 4*resolution, resolution/2);
 		hpBarMine.setValue(100);
+		maxHpMine.setBounds((int)(resolution*7) + 2, (int)(8*resolution), 4*resolution, resolution);
+		maxHpMine.setFont(new Font("±¼¸²", Font.BOLD, resolution /2));
 		
 		BcontentPane.add(nameYour);
 		BcontentPane.add(levelYour);
@@ -75,6 +78,7 @@ public class Battle {
 		BcontentPane.add(hpMine);
 		BcontentPane.add(pocketMine);
 		BcontentPane.add(hpBarMine);
+		BcontentPane.add(maxHpMine);
 		
 		
 		Dialogue0.setSize(resolution * 11, resolution * 5);
