@@ -12,7 +12,7 @@ import pocket.NPC.DialogueText;
 
 public class InGame {
 	//resolution must be multiple of 16
-	private final int resolution = 32;
+	private int resolution = 32;
 	private int userx = 31, usery = 8, framex = 5, framey = 5, mapLocationx, mapLocationy;
 	private boolean canIMove = true;
 	private Map nextMap;
@@ -22,15 +22,16 @@ public class InGame {
 	private JFrame Main = new JFrame();
 	private Container contentPane;
 	private JLabel map;
-	private JLabel user_front = new JLabel(setImageScale(new ImageIcon("images\\user_front.png")));
-	private JLabel user_back = new JLabel(setImageScale(new ImageIcon("images\\user_back.png")));
-	private JLabel user_left = new JLabel(setImageScale(new ImageIcon("images\\user_left.png")));
-	private JLabel user_right = new JLabel(setImageScale(new ImageIcon("images\\user_right.png")));
-	private JLabel Dialogue0 = new JLabel(setImageScale(new ImageIcon("images\\dialogue0.png")));
+	private JLabel user_front = new JLabel(Exec.setImageScale(new ImageIcon("images\\user_front.png")));
+	private JLabel user_back = new JLabel(Exec.setImageScale(new ImageIcon("images\\user_back.png")));
+	private JLabel user_left = new JLabel(Exec.setImageScale(new ImageIcon("images\\user_left.png")));
+	private JLabel user_right = new JLabel(Exec.setImageScale(new ImageIcon("images\\user_right.png")));
+	private JLabel Dialogue0 = new JLabel(Exec.setImageScale(new ImageIcon("images\\dialogue0.png")));
 	private JLabel Dialogue = new JLabel("ÀÏÀÌ»ï»ç¿ÀÀ°Ä¥ÆÈ±¸½ÊÀÏÀÌ»ï»ç¿ÀÀ°Ä¥ÆÈ±¸½ÊÀÏ");
 	
-	public InGame()
+	public InGame(int _resolution)
 	{
+		this.resolution = _resolution;
 		Main.setTitle("POCKETMON");
 		Main.setLayout(new FlowLayout());
 		Main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//exit when pushing close button
@@ -38,7 +39,7 @@ public class InGame {
 		contentPane.setLayout(null);
 		
 		//////////////////////////////test npc construction///////////////////////////////
-		ImageIcon[] img = {setImageScale(new ImageIcon("images\\boldchild_left.png")),setImageScale(new ImageIcon("images\\boldchild_back.png")),setImageScale(new ImageIcon("images\\boldchild_right.png")),setImageScale(new ImageIcon("images\\boldchild_front.png"))};
+		ImageIcon[] img = {Exec.setImageScale(new ImageIcon("images\\boldchild_left.png")),Exec.setImageScale(new ImageIcon("images\\boldchild_back.png")),Exec.setImageScale(new ImageIcon("images\\boldchild_right.png")),Exec.setImageScale(new ImageIcon("images\\boldchild_front.png"))};
 		NPC testn = new NPC(0,"Hanyang",img);
 		NPC.DialogueText tmpdialog = testn.new DialogueText("¾È³ç ³ª´Â 12¼¼¿¡ Å»¸ð¿Â ÃÊµùÀÌ¾ß");
 		tmpdialog.setNextDialogue(testn.new DialogueText("³Í ³Ê°¡ Å»¸ð¿¡¼­ ¾ÈÀüÇÒ°Í°°Áö?"));
@@ -68,7 +69,7 @@ public class InGame {
 		for(int i = 24; i < 34; i++) for(int j = 13; j < 18 ; j++) ob[i][j] = true;
 		for(int i = 18; i < 24; i++) for(int j = 15; j < 18; j++) ob[i][j] =true;
 		
-		nextMap = new Map("testMap",0,40,18,ob,testnpc,testlocation,setImageScale(new ImageIcon("images\\test_map.png")));
+		nextMap = new Map("testMap",0,40,18,ob,testnpc,testlocation,Exec.setImageScale(new ImageIcon("images\\test_map.png")));
 		setNPC(nextMap);
 		/////////////////////////////test map construction//////////////////////////
 		
@@ -148,19 +149,8 @@ public class InGame {
 				moveNPC(nextMap);
 				System.out.println("x="+userx+" y="+usery );
 			} else if ( e.getKeyChar() == 'a') {
-				int npcx = userx, npcy = usery;
-				if (user_front.isVisible()) npcy+=1;
-				else if (user_back.isVisible()) npcy-=1;
-				else if (user_right.isVisible()) npcx+=1;
-				else npcx -=1;
-				for (NPC tmpnpc : npc) {
-					int[] npclocation = nextMap.getNPCLocation().get(tmpnpc);
-					if (canIMove && npcx == npclocation[0] && npcy == npclocation[1]) {
-						nextDialogue = tmpnpc.getDt();
-						setDialogue(nextDialogue);
-					}
-					else if (!canIMove) setDialogue(nextDialogue);
-				}
+				if (npc.size() > 0) ChatNPC();
+				
 			}
 		}
 		@Override
@@ -267,14 +257,26 @@ public class InGame {
 				tmp[j].setLocation((m.getNPCLocation().get(n)[0] - userx + framex)*resolution,(m.getNPCLocation().get(n)[1] - usery + framey)*resolution);
 		}
 	}
-	
+	///////////////////////////////////'A' Button interactions//////////////////////////
+	private void ChatNPC( ) {
+		int npcx = userx, npcy = usery, npcDirection = 0;
+		if (user_front.isVisible()) {npcy+=1; npcDirection = 1;}
+		else if (user_back.isVisible()) {npcy-=1; npcDirection = 3;}
+		else if (user_right.isVisible()) npcx+=1;
+		else {npcx -=1; npcDirection = 2;}
+		for (NPC selectedNPC : npc) {
+			int[] npclocation = nextMap.getNPCLocation().get(selectedNPC);
+			if (canIMove && npcx == npclocation[0] && npcy == npclocation[1]) {
+				for (int j = 0; j < 4; j++) npces.get(selectedNPC)[j].setVisible(false);
+				npces.get(selectedNPC)[npcDirection].setVisible(true);
+				nextDialogue = selectedNPC.getDt();
+				setDialogue(nextDialogue);
+			}
+			else if (!canIMove) setDialogue(nextDialogue);
+		}
+	}
 	/////////////////////////////////frame setting tools////////////////////////
 	
-	private ImageIcon setImageScale(ImageIcon i) {
-		Image tmp = i.getImage();
-		int w = tmp.getWidth(null) / 16, h = tmp.getHeight(null) / 16;
-		return new ImageIcon(tmp.getScaledInstance( w * resolution, h * resolution, java.awt.Image.SCALE_SMOOTH));
-		//tmp.getWidth(null) * resolution, tmp.getHeight(null) * resolution
-	}
+	
 	
 }

@@ -27,22 +27,22 @@ package pocket;
 
 public class Pocket {
 	/////////////////////////////////////////////constant number/////////////////////////////////////
-	protected int number;
-	protected int const_speed, const_ad, const_ap, const_adD, const_apD, const_HP;// const_MP;
-	protected Type[] type = new Type[2];
+	private int number;
+	private String name;
+	private int const_speed, const_ad, const_ap, const_adD, const_apD, const_HP;// const_MP;
+	private Type[] type = new Type[2];
 	//////////////////////////////////////////////individual value////////////////////////////////
-	protected String name;
-	protected int level;
-	protected double iv;
 	private States state;
+	private int level;
+	private double iv;
 	////////////////////////////////////////////////////buff stack //////////////////////////////
 	private double accuracy;
 	private int b_speed, b_ad, b_ap, b_adD, b_apD, b_accu;//d_speed, d_ad, d_ap, d_adD, d_apD, d_accu
 	private int HP, maxHP;//MP, maxMP 
 	//////////////////////////////////////////////////First Setting//////////////////////
 	// never changed excluding special thing
-	protected void init(int _number, int _speed, int _ad, int _ap, int _adD, int _apD, int _HP, Type[] _type) {
-		this.number = _number; this.const_speed = _speed; this.const_ad = _ad; this.const_adD = _adD; this.const_ap = _ap; 
+	protected void init(int _number,String _name, int _speed, int _ad, int _ap, int _adD, int _apD, int _HP, Type[] _type) {
+		this.number = _number; this.name = _name; this.const_speed = _speed; this.const_ad = _ad; this.const_adD = _adD; this.const_ap = _ap; 
 		this.const_apD = _apD; this.const_HP = _HP; this.type = _type; this.state = States.NTH;//this.const_MP = _MP;
 		this.maxHP = (int)(((double)this.const_HP * 2.0 * (double)this.level / 100.0 + 10.0 + (double)this.level) * this.iv); this.HP = this.maxHP;
 	}
@@ -139,13 +139,33 @@ public class Pocket {
 	}
 	
 	private double calculating_ability(int n) {
-		return (double)(n * 2 * this.level) / 100.0 + 5.0 *this.iv;
+		return (double)(n * 2 * this.level) / 100.0 + 5.0 * this.iv;
 	}
 	
 	private double buff_stack(int n) {
 		if (n < 0) return 1 / (1+n);
 		return (1 + 0.5 * n);
 	}
+	public Type[] getType() {
+		return type;
+	}
+	public String getName() {
+		return name;
+	}
+	public States getState() {
+		return state;
+	}
+	public int getLevel() {
+		return level;
+	}
+	public int getHP() {
+		return HP;
+	}
+	public int getMaxHP() {
+		return maxHP;
+	}
+	
+	
 	
 }
 
