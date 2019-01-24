@@ -69,12 +69,14 @@ public class InGame {
 		for(int i = 24; i < 34; i++) for(int j = 13; j < 18 ; j++) ob[i][j] = true;
 		for(int i = 18; i < 24; i++) for(int j = 15; j < 18; j++) ob[i][j] =true;
 		
-		nextMap = new Map("testMap",0,40,18,ob,testnpc,testlocation,Exec.setImageScale(new ImageIcon("images\\test_map.png")));
+		//nextMap = new Map("testMap",0,40,18,ob,testnpc,testlocation,Exec.setImageScale(new ImageIcon("images\\test_map.png")));
+		nextMap = Exec.mapConstructor()[0];
 		setNPC(nextMap);
 		/////////////////////////////test map construction//////////////////////////
 		
 		//////////////////////////////////map setting/////////////////////////
 		map = new JLabel(nextMap.getImageFile());
+		System.out.println("2");
 		map.setSize(nextMap.getWidth() * resolution, nextMap.getHeight() * resolution);
 		mapLocationx = (userx - 5)* -1 * resolution; mapLocationy = (usery - 5) * -1 * resolution;
 		map.setLocation(mapLocationx, mapLocationy);
@@ -244,6 +246,7 @@ public class InGame {
 			JLabel[] tmp = {tmp0, tmp1, tmp2, tmp3};
 			npc.add(n);
 			npces.put(n, tmp);
+			System.out.println("1");
 		}
 		
 	}

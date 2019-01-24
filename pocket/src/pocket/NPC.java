@@ -74,11 +74,8 @@ public class NPC {
 		}
 		public void printDialogue() {
 			DialogueText tmp = this.get_next();
-			System.out.println(this.get_text());
-			while (tmp != null) {
-				System.out.println(tmp.get_text());
+			while (tmp != null)
 				tmp = tmp.get_next();
-			}
 		}
 	}
 	
