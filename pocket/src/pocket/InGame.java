@@ -39,6 +39,7 @@ public class InGame {
 		contentPane.setLayout(null);
 		
 		//////////////////////////////test npc construction///////////////////////////////
+		/*
 		ImageIcon[] img = {Exec.setImageScale(new ImageIcon("images\\boldchild_left.png")),Exec.setImageScale(new ImageIcon("images\\boldchild_back.png")),Exec.setImageScale(new ImageIcon("images\\boldchild_right.png")),Exec.setImageScale(new ImageIcon("images\\boldchild_front.png"))};
 		NPC testn = new NPC(0,"Hanyang",img);
 		NPC.DialogueText tmpdialog = testn.new DialogueText("안녕 나는 12세에 탈모온 초딩이야");
@@ -50,6 +51,7 @@ public class InGame {
 		NPC[] testnpc = {testn};
 		HashMap<NPC,int[]> testlocation = new HashMap<NPC,int[]>();
 		testlocation.put(testn, new int[]{32,10});
+		*/
 		/////////////////////////////test map construction//////////////////////////
 		boolean[][] ob = new boolean[40][18];
 		for(int i = 0; i < 40; i++)for(int j =0; j<18;j++)ob[i][j]=false;
@@ -76,7 +78,6 @@ public class InGame {
 		
 		//////////////////////////////////map setting/////////////////////////
 		map = new JLabel(nextMap.getImageFile());
-		System.out.println("2");
 		map.setSize(nextMap.getWidth() * resolution, nextMap.getHeight() * resolution);
 		mapLocationx = (userx - 5)* -1 * resolution; mapLocationy = (usery - 5) * -1 * resolution;
 		map.setLocation(mapLocationx, mapLocationy);
@@ -226,27 +227,16 @@ public class InGame {
 		for(int i = 0; i < m.getNpc().length; i++)
 		{
 			NPC n = m.getNpc()[i];
-			JLabel tmp0 = new JLabel(n.getImg()[0]);
-			JLabel tmp1 = new JLabel(n.getImg()[1]);
-			JLabel tmp2 = new JLabel(n.getImg()[2]);
-			JLabel tmp3 = new JLabel(n.getImg()[3]);
-			tmp0.setSize(resolution, resolution);
-			tmp1.setSize(resolution, resolution);
-			tmp2.setSize(resolution, resolution);
-			tmp3.setSize(resolution, resolution);
-			tmp3.setLocation((m.getNPCLocation().get(n)[0] - userx + framex)*resolution,(m.getNPCLocation().get(n)[1] - usery + framey)*resolution);
-			System.out.println((m.getNPCLocation().get(n)[0] - userx + framex)*resolution + "  " + (m.getNPCLocation().get(n)[1] - usery + framey)*resolution );
-			tmp0.setVisible(false);
-			tmp1.setVisible(false);
-			tmp2.setVisible(false);
-			contentPane.add(tmp0);
-			contentPane.add(tmp1);
-			contentPane.add(tmp2);
-			contentPane.add(tmp3);
-			JLabel[] tmp = {tmp0, tmp1, tmp2, tmp3};
+			JLabel[] tmp = n.getImg();
+			for (int j = 0; j < 4; j++) {
+				tmp[j].setSize(resolution, resolution);
+				tmp[j].setLocation((m.getNPCLocation().get(n)[0] - userx + framex)*resolution,(m.getNPCLocation().get(n)[1] - usery + framey)*resolution);
+				if (j <3) tmp[j].setVisible(false);
+				else tmp[j].setVisible(true);
+				contentPane.add(tmp[j]);
+			}
 			npc.add(n);
 			npces.put(n, tmp);
-			System.out.println("1");
 		}
 		
 	}

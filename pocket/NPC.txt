@@ -1,7 +1,6 @@
-There are 1 maps
-0 Name : 테스트도로
-0 Width : 40
-0 Height : 18
+There are 1 NPCs
+0 Name : 대머리초딩
+
 0 Obstacles 4 : (2,7)(8,12)(9,15)(22,15)
 0 NPC 1 : "0"(32,10)
 0 MapImage : "images\\test_map.png"

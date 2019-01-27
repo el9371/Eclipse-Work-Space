@@ -1,7 +1,7 @@
 package pocket;
 
-import java.awt.Image;
-import javax.swing.ImageIcon;
+import java.awt.*;
+import javax.swing.*;
 
 import pocket.Map;
 import pocket.NPC.DialogueText;
@@ -25,9 +25,8 @@ public class Exec{
 	public static void main(String[] args)
 	{
 		
-		
-		ImageIcon[] img = {Exec.setImageScale(new ImageIcon("images\\boldchild_left.png")),Exec.setImageScale(new ImageIcon("images\\boldchild_back.png")),Exec.setImageScale(new ImageIcon("images\\boldchild_right.png")),Exec.setImageScale(new ImageIcon("images\\boldchild_front.png"))};
-		NPC testn = new NPC(0,"Hanyang",img);
+		JLabel[] tmpLabel = {new JLabel(setImageScale(new ImageIcon("images\\boldchild_left.png"))),new JLabel(setImageScale(new ImageIcon("images\\boldchild_back.png"))),new JLabel(setImageScale(new ImageIcon("images\\boldchild_right.png"))),new JLabel(setImageScale(new ImageIcon("images\\boldchild_front.png")))};
+		NPC testn = new NPC(0,"Hanyang",tmpLabel);
 		NPC.DialogueText tmpdialog = testn.new DialogueText("안녕 나는 12세에 탈모온 초딩이야");
 		tmpdialog.setNextDialogue(testn.new DialogueText("넌 너가 탈모에서 안전할것같지?"));
 		tmpdialog.setNextDialogue(testn.new DialogueText("나와 대결에서 지면 탈모빔을 시전할거야!"));

@@ -1,6 +1,7 @@
 package pocket;
 
 import javax.swing.*;
+import java.awt.*;
 
 //import pocket.InGame.DialogueText;
 
@@ -8,14 +9,14 @@ public class NPC {
 	private String name;
 	private int number;
 	private DialogueText dt;
-	private ImageIcon[] img; //in order of ¡ç¡è¡æ¡é 
-	public NPC(int _number, String _name, ImageIcon[] _img, DialogueText _dt) {
+	private JLabel[] img; //in order of ¡ç¡è¡æ¡é 
+	public NPC(int _number, String _name, JLabel[] _img, DialogueText _dt) {
 		this.number = _number;
 		this.name = _name;
 		this.img = _img;
 		this.dt = _dt;
 	}
-	public NPC(int _number, String _name, ImageIcon[] _img) {
+	public NPC(int _number, String _name, JLabel[] _img) {
 		this.number = _number;
 		this.name = _name;
 		this.img = _img;
@@ -29,7 +30,7 @@ public class NPC {
 	public DialogueText getDt() {
 		return dt;
 	}
-	public ImageIcon[] getImg() {
+	public JLabel[] getImg() {
 		return img;
 	}
 	public void setDt(DialogueText _dt) {
@@ -74,8 +75,10 @@ public class NPC {
 		}
 		public void printDialogue() {
 			DialogueText tmp = this.get_next();
-			while (tmp != null)
+			while (tmp != null) {
+				System.out.println(tmp.get_text());
 				tmp = tmp.get_next();
+			}
 		}
 	}
 	
