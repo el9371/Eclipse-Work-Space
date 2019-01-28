@@ -1,6 +1,8 @@
 There are 1 NPCs
 0 Name : 대머리초딩
-
-0 Obstacles 4 : (2,7)(8,12)(9,15)(22,15)
-0 NPC 1 : "0"(32,10)
-0 MapImage : "images\\test_map.png"
+0 Image : "images\\NPC\\0_left.png", "images\\NPC\\0_back.png", "images\\NPC\\0_right.png", "images\\NPC\\0_front.png"
+0 Dialogue 4
+"0,안녕 난 12세에 탈모온 초딩이야."
+"0,넌 너가 탈모에서 안전할것 같지?"
+"0,나와의 배틀에서 지면 탈모빔을 시전할거야!"
+"0,자 배틀이다!"

@@ -4,4 +4,4 @@ There are 1 maps
 0 Height : 18
 0 Obstacles 4 : (2,7)(8,12)(9,15)(22,15)
 0 NPC 1 : "0"(32,10)
-0 MapImage : "images\\test_map.png"
+0 MapImage : "images\\MAP\\0.png"

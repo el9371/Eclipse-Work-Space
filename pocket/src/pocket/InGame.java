@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.*;
-import pocket.NPC.DialogueText;
 
 
 public class InGame {
@@ -16,7 +15,7 @@ public class InGame {
 	private int userx = 31, usery = 8, framex = 5, framey = 5, mapLocationx, mapLocationy;
 	private boolean canIMove = true;
 	private Map nextMap;
-	private NPC.DialogueText nextDialogue;
+	private DialogueText nextDialogue;
 	private HashMap<NPC,JLabel[]> npces = new HashMap<NPC,JLabel[]>();	//NPC & IMAGE
 	private ArrayList<NPC> npc = new ArrayList<NPC>();					//NPC LIST IN WORLD
 	private JFrame Main = new JFrame();
@@ -210,15 +209,15 @@ public class InGame {
 	
 	/////////////////////////////////Set Dialogue /////////////////////////////////
 	
-	private void setDialogue(NPC.DialogueText dt) {
+	private void setDialogue(DialogueText dt) {
 		if (dt == null) {
 			Dialogue.setVisible(false);
 			canIMove = true;
 		}
 		else {
-		Dialogue.setText(dt.get_text());
+		Dialogue.setText(dt.getText());
 		Dialogue.setVisible(true);
-		nextDialogue = nextDialogue.get_next();
+		nextDialogue = nextDialogue.getNext();
 		canIMove = false;
 		}
 	}

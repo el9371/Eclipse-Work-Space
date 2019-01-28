@@ -4,7 +4,6 @@ import java.awt.*;
 import javax.swing.*;
 
 import pocket.Map;
-import pocket.NPC.DialogueText;
 
 import java.io.*;
 import java.util.*;
@@ -20,12 +19,12 @@ enum States{
 
 public class Exec{
 	static int resolution = 32;
-	static NPC[] npc = new NPC[10];
+	static NPC[] npc;
 	
 	public static void main(String[] args)
 	{
-		
-		JLabel[] tmpLabel = {new JLabel(setImageScale(new ImageIcon("images\\boldchild_left.png"))),new JLabel(setImageScale(new ImageIcon("images\\boldchild_back.png"))),new JLabel(setImageScale(new ImageIcon("images\\boldchild_right.png"))),new JLabel(setImageScale(new ImageIcon("images\\boldchild_front.png")))};
+		/*
+		JLabel[] tmpLabel = {new JLabel(setImageScale(new ImageIcon("images\\NPC\\0_left.png"))),new JLabel(setImageScale(new ImageIcon("images\\NPC\\0_back.png"))),new JLabel(setImageScale(new ImageIcon("images\\NPC\\0_right.png"))),new JLabel(setImageScale(new ImageIcon("images\\NPC\\0_front.png")))};
 		NPC testn = new NPC(0,"Hanyang",tmpLabel);
 		NPC.DialogueText tmpdialog = testn.new DialogueText("안녕 나는 12세에 탈모온 초딩이야");
 		tmpdialog.setNextDialogue(testn.new DialogueText("넌 너가 탈모에서 안전할것같지?"));
@@ -36,7 +35,8 @@ public class Exec{
 		NPC[] testnpc = {testn};
 		HashMap<NPC,int[]> testlocation = new HashMap<NPC,int[]>();
 		testlocation.put(testn, new int[]{32,10});
-		npc[0] = testn;
+		npc[0] = testn;*/
+		npc = npcConstructor();
 		new InGame(resolution);
 		//new Battle(resolution);
 	}
@@ -46,6 +46,87 @@ public class Exec{
 		int w = tmp.getWidth(null) / 16, h = tmp.getHeight(null) / 16;
 		return new ImageIcon(tmp.getScaledInstance( w * resolution, h * resolution, java.awt.Image.SCALE_SMOOTH));
 		//tmp.getWidth(null) * resolution, tmp.getHeight(null) * resolution
+	}
+	
+	public static NPC[] npcConstructor() {
+		///////////////////////// need for constructing NPC
+		int numberOfNPC = 0;
+		NPC[] npcs;
+		DialogueText basic_dt = new DialogueText("....");
+		////////////////////////
+		Pattern pat;
+		Matcher mat;
+		
+		String content = "", firstLine = "";
+		Scanner scan = null;
+		try {
+			scan = new Scanner(new File("NPC.txt"));
+			firstLine = scan.nextLine();
+		}
+		catch(FileNotFoundException e) {
+			System.out.println("NPC File not Found");
+			System.exit(0);
+		}
+		
+		pat = Pattern.compile("([0-9*]{1,4})");
+		mat = pat.matcher(firstLine);
+		if (mat.find()) 
+			numberOfNPC = Integer.parseInt(mat.group());
+		else {System.out.println("Wrong type NPC first line."); System.exit(0);}
+		npcs = new NPC[numberOfNPC];
+		
+		for (int selected = 0; selected < numberOfNPC; selected++)
+		{
+			String name = "";
+			JLabel[] img = {new JLabel(), new JLabel(),new JLabel(),new JLabel()};
+			DialogueText dt = basic_dt;
+			
+			/////////////////// Name ////////////////////////
+			if (scan.hasNextLine()) content = scan.nextLine();
+			else {System.out.println("Wrong type NPC Name line."); System.exit(0);}
+			
+			pat = Pattern.compile(selected + " Name : (.*)");
+			mat = pat.matcher(content);
+			if (mat.find())
+				name = mat.group(1);
+			/////////////////// ImageFile ////////////////////////
+			if (scan.hasNextLine()) content = scan.nextLine();
+			else {System.out.println("Wrong type NPC Image line."); System.exit(0);}
+			
+			pat = Pattern.compile(selected + "\"(.*)\"");
+			mat = pat.matcher(content);
+			for (int i = 0;mat.find(); i++)
+				img[i] = new JLabel(setImageScale(new ImageIcon(mat.group(1))));
+			
+			/////////////////// Dialogue ////////////////////////
+			int numberOfDialogue = 0;
+			if (scan.hasNextLine()) content = scan.nextLine();
+			else {System.out.println("Wrong type NPC Dialogue line."); System.exit(0);}
+			
+			pat = Pattern.compile(selected + " Dialogue ([0-9*]{1,2})");
+			mat = pat.matcher(content);
+			if (mat.find()) numberOfDialogue = Integer.parseInt(mat.group(1));
+			System.out.println(numberOfDialogue);
+			
+			
+			for (int i = 0; i < numberOfDialogue ; i++) {
+				int type = 0;
+				content = scan.nextLine();
+				pat = Pattern.compile("\"([0-3]{1}),");
+				mat = pat.matcher(content);
+				if (mat.find())
+					type = Integer.parseInt(mat.group(1));
+				pat = Pattern.compile(",(.*)\"");
+				mat = pat.matcher(content);
+				if (mat.find()) {
+					if (i == 0) dt = new DialogueText(type, mat.group(1));
+					else dt.setNextDialogue(new DialogueText(type, mat.group(1)));
+				}
+			}
+			
+			npcs[selected] = new NPC(selected, name, img, dt);
+		} return npcs;
+		
 	}
 	
 	public static Map[] mapConstructor() {
@@ -64,7 +145,7 @@ public class Exec{
 			firstLine = scan.nextLine();
 		}
 		catch(FileNotFoundException e) {
-			System.out.println("File not Found");
+			System.out.println("MAP File not Found");
 			System.exit(0);
 		}
 		
@@ -72,7 +153,7 @@ public class Exec{
 		mat = pat.matcher(firstLine);
 		if (mat.find()) 
 			numberOfMaps = Integer.parseInt(mat.group());
-		else {System.out.println("Wrong type first line."); System.exit(0);}
+		else {System.out.println("Wrong type Map first line."); System.exit(0);}
 		maps = new Map[numberOfMaps];
 		
 		for (int selected = 0; selected < numberOfMaps; selected++) 
@@ -85,7 +166,7 @@ public class Exec{
 			//Map[] nextMap;
 			/////////////////// Name ////////////////////////
 			if (scan.hasNextLine()) content = scan.nextLine();
-			else {System.out.println("Wrong type name line."); System.exit(0);}
+			else {System.out.println("Wrong type Map Name line."); System.exit(0);}
 			
 			pat = Pattern.compile(selected + " Name : (.*)");
 			mat = pat.matcher(content);
@@ -93,7 +174,7 @@ public class Exec{
 				name = mat.group(1);
 			////////////////// Width //////////////////
 			if (scan.hasNextLine()) content = scan.nextLine();
-			else {System.out.println("Wrong type width line."); System.exit(0);}
+			else {System.out.println("Wrong type Map Width line."); System.exit(0);}
 			
 			pat = Pattern.compile(selected + " Width : (.*)");
 			mat = pat.matcher(content);
@@ -101,7 +182,7 @@ public class Exec{
 				width = Integer.parseInt(mat.group(1));
 			////////////////// Height //////////////////
 			if (scan.hasNextLine()) content = scan.nextLine();
-			else {System.out.println("Wrong type height line."); System.exit(0);}
+			else {System.out.println("Wrong type Map Height line."); System.exit(0);}
 			
 			pat = Pattern.compile(selected + " Height : (.*)");
 			mat = pat.matcher(content);
@@ -110,7 +191,7 @@ public class Exec{
 			////////////////// Obstacles //////////////////
 			
 			if (scan.hasNextLine()) content = scan.nextLine();
-			else {System.out.println("Wrong type obstacles line."); System.exit(0);}
+			else {System.out.println("Wrong type Map Obstacles line."); System.exit(0);}
 			
 			pat = Pattern.compile(selected + " Obstacles ([0-9*]{1,4}) :");
 			mat = pat.matcher(content);
@@ -131,7 +212,7 @@ public class Exec{
 				obstacles[obx[i]][oby[i]] = true;
 			////////////////// NPC //////////////////
 			if (scan.hasNextLine()) content = scan.nextLine();
-			else {System.out.println("Wrong type npc line."); System.exit(0);}
+			else {System.out.println("Wrong type Map Npc line."); System.exit(0);}
 
 			pat = Pattern.compile(selected + " NPC ([0-9*]{1,2}) :");
 			mat = pat.matcher(content);
