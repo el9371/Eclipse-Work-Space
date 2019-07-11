@@ -1,29 +1,18 @@
----개요---
-포켓몬스터 게임을 활용해 포켓몬 배틀간 데이터를 저장
-통계를 이용해 컴퓨터가 포켓몬 배틀 시 승률이 가장 높은
-기술을 사용하도록 컴퓨터를 학습시켜 기초적인 빅데이터를
-활용한 인공지능 구현
+---Summary---
+Constructing pocketmon battle AI using statistics
+accumulated from pocketmon battle
 
 2019-07-10
-
------패치내역-----
-
-1. 기본적인 Skill 과 Pocketmon class의 변수 완성
-
----패치 할 내용---
-
-1. Skill에서 공격시 반동 or 부작용 디버프 발동
-2. Skill에서 버프시 타깃이 상대인지 자신인지 판별 + 어떤 스텟이 얼마만큼 스텍 쌓이는지
-3. Skill에서 maxPP는 유지하고 사용한 만큼 pp만 깎이도록
-
+--Patched--
+1. Construct basic variables on Skill and Pocketmon class
+--Patching--
+1. Add side effect after using skills
+2. Add target variables and stack for buff or debuff
 
 2019-07-11
-
------패치내역-----
-
-1. Pocketmon.data로 이름, 6종 스텟 불러오기 구현
-
----패치 할 내용---
-
-1. Pocketmon.data로 타입 (최대2개) 불러오기 구현
-2. 데이터를 활용한 포켓몬 생성 함수 만들기
+--Patched--
+1. Read name and 6 ability from Pocketmon.data
+2. Add 
+--Patching--
+1. Read type (maximum 2) from Pocketmon.data
+2. Function to construct pocketmon from data
