@@ -15,7 +15,6 @@ enum State{
 }
 
 public class Exec {
-	static Pocketmon[] pocketmons;
 	
 	public static void main(String[] args)
 	{
@@ -26,25 +25,10 @@ public class Exec {
 		skills[2] = new Skill("지진", 3, 100, 1, 10, 10, false, true, Type.GROUND);
 		skills[3] = new Skill("오버히트", 4, 130, 0.9, 5, 5, true, true, Type.FIRE);
 		*/
-		int numberOfPocketmon;
-		//Pocketmon[] pocketmons;
-		Scanner scan = null;
-		try {
-			scan = new Scanner(new File("Pocketmon.data"));
-			numberOfPocketmon = scan.nextInt();
-			pocketmons = new Pocketmon[numberOfPocketmon+1];
-			for(int i = 1; i < numberOfPocketmon + 1; i++) {
-				String name; int kHp; int kAttack; int kDefense; int kSattack; int kSdefense; int kSpeed;
-				name = scan.next(); kHp = scan.nextInt(); kAttack = scan.nextInt(); kDefense = scan.nextInt();
-				kSattack = scan.nextInt(); kSdefense = scan.nextInt(); kSpeed = scan.nextInt();
-				//System.out.print(name);
-				pocketmons[i] = new Pocketmon(name, kHp, kAttack, kDefense, kSattack, kSdefense, kSpeed);
-			}
-		}
-		catch(FileNotFoundException e) {
-			System.out.println("Pocketmon Data File not Found");
-			System.exit(0);
-		}
-
+		Pocketmon lizard = new Pocketmon(5);
+		Pocketmon lizards = new Pocketmon(6);
+		System.out.println("특공 : " + lizard.getType()[0].toString());
+		System.out.println("특공 : " + lizards.getSattack());
 	}
+	
 }

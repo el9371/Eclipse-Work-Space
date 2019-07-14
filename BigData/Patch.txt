@@ -12,7 +12,12 @@ accumulated from pocketmon battle
 2019-07-11
 --Patched--
 1. Read name and 6 ability from Pocketmon.data
-2. Add 
 --Patching--
 1. Read type (maximum 2) from Pocketmon.data
 2. Function to construct pocketmon from data
+
+2019-07-14
+--Patched--
+1. Read types including name and abilities from Pocketmon.data
+--Patching--
+1. Add structure of Skill class

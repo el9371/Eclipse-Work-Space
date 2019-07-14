@@ -1,0 +1,9 @@
+3. Day 3
+public static Pocketmon[] constructingPocketmon() {
+		Pocketmon[] pocketmons = null;
+		.
+		.
+		.
+		return pocketmons;
+} 
+에서 리턴해줄 값을 initailizing 할때 Pocketmon[] pocketmons = null; 라고만 하면 오류남 리턴값은 null이어도 꼭 값이 있어야 하나 봄
