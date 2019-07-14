@@ -46,8 +46,7 @@ public class Pocketmon {
 		this.speed = (pock.getSpeed() * 2 + 80) / 2 + 5;
 		this.type = pock.getType();
 		this.state = State.NTH; this.bAttack = 0; this.bDefense = 0; this.bSattack = 0; this.bSdefense = 0;
-		this.bSpeed = 0; this.bAccuracy = 0;
-		
+		this.bSpeed = 0; this.bAccuracy = 0;	
 	}
 	
 	
