@@ -21,3 +21,11 @@ accumulated from pocketmon battle
 1. Read types including name and abilities from Pocketmon.data
 --Patching--
 1. Add structure of Skill class
+
+2019-07-18
+--Patched--
+1. Read skill from Skill.data
+2. Add print ability function in pocketmon class
+--Patching--
+1. error in calculating abilities
+2. Add reaction and sequence attack.

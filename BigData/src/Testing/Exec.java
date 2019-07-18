@@ -8,10 +8,10 @@ import java.io.IOException;
 
 //(String _name, int _number, int _power, double _accuracy, int _pp, int _maxPp, boolean _isSpecial, Type _type)
 enum Type{
-	ELECTRICITY, FIGHTHING, FIRE, FLYING, GHOST, GRASS, GROUND, ICE, NORMAL, POISON, ROCK, WATER, NTH
+	ELECTRICITY, FAIRY ,IRON, FIGHTHING, FIRE, FLYING, GHOST, GRASS, GROUND, ICE, NORMAL, POISON, BUG, ROCK, WATER, NTH
 }
 enum State{
-	BURN, PARALYSIS, DADDICTION, ADDICTION, FROZEN, SLEEPING, REACTION, NTH
+	BURN, PARALYSIS, DADDICTION, ADDICTION, FROZEN, SLEEPING, REACTION, DISAPPOINT, NTH
 }
 
 public class Exec {
@@ -25,10 +25,11 @@ public class Exec {
 		skills[2] = new Skill("지진", 3, 100, 1, 10, 10, false, true, Type.GROUND);
 		skills[3] = new Skill("오버히트", 4, 130, 0.9, 5, 5, true, true, Type.FIRE);
 		*/
-		Pocketmon lizard = new Pocketmon(5);
-		Pocketmon lizards = new Pocketmon(6);
-		System.out.println("특공 : " + lizard.getType()[0].toString());
-		System.out.println("특공 : " + lizards.getSattack());
+		new Skill();
+		Pocketmon lizamong = new Pocketmon(6);
+		Pocketmon ninetales = new Pocketmon(16);
+		lizamong.printAbility(); ninetales.printAbility();
+
 	}
 	
 }

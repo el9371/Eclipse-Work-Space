@@ -47,6 +47,7 @@ public class Pocketmon {
 		this.type = pock.getType();
 		this.state = State.NTH; this.bAttack = 0; this.bDefense = 0; this.bSattack = 0; this.bSdefense = 0;
 		this.bSpeed = 0; this.bAccuracy = 0;	
+		this.hp = this.maxHp;
 	}
 	
 	
@@ -259,7 +260,13 @@ public class Pocketmon {
 	
 	
 	
-	
+	//----------------------------개체 능력치 프린트--------------------------
+	public void printAbility() {
+		String word = this.getName() + " / 체력 : " + this.getHp() + " / 물공 : " + this.getAttack() + " / 물방 : " 
+	+ this.getDefense() + " / 특공 : " + this.getSattack()  + " / 특방 : " + this.getSdefense() 
+	+ " / 스피드 : " + this.getSpeed();
+		System.out.println(word);
+	}
 	
 	
 	
@@ -275,11 +282,12 @@ public class Pocketmon {
 			for(int i = 1; i < numberOfPocketmon + 1; i++) {
 				String name; int kHp; int kAttack; int kDefense; int kSattack; int kSdefense; int kSpeed;
 				int typeNum; Type types[] = new Type[2];
+				int _number = scan.nextInt();
 				name = scan.next(); kHp = scan.nextInt(); kAttack = scan.nextInt(); kDefense = scan.nextInt();
 				kSattack = scan.nextInt(); kSdefense = scan.nextInt(); kSpeed = scan.nextInt();
 				typeNum = scan.nextInt(); types[0] = Type.valueOf(scan.next());
 				if (typeNum == 2) types[1] = Type.valueOf(scan.next()); else types[1] = Type.NTH;
-				//System.out.print(types);
+				System.out.println(types[0].name());
 				pocketmons[i] = new Pocketmon(name, kHp, kAttack, kDefense, kSattack, kSdefense, kSpeed, types);
 			}
 		}
