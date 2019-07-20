@@ -10,8 +10,8 @@ import java.io.IOException;
 데미지 = (위력 × 공격 × (레벨 × 2 ÷ 5 + 2 ) ÷ 방어 ÷ 50 × [[급소]] + 2 )
 × [[자속 보정]] × 타입상성1 × 타입상성2 × 랜덤수/255
 
-HP 계산 = (종족값 x 2 + 20 + 60) / 2 + 10 + 50
-스텟 = (종족값 x 2 + 20 + 60) / 2 + 5
+HP 계산 = (종족값 x 2) + 60
+스텟 = 종족값 + 5
 
 */
 
@@ -27,6 +27,8 @@ public class Pocketmon {
 	private State state; //현재 상태
 	private int kHp, kAttack, kDefense, kSattack, kSdefense, kSpeed; //종족값
 	private int bAttack, bDefense, bSattack, bSdefense, bSpeed, bAccuracy;//버프스택
+	private boolean isReaction; //현재 반동으로 못움직이는 상태인가
+	private int turnsInCC; //CC기에 걸린지 몇턴이 지났는가
 	
 	///-------------------------------------포켓몬 종족 생성--------------------------------------------
 	public Pocketmon(String _name, int _kHp, int _kAttack, int _kDefense, int _kSattack, int _kSdefense, int _kSpeed, Type[] _type) {
@@ -38,21 +40,24 @@ public class Pocketmon {
 	public Pocketmon(int number) {
 		Pocketmon pock = pocks[number];
 		this.number = pock.getNumber(); this.name = pock.getName();
-		this.maxHp = (pock.getkHp() * 2 + 80) / 2 + 60;
-		this.attack = (pock.getkAttack() * 2 + 80) / 2 + 5;
-		this.defense = (pock.getkDefense() * 2 + 80) / 2 + 5;
-		this.sattack = (pock.getkSattack() * 2 + 80) / 2 + 5;
-		this.sdefense = (pock.getkSdefense() * 2 + 80) / 2 + 5;
-		this.speed = (pock.getSpeed() * 2 + 80) / 2 + 5;
+		this.maxHp = pock.getkHp() * 2 + 60;
+		this.attack = pock.getkAttack() + 5;
+		this.defense = pock.getkDefense()+5;
+		this.sattack = pock.getkSattack()+5;
+		this.sdefense = pock.getkSdefense()+5;
+		this.speed = pock.getSpeed()+5;
 		this.type = pock.getType();
 		this.state = State.NTH; this.bAttack = 0; this.bDefense = 0; this.bSattack = 0; this.bSdefense = 0;
 		this.bSpeed = 0; this.bAccuracy = 0;	
 		this.hp = this.maxHp;
+		this.isReaction = false;
+		this.turnsInCC = 0;
 	}
 	
 	
-	public void useSkill(int skill, Pocketmon pocketmon) {
-		
+	public int useSkill(int skill, Pocketmon pocketmon) {
+		if (this.isReaction) {this.isReaction = false; return 2;}
+		return 1;
 	}
 
 	public int getNumber() {

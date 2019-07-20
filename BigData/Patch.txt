@@ -29,3 +29,11 @@ accumulated from pocketmon battle
 --Patching--
 1. error in calculating abilities
 2. Add reaction and sequence attack.
+
+2019-07-20
+--Patched--
+1. Renew calculating abilities function.
+2. Delete REACTION State but add variables in Pocketmon class
+3. Add Type and State name variables in enum
+--Patching--
+1. Add Type balance calculating method in Type enum
