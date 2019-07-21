@@ -8,7 +8,7 @@ import java.io.IOException;
  * 포켓몬스터 hp 물공 물방 특공 특방 스피드 순
  * 
 데미지 = (위력 × 공격 × (레벨 × 2 ÷ 5 + 2 ) ÷ 방어 ÷ 50 × [[급소]] + 2 )
-× [[자속 보정]] × 타입상성1 × 타입상성2 × 랜덤수/255
+× [[자속 보정]] × 타입상성1 × 타입상성2 × 랜덤수(217~255) / 255
 
 HP 계산 = (종족값 x 2) + 60
 스텟 = 종족값 + 5
@@ -45,7 +45,7 @@ public class Pocketmon {
 		this.defense = pock.getkDefense()+5;
 		this.sattack = pock.getkSattack()+5;
 		this.sdefense = pock.getkSdefense()+5;
-		this.speed = pock.getSpeed()+5;
+		this.speed = pock.getkSpeed()+5;
 		this.type = pock.getType();
 		this.state = State.NTH; this.bAttack = 0; this.bDefense = 0; this.bSattack = 0; this.bSdefense = 0;
 		this.bSpeed = 0; this.bAccuracy = 0;	
@@ -54,11 +54,121 @@ public class Pocketmon {
 		this.turnsInCC = 0;
 	}
 	
+	public void setSkill(int i, Skill _skill) {
+		skill[i] = _skill;
+	}
 	
-	public int useSkill(int skill, Pocketmon pocketmon) {
+	public int useSkill(int _skill, Pocketmon you) {
+		//2는 어떠한 이유로 실패, 1은 성공, 0은 오류
 		if (this.isReaction) {this.isReaction = false; return 2;}
+		double damage;
+		Skill selected = skill[_skill];
+		System.out.println(this.getName() + "은 " + you.getName() + "에게 " + selected.getName() + "을 시전했다.");
+		if (selected.isBuff() && Math.random() * 100 < selected.getAccuracy()) {
+			if (selected.isMe())
+				this.useBuff(selected, this);
+			else
+				this.useBuff(selected, you);
+		} 
+		
+		else if(Math.random() * 100 < selected.getAccuracy()) 
+			useAttack(selected, you);
+		else
+			System.out.println(this.getName() + "의 " + selected.getName() + "는 빗나갔다.");
 		return 1;
 	}
+	
+	public int useBuff(Skill selected, Pocketmon you) {
+		int ability = selected.getAbility();
+		int buffStack = selected.getBuffStack();
+		String message = null;
+		if (buffStack > 1) message = "크게 상승했다.";
+		else if (buffStack == 1) message = "상승했다.";
+		else if (buffStack == -1) message = "하락했다.";
+		else if (buffStack < -1) message = "크게 하락했다.";
+		if (ability == 0) {
+			int _ability = you.getbAttack() + buffStack;
+			if (_ability > 6) _ability = 6;
+			else if (_ability < -6) _ability = -6;
+			you.setbAttack(_ability);
+			message = "물리 공격이 " + message;
+		}
+		else if (ability == 1) {
+			int _ability = you.getbDefense() + buffStack;
+			if (_ability > 6) _ability = 6;
+			else if (_ability < -6) _ability = -6;
+			you.setbDefense(_ability);
+			message = "물리 방어가 " + message;
+		}
+		if (ability == 2) {
+			int _ability = you.getbSattack() + buffStack;
+			if (_ability > 6) _ability = 6;
+			else if (_ability < -6) _ability = -6;
+			you.setbSattack(_ability);
+			message = "특수 공격이 " + message;
+		}
+		if (ability == 3) {
+			int _ability = you.getbSdefense() + buffStack;
+			if (_ability > 6) _ability = 6;
+			else if (_ability < -6) _ability = -6;
+			you.setbSdefense(_ability);
+			message = "특수 방어가 " + message;
+		}
+		if (ability == 4) {
+			int _ability = you.getbSpeed() + buffStack;
+			if (_ability > 6) _ability = 6;
+			else if (_ability < -6) _ability = -6;
+			you.setbSpeed(_ability);
+			message = "스피드가 " + message;
+		}
+		System.out.println(you.getName() + "의 " + message);
+		return 1;
+	}
+	
+	
+	public int useAttack(Skill selected, Pocketmon you) {
+		
+		double damage;
+		if (selected.isSpecial()) {
+			if (Math.random() < 0.125) // 급소 확률
+				damage = selected.getPower() * sattack * (50 * 2 / 5 + 2) / you.getSdefense() / 50 * 1.5 + 2;
+			else
+				damage = selected.getPower() * sattack * (50 * 2 / 5 + 2) / you.getSdefense() / 50 + 2;
+		} else {
+			if (Math.random() < 0.125) // 급소 확률
+				damage = selected.getPower() * attack * (50 * 2 / 5 + 2) / you.getDefense() / 50 * 1.5 + 2;
+			else
+				damage = selected.getPower() * attack * (50 * 2 / 5 + 2) / you.getDefense() / 50 + 2;
+		}
+		if (selected.getType() == type[0] || selected.getType() == type[1])
+			damage = damage * 1.5;
+		damage = damage * 1 * 1 * (Math.random() * 38 + 217) / 255; // 타입 상성 아직 적용 안함
+		you.getDamaged((int) damage);
+		System.out.println(damage);
+		// 공격 cc기 작동
+		if (Math.random() * 100 < selected.getProbability()) {
+			you.setState(selected.getCC());
+			System.out.println(you.getName() + "은 " + selected.getCC().getName() + "에 걸렸다.");
+		}
+		// 공격 후 추가 행동
+		if (selected.isAfter() && Math.random() * 100 < selected.getAfterAccracy()) {
+			Skill afterBuff = new Skill(selected.getAfterAbility(), selected.getAfterbuffStack());
+			if(selected.isAfterIsMe())
+				this.useBuff(afterBuff, this);
+			else
+				this.useBuff(afterBuff, you);
+		}
+		
+		return 1;
+	}
+	
+	
+	public int getDamaged(int _damage) {
+		hp = hp - _damage;
+		if (hp < 0) hp = 0;
+		return 1;
+	}
+	
 
 	public int getNumber() {
 		return number;
@@ -162,6 +272,7 @@ public class Pocketmon {
 
 	public void setState(State state) {
 		this.state = state;
+		this.turnsInCC = 0;
 	}
 
 	public int getkHp() {
@@ -269,7 +380,7 @@ public class Pocketmon {
 	public void printAbility() {
 		String word = this.getName() + " / 체력 : " + this.getHp() + " / 물공 : " + this.getAttack() + " / 물방 : " 
 	+ this.getDefense() + " / 특공 : " + this.getSattack()  + " / 특방 : " + this.getSdefense() 
-	+ " / 스피드 : " + this.getSpeed();
+	+ " / 스피드 : " + this.getSpeed() + " / 상태 : " + this.getState().getName();
 		System.out.println(word);
 	}
 	
@@ -292,7 +403,7 @@ public class Pocketmon {
 				kSattack = scan.nextInt(); kSdefense = scan.nextInt(); kSpeed = scan.nextInt();
 				typeNum = scan.nextInt(); types[0] = Type.valueOf(scan.next());
 				if (typeNum == 2) types[1] = Type.valueOf(scan.next()); else types[1] = Type.NTH;
-				System.out.println(types[0].name());
+				//System.out.println(kSpeed);
 				pocketmons[i] = new Pocketmon(name, kHp, kAttack, kDefense, kSattack, kSdefense, kSpeed, types);
 			}
 		}

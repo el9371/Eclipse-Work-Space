@@ -18,13 +18,13 @@ import java.util.Scanner;
 
 public class Skill {
 	
-	private static Skill[] skills = Skill.constructingSkill();
+	public static Skill[] skills = Skill.constructingSkill();
 	private String name;
 	private int number, power,  maxPP, order; //기술번호, 위력, maxPP, 우선도 (0 1 2)
 	private int ability, buffStack; // 무엇을 버프, 디버프 시킬것인가 (0 물공, 1 물방, 2 특공, 3 특방, 4 스피드, 5 명중률, 6 아무것도), 얼마만큼 버프
-	private double accuracy; // 명중률
+	private int accuracy; // 명중률
 	private boolean isBuff, isSpecial, isMe;//버프인지 공격인지, 특공인지 아닌지, 목표가 자신인지 상대인지
-	private State crowdControl; //공격시 화상, 마비 등등 상태이상 CC기
+	private State CC; //공격시 화상, 마비 등등 상태이상 CC기
 	private int probability; //cc기 입힐 확률 
 	private int afterAbility, afterbuffStack, afterAccracy; //공격 후 버프
 	private boolean isAfter, afterIsMe; //공격후 버프 있는지, 그 버프가 나인지
@@ -37,7 +37,9 @@ public class Skill {
 		this.number = _number; this.name = _name;  this.type = _type; this.maxPP = _maxPP; 
 		this.accuracy = _accuracy; this.order = _order; this.isBuff = _isBuff;
 	}
-	
+	public Skill(int _ability, int _buffStack) {
+		this.ability = _ability; this.buffStack = _buffStack;
+	}
 	
 	
 	public int getProbability() {
@@ -121,7 +123,7 @@ public class Skill {
 	public double getAccuracy() {
 		return accuracy;
 	}
-	public void setAccuracy(double accuracy) {
+	public void setAccuracy(int accuracy) {
 		this.accuracy = accuracy;
 	}
 	public boolean isBuff() {
@@ -142,11 +144,11 @@ public class Skill {
 	public void setMe(boolean isMe) {
 		this.isMe = isMe;
 	}
-	public State getCrowdControl() {
-		return crowdControl;
+	public State getCC() {
+		return CC;
 	}
-	public void setCrowdControl(State crowdControl) {
-		this.crowdControl = crowdControl;
+	public void setCC(State CC) {
+		this.CC = CC;
 	}
 	public Type getType() {
 		return type;
@@ -182,7 +184,7 @@ public class Skill {
 					} else {
 					skills[i].setSpecial(scan.nextInt() != 0);
 					skills[i].setPower(scan.nextInt());
-					skills[i].setCrowdControl(State.valueOf(scan.next()));
+					skills[i].setCC(State.valueOf(scan.next()));
 					skills[i].setProbability(scan.nextInt());
 					if (scan.nextInt() != 0)//공후버프있으면 
 						{

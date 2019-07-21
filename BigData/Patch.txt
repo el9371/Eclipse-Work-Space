@@ -37,3 +37,12 @@ accumulated from pocketmon battle
 3. Add Type and State name variables in enum
 --Patching--
 1. Add Type balance calculating method in Type enum
+
+2019-07-21
+--Patched--
+1. Add useAttack with additional CC effect in useSkill function of Pocketmon class.
+3. Add useBuff (without accuracy ability) in useSkill function of Pocketmon class.
+2. Add getDamaged function in Pocketmon class.
+--Patching--
+1. Use buffStack when using abilities.
+2. Add accuracy buff in useBuff.
