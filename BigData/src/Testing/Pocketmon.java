@@ -26,7 +26,7 @@ public class Pocketmon {
 	private Skill skill[] = new Skill[4]; // 기술 최대 4
 	private State state; //현재 상태
 	private int kHp, kAttack, kDefense, kSattack, kSdefense, kSpeed; //종족값
-	private int bAttack, bDefense, bSattack, bSdefense, bSpeed, bAccuracy;//버프스택
+	private int bAttack, bDefense, bSattack, bSdefense, bSpeed, bAccuracy, bEvasion;//버프스택
 	private boolean isReaction; //현재 반동으로 못움직이는 상태인가
 	private int turnsInCC; //CC기에 걸린지 몇턴이 지났는가
 	
@@ -64,14 +64,14 @@ public class Pocketmon {
 		double damage;
 		Skill selected = skill[_skill];
 		System.out.println(this.getName() + "은 " + you.getName() + "에게 " + selected.getName() + "을 시전했다.");
-		if (selected.isBuff() && Math.random() * 100 < selected.getAccuracy()) {
+		if (selected.isBuff() && Math.random() * 100 < selected.getAccuracy() * this.getAccuracy() / you.getEvasion()) {
 			if (selected.isMe())
 				this.useBuff(selected, this);
 			else
 				this.useBuff(selected, you);
 		} 
 		
-		else if(Math.random() * 100 < selected.getAccuracy()) 
+		else if(Math.random() * 100 < selected.getAccuracy() * this.getAccuracy() / you.getEvasion()) 
 			useAttack(selected, you);
 		else
 			System.out.println(this.getName() + "의 " + selected.getName() + "는 빗나갔다.");
@@ -128,7 +128,7 @@ public class Pocketmon {
 	
 	public int useAttack(Skill selected, Pocketmon you) {
 		
-		double damage;
+		double damage, balance = 0;
 		if (selected.isSpecial()) {
 			if (Math.random() < 0.125) // 급소 확률
 				damage = selected.getPower() * sattack * (50 * 2 / 5 + 2) / you.getSdefense() / 50 * 1.5 + 2;
@@ -142,7 +142,28 @@ public class Pocketmon {
 		}
 		if (selected.getType() == type[0] || selected.getType() == type[1])
 			damage = damage * 1.5;
-		damage = damage * 1 * 1 * (Math.random() * 38 + 217) / 255; // 타입 상성 아직 적용 안함
+		
+		//상성 계산 적용
+		if (Type.isGreat(selected.getType(), you.getType()[0])) balance = balance + 1;
+		if (Type.isGreat(selected.getType(), you.getType()[1])) balance = balance + 1;
+		if (Type.isWorse(selected.getType(), you.getType()[0])) balance = balance - 1;
+		if (Type.isWorse(selected.getType(), you.getType()[1])) balance = balance - 1;
+		if (Type.isEffect(selected.getType(), you.getType()[0])) balance = 5;
+		if (Type.isEffect(selected.getType(), you.getType()[1])) balance = 5;
+		if (balance > 0 && balance < 3) {
+			System.out.println("효과가 굉장했다.");
+			damage = damage * 2 * balance ;
+		}
+		else if (balance < 0) {
+			System.out.println("효과가 별로인듯 하다.");
+			damage = damage / (-2 * balance);
+		}
+		else if (balance > 4) {
+			System.out.println("효과가 없다");
+			damage = 0;
+		}
+		
+		damage = damage * (Math.random() * 38 + 217) / 255; // 데미지 난수 
 		you.getDamaged((int) damage);
 		System.out.println(damage);
 		// 공격 cc기 작동
@@ -195,7 +216,9 @@ public class Pocketmon {
 	}
 
 	public int getAttack() {
-		return attack;
+		if (bAttack > 0)
+			return attack * (2 + bAttack) / 2;
+		return attack * 2 / (2 - bAttack);
 	}
 
 	public void setAttack(int attack) {
@@ -203,7 +226,9 @@ public class Pocketmon {
 	}
 
 	public int getDefense() {
-		return defense;
+		if (bDefense > 0)
+			return defense * (2 + bDefense) / 2;
+		return defense * 2 / (2 - bDefense);
 	}
 
 	public void setDefense(int defense) {
@@ -211,7 +236,9 @@ public class Pocketmon {
 	}
 
 	public int getSattack() {
-		return sattack;
+		if (bSattack > 0)
+			return sattack * (2 + bSattack) / 2;
+		return sattack * 2 / (2 - bSattack);
 	}
 
 	public void setSattack(int sattack) {
@@ -219,7 +246,9 @@ public class Pocketmon {
 	}
 
 	public int getSdefense() {
-		return sdefense;
+		if (bSdefense > 0)
+			return sdefense * (2 + bSdefense) / 2;
+		return sdefense * 2 / (2 - bSdefense);
 	}
 
 	public void setSdefense(int sdefense) {
@@ -227,8 +256,23 @@ public class Pocketmon {
 	}
 
 	public int getSpeed() {
-		return speed;
+		if (bSpeed > 0)
+			return speed * (2 + bSpeed) / 2;
+		return speed * 2 / (2 - bSpeed);
 	}
+	
+	public int getAccuracy() {
+		if (bAccuracy > 0)
+			return 100 * (3 + bAccuracy) / 3;
+		return 100 * 3 / (2 - bAccuracy);
+	}
+	
+	public int getEvasion() {
+		if (bEvasion > 0)
+			return 100 * (3 + bEvasion) / 3;
+		return 100 * 3 / (2 - bEvasion);
+	}
+	
 
 	public void setSpeed(int speed) {
 		this.speed = speed;

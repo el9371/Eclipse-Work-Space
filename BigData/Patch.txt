@@ -46,3 +46,9 @@ accumulated from pocketmon battle
 --Patching--
 1. Use buffStack when using abilities.
 2. Add accuracy buff in useBuff.
+
+2019-07-22
+--Patched--
+1. Calculate abilities considering buff stack.
+2. Add accuracy and evasion abilities.
+3. Add balance and apply in useSkill.

@@ -12,11 +12,102 @@ enum Type{
 	FIGHTHING("격투"), FIRE("불"), FLYING("비행"),
 	GHOST("고스트"), GRASS("풀"), GROUND("땅"), ICE("얼음"), 
 	NORMAL("노말"), POISON("독"), BUG("벌레"), ROCK("바위"), 
-	WATER("물"), DRAGON("드래곤"),NTH("");
+	WATER("물"), DRAGON("드래곤"), EVIL("악"), PSYCHIC("에스퍼"),NTH("");
 	Type(String _name) { this.name = _name;}
 	private String name;
 	public String getName() { return name;}
+	
+	static public boolean isEffect(Type me, Type you) {
+		if (me.equals(Type.NORMAL)) {
+			if (you.equals(Type.GHOST)) return true; }
+		else if (me.equals(Type.FIGHTHING)) {
+			if (you.equals(Type.GHOST)) return true;}
+		else if (me.equals(Type.POISON)) {
+			if (you.equals(Type.IRON)) return true;}
+		else if (me.equals(Type.GROUND)) {
+			if (you.equals(Type.FLYING)) return true;}
+		else if (me.equals(Type.GHOST)) {
+			if (you.equals(Type.NORMAL)) return true;}
+		else if (me.equals(Type.ELECTRICITY)) {
+			if (you.equals(Type.GROUND)) return true;}
+		else if (me.equals(Type.PSYCHIC)) {
+			if (you.equals(Type.EVIL)) return true;}
+		else if (me.equals(Type.DRAGON)) {
+			if(you.equals(Type.FAIRY)) return true;}
+		return false;
+	}
+	static public boolean isWorse(Type me, Type you) {
+		if (me.equals(Type.ELECTRICITY)) {
+			if (you.equals(Type.ELECTRICITY)||you.equals(Type.GRASS)||you.equals(Type.DRAGON))return true; }
+		else if (me.equals(Type.FAIRY)) {
+			if (you.equals(Type.POISON)||you.equals(Type.IRON)||you.equals(Type.FIRE))return true; }
+		else if (me.equals(Type.IRON)) {
+			if (you.equals(Type.ROCK)||you.equals(Type.ICE)||you.equals(Type.FAIRY))return true; }
+		else if (me.equals(Type.FIGHTHING)) {
+			if (you.equals(Type.IRON)||you.equals(Type.FIRE)||you.equals(Type.WATER)||you.equals(Type.ELECTRICITY))return true; }
+		else if (me.equals(Type.FIRE)) {
+			if (you.equals(Type.ROCK)||you.equals(Type.FIRE)||you.equals(Type.WATER)||you.equals(Type.DRAGON))return true; }
+		else if (me.equals(Type.FLYING)) {
+			if (you.equals(Type.ROCK)||you.equals(Type.IRON)||you.equals(Type.ELECTRICITY))return true; }
+		else if (me.equals(Type.GHOST)) {
+			if (you.equals(Type.FIGHTHING)||you.equals(Type.GROUND)||you.equals(Type.IRON))return true; }
+		else if (me.equals(Type.GRASS)) {
+			if (you.equals(Type.POISON)||you.equals(Type.FLYING)||you.equals(Type.BUG)||you.equals(Type.IRON)||you.equals(Type.FIRE)||you.equals(Type.GRASS)||you.equals(Type.DRAGON))return true; }
+		else if (me.equals(Type.GROUND)) {
+			if (you.equals(Type.BUG)||you.equals(Type.GRASS))return true;}
+		else if (me.equals(Type.ICE)) {
+			if (you.equals(Type.IRON)||you.equals(Type.FIRE)||you.equals(Type.WATER)||you.equals(Type.ICE))return true; }
+		else if (me.equals(Type.POISON)) {
+			if (you.equals(Type.POISON)||you.equals(Type.GROUND)||you.equals(Type.ROCK)||you.equals(Type.GHOST)) return true; }
+		else if (me.equals(Type.BUG)) {
+			if (you.equals(Type.FIGHTHING)||you.equals(Type.POISON)||you.equals(Type.FLYING)||you.equals(Type.GHOST)||you.equals(Type.IRON)||you.equals(Type.FIRE)||you.equals(Type.FAIRY)) return true;}
+		else if (me.equals(Type.ROCK)) {
+			if (you.equals(Type.FIGHTHING)||you.equals(Type.GROUND)||you.equals(Type.IRON)) return true;}
+		else if (me.equals(Type.WATER)) {
+			if (you.equals(Type.WATER)||you.equals(Type.GRASS)||you.equals(Type.DRAGON)) return true; }
+		else if (me.equals(Type.DRAGON)) {
+			if (you.equals(Type.IRON)) return true; }
+		else if (me.equals(Type.EVIL)) {
+			if (you.equals(Type.FIGHTHING)||you.equals(Type.EVIL)||you.equals(Type.FAIRY)) return true;}
+		else if (me.equals(Type.PSYCHIC)) {
+			if (you.equals(Type.IRON)||you.equals(Type.PSYCHIC)) return true;}
+		return false;
+	}
 	static public boolean isGreat(Type me, Type you) {
+		if (me.equals(Type.ELECTRICITY)) {
+			if (you.equals(Type.FLYING) || you.equals(Type.WATER))return true; }
+		else if (me.equals(Type.FAIRY)) {
+			if (you.equals(Type.FIGHTHING)||you.equals(Type.DRAGON)||you.equals(Type.EVIL))return true; }
+		else if (me.equals(Type.IRON)) {
+			if (you.equals(Type.ROCK)||you.equals(Type.ICE)||you.equals(Type.FAIRY))return true; }
+		else if (me.equals(Type.FIGHTHING)) {
+			if (you.equals(Type.NORMAL)||you.equals(Type.ROCK)||you.equals(Type.IRON)||you.equals(Type.ICE)||you.equals(Type.EVIL))return true; }
+		else if (me.equals(Type.FIRE)) {
+			if (you.equals(Type.BUG)||you.equals(Type.IRON)||you.equals(Type.GRASS)||you.equals(Type.ICE))return true; }
+		else if (me.equals(Type.FLYING)) {
+			if (you.equals(Type.FIGHTHING)||you.equals(Type.BUG)||you.equals(Type.GRASS))return true; }
+		else if (me.equals(Type.GHOST)) {
+			if (you.equals(you.equals(Type.GHOST)||you.equals(Type.PSYCHIC)))return true; }
+		else if (me.equals(Type.GRASS)) {
+			if (you.equals(Type.GROUND)||you.equals(Type.ROCK)||you.equals(Type.WATER))return true; }
+		else if (me.equals(Type.GROUND)) {
+			if (you.equals(Type.POISON)||you.equals(Type.ROCK)||you.equals(Type.IRON)||you.equals(Type.FIRE)||you.equals(Type.ELECTRICITY))return true;}
+		else if (me.equals(Type.ICE)) {
+			if (you.equals(Type.GROUND)||you.equals(Type.FLYING)||you.equals(Type.GRASS)||you.equals(Type.DRAGON))return true; }
+		else if (me.equals(Type.POISON)) {
+			if (you.equals(Type.GRASS)||you.equals(Type.FAIRY)) return true; }
+		else if (me.equals(Type.BUG)) {
+			if (you.equals(Type.GRASS)||you.equals(Type.PSYCHIC)||you.equals(Type.EVIL)) return true;}
+		else if (me.equals(Type.ROCK)) {
+			if (you.equals(Type.FLYING)||you.equals(Type.BUG)||you.equals(Type.FIRE)||you.equals(Type.ICE)) return true;}
+		else if (me.equals(Type.WATER)) {
+			if (you.equals(Type.GROUND)||you.equals(Type.ROCK)||you.equals(Type.FIRE)) return true; }
+		else if (me.equals(Type.DRAGON)) {
+			if (you.equals(Type.DRAGON)) return true; }
+		else if (me.equals(Type.EVIL)) {
+			if (you.equals(Type.GHOST)||you.equals(Type.PSYCHIC)) return true;}
+		else if (me.equals(Type.PSYCHIC)) {
+			if (you.equals(Type.FIGHTHING)||you.equals(Type.POISON)) return true;}
 		return false;
 	}
 }
@@ -52,8 +143,8 @@ public class Exec {
 		Pocketmon ninetales = new Pocketmon(38);
 		lizamong.setSkill(skills); ninetales.setSkill(skills);
 		lizamong.printAbility(); ninetales.printAbility();
-		lizamong.useSkill(0, ninetales);
-		ninetales.printAbility();
+		lizamong.useSkill(3, ninetales);
+		lizamong.printAbility();ninetales.printAbility();
 
 	}
 	
