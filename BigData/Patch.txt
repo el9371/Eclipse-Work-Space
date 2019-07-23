@@ -52,3 +52,10 @@ accumulated from pocketmon battle
 1. Calculate abilities considering buff stack.
 2. Add accuracy and evasion abilities.
 3. Add balance and apply in useSkill.
+
+2019-07-23
+--Patched--
+1. Add skill pp in Pocketmon class.
+2. Add Battle Frame with 4 button for skills.
+--Patching--
+1. Add error message when pp is 0 or less.

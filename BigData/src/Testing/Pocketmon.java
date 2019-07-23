@@ -56,6 +56,7 @@ public class Pocketmon {
 	
 	public void setSkill(int i, Skill _skill) {
 		skill[i] = _skill;
+		pp[i] = _skill.getMaxPP();
 	}
 	
 	public int useSkill(int _skill, Pocketmon you) {
@@ -64,6 +65,8 @@ public class Pocketmon {
 		double damage;
 		Skill selected = skill[_skill];
 		System.out.println(this.getName() + "은 " + you.getName() + "에게 " + selected.getName() + "을 시전했다.");
+		pp[_skill] = pp[_skill] - 1;
+		
 		if (selected.isBuff() && Math.random() * 100 < selected.getAccuracy() * this.getAccuracy() / you.getEvasion()) {
 			if (selected.isMe())
 				this.useBuff(selected, this);
@@ -308,6 +311,10 @@ public class Pocketmon {
 
 	public void setSkill(Skill[] skill) {
 		this.skill = skill;
+		this.pp[0] = skill[0].getMaxPP();
+		this.pp[1] = skill[1].getMaxPP();
+		this.pp[2] = skill[2].getMaxPP();
+		this.pp[3] = skill[3].getMaxPP();
 	}
 
 	public State getState() {

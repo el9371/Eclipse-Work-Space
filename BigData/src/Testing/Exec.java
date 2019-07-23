@@ -122,6 +122,8 @@ enum State{
 
 public class Exec {
 	
+	public static Pocketmon myPock = null;
+	public static Pocketmon yourPock = null;
 	public static void main(String[] args)
 	{
 		/*
@@ -142,9 +144,14 @@ public class Exec {
 		Pocketmon lizamong = new Pocketmon(6);
 		Pocketmon ninetales = new Pocketmon(38);
 		lizamong.setSkill(skills); ninetales.setSkill(skills);
+		myPock = lizamong; yourPock = ninetales;
+		System.out.println(myPock.getName());
+		new Screen();
+		/*
 		lizamong.printAbility(); ninetales.printAbility();
 		lizamong.useSkill(3, ninetales);
 		lizamong.printAbility();ninetales.printAbility();
+		*/
 
 	}
 	
