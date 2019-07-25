@@ -59,3 +59,8 @@ accumulated from pocketmon battle
 2. Add Battle Frame with 4 button for skills.
 --Patching--
 1. Add error message when pp is 0 or less.
+
+2019-07-25
+--Patched--
+1. Set size on resolution.
+2. Add pokemon icon and hp in screen.

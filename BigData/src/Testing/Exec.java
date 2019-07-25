@@ -141,8 +141,8 @@ public class Exec {
 		*/
 		new Skill();
 		Skill skills[] = {Skill.skills[1], Skill.skills[2], Skill.skills[3], Skill.skills[4]};
-		Pocketmon lizamong = new Pocketmon(6);
-		Pocketmon ninetales = new Pocketmon(38);
+		Pocketmon lizamong = new Pocketmon(3);
+		Pocketmon ninetales = new Pocketmon(29);
 		lizamong.setSkill(skills); ninetales.setSkill(skills);
 		myPock = lizamong; yourPock = ninetales;
 		System.out.println(myPock.getName());

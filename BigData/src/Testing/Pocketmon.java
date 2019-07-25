@@ -31,7 +31,8 @@ public class Pocketmon {
 	private int turnsInCC; //CC기에 걸린지 몇턴이 지났는가
 	
 	///-------------------------------------포켓몬 종족 생성--------------------------------------------
-	public Pocketmon(String _name, int _kHp, int _kAttack, int _kDefense, int _kSattack, int _kSdefense, int _kSpeed, Type[] _type) {
+	public Pocketmon(int _number, String _name, int _kHp, int _kAttack, int _kDefense, int _kSattack, int _kSdefense, int _kSpeed, Type[] _type) {
+		this.number = _number;
 		this.name = _name; this.kHp = _kHp; this.kAttack = _kAttack; this.kDefense = _kDefense; 
 		this.kSattack = _kSattack; this.kSdefense = _kSdefense; this.kSpeed = _kSpeed; this.type = _type;
 	}
@@ -455,7 +456,7 @@ public class Pocketmon {
 				typeNum = scan.nextInt(); types[0] = Type.valueOf(scan.next());
 				if (typeNum == 2) types[1] = Type.valueOf(scan.next()); else types[1] = Type.NTH;
 				//System.out.println(kSpeed);
-				pocketmons[i] = new Pocketmon(name, kHp, kAttack, kDefense, kSattack, kSdefense, kSpeed, types);
+				pocketmons[i] = new Pocketmon(i, name, kHp, kAttack, kDefense, kSattack, kSdefense, kSpeed, types);
 			}
 		}
 		catch(FileNotFoundException e) {
