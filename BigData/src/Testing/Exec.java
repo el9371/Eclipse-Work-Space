@@ -6,111 +6,41 @@ import java.io.FileReader;
 import java.io.IOException;
 
 
+
 //(String _name, int _number, int _power, double _accuracy, int _pp, int _maxPp, boolean _isSpecial, Type _type)
 enum Type{
-	ELECTRICITY("전기"), FAIRY("페어리") ,IRON("강철"), 
-	FIGHTHING("격투"), FIRE("불"), FLYING("비행"),
-	GHOST("고스트"), GRASS("풀"), GROUND("땅"), ICE("얼음"), 
-	NORMAL("노말"), POISON("독"), BUG("벌레"), ROCK("바위"), 
-	WATER("물"), DRAGON("드래곤"), EVIL("악"), PSYCHIC("에스퍼"),NTH("");
-	Type(String _name) { this.name = _name;}
-	private String name;
-	public String getName() { return name;}
 	
-	static public boolean isEffect(Type me, Type you) {
-		if (me.equals(Type.NORMAL)) {
-			if (you.equals(Type.GHOST)) return true; }
-		else if (me.equals(Type.FIGHTHING)) {
-			if (you.equals(Type.GHOST)) return true;}
-		else if (me.equals(Type.POISON)) {
-			if (you.equals(Type.IRON)) return true;}
-		else if (me.equals(Type.GROUND)) {
-			if (you.equals(Type.FLYING)) return true;}
-		else if (me.equals(Type.GHOST)) {
-			if (you.equals(Type.NORMAL)) return true;}
-		else if (me.equals(Type.ELECTRICITY)) {
-			if (you.equals(Type.GROUND)) return true;}
-		else if (me.equals(Type.PSYCHIC)) {
-			if (you.equals(Type.EVIL)) return true;}
-		else if (me.equals(Type.DRAGON)) {
-			if(you.equals(Type.FAIRY)) return true;}
-		return false;
-	}
-	static public boolean isWorse(Type me, Type you) {
-		if (me.equals(Type.ELECTRICITY)) {
-			if (you.equals(Type.ELECTRICITY)||you.equals(Type.GRASS)||you.equals(Type.DRAGON))return true; }
-		else if (me.equals(Type.FAIRY)) {
-			if (you.equals(Type.POISON)||you.equals(Type.IRON)||you.equals(Type.FIRE))return true; }
-		else if (me.equals(Type.IRON)) {
-			if (you.equals(Type.ROCK)||you.equals(Type.ICE)||you.equals(Type.FAIRY))return true; }
-		else if (me.equals(Type.FIGHTHING)) {
-			if (you.equals(Type.IRON)||you.equals(Type.FIRE)||you.equals(Type.WATER)||you.equals(Type.ELECTRICITY))return true; }
-		else if (me.equals(Type.FIRE)) {
-			if (you.equals(Type.ROCK)||you.equals(Type.FIRE)||you.equals(Type.WATER)||you.equals(Type.DRAGON))return true; }
-		else if (me.equals(Type.FLYING)) {
-			if (you.equals(Type.ROCK)||you.equals(Type.IRON)||you.equals(Type.ELECTRICITY))return true; }
-		else if (me.equals(Type.GHOST)) {
-			if (you.equals(Type.FIGHTHING)||you.equals(Type.GROUND)||you.equals(Type.IRON))return true; }
-		else if (me.equals(Type.GRASS)) {
-			if (you.equals(Type.POISON)||you.equals(Type.FLYING)||you.equals(Type.BUG)||you.equals(Type.IRON)||you.equals(Type.FIRE)||you.equals(Type.GRASS)||you.equals(Type.DRAGON))return true; }
-		else if (me.equals(Type.GROUND)) {
-			if (you.equals(Type.BUG)||you.equals(Type.GRASS))return true;}
-		else if (me.equals(Type.ICE)) {
-			if (you.equals(Type.IRON)||you.equals(Type.FIRE)||you.equals(Type.WATER)||you.equals(Type.ICE))return true; }
-		else if (me.equals(Type.POISON)) {
-			if (you.equals(Type.POISON)||you.equals(Type.GROUND)||you.equals(Type.ROCK)||you.equals(Type.GHOST)) return true; }
-		else if (me.equals(Type.BUG)) {
-			if (you.equals(Type.FIGHTHING)||you.equals(Type.POISON)||you.equals(Type.FLYING)||you.equals(Type.GHOST)||you.equals(Type.IRON)||you.equals(Type.FIRE)||you.equals(Type.FAIRY)) return true;}
-		else if (me.equals(Type.ROCK)) {
-			if (you.equals(Type.FIGHTHING)||you.equals(Type.GROUND)||you.equals(Type.IRON)) return true;}
-		else if (me.equals(Type.WATER)) {
-			if (you.equals(Type.WATER)||you.equals(Type.GRASS)||you.equals(Type.DRAGON)) return true; }
-		else if (me.equals(Type.DRAGON)) {
-			if (you.equals(Type.IRON)) return true; }
-		else if (me.equals(Type.EVIL)) {
-			if (you.equals(Type.FIGHTHING)||you.equals(Type.EVIL)||you.equals(Type.FAIRY)) return true;}
-		else if (me.equals(Type.PSYCHIC)) {
-			if (you.equals(Type.IRON)||you.equals(Type.PSYCHIC)) return true;}
-		return false;
-	}
-	static public boolean isGreat(Type me, Type you) {
-		if (me.equals(Type.ELECTRICITY)) {
-			if (you.equals(Type.FLYING) || you.equals(Type.WATER))return true; }
-		else if (me.equals(Type.FAIRY)) {
-			if (you.equals(Type.FIGHTHING)||you.equals(Type.DRAGON)||you.equals(Type.EVIL))return true; }
-		else if (me.equals(Type.IRON)) {
-			if (you.equals(Type.ROCK)||you.equals(Type.ICE)||you.equals(Type.FAIRY))return true; }
-		else if (me.equals(Type.FIGHTHING)) {
-			if (you.equals(Type.NORMAL)||you.equals(Type.ROCK)||you.equals(Type.IRON)||you.equals(Type.ICE)||you.equals(Type.EVIL))return true; }
-		else if (me.equals(Type.FIRE)) {
-			if (you.equals(Type.BUG)||you.equals(Type.IRON)||you.equals(Type.GRASS)||you.equals(Type.ICE))return true; }
-		else if (me.equals(Type.FLYING)) {
-			if (you.equals(Type.FIGHTHING)||you.equals(Type.BUG)||you.equals(Type.GRASS))return true; }
-		else if (me.equals(Type.GHOST)) {
-			if (you.equals(you.equals(Type.GHOST)||you.equals(Type.PSYCHIC)))return true; }
-		else if (me.equals(Type.GRASS)) {
-			if (you.equals(Type.GROUND)||you.equals(Type.ROCK)||you.equals(Type.WATER))return true; }
-		else if (me.equals(Type.GROUND)) {
-			if (you.equals(Type.POISON)||you.equals(Type.ROCK)||you.equals(Type.IRON)||you.equals(Type.FIRE)||you.equals(Type.ELECTRICITY))return true;}
-		else if (me.equals(Type.ICE)) {
-			if (you.equals(Type.GROUND)||you.equals(Type.FLYING)||you.equals(Type.GRASS)||you.equals(Type.DRAGON))return true; }
-		else if (me.equals(Type.POISON)) {
-			if (you.equals(Type.GRASS)||you.equals(Type.FAIRY)) return true; }
-		else if (me.equals(Type.BUG)) {
-			if (you.equals(Type.GRASS)||you.equals(Type.PSYCHIC)||you.equals(Type.EVIL)) return true;}
-		else if (me.equals(Type.ROCK)) {
-			if (you.equals(Type.FLYING)||you.equals(Type.BUG)||you.equals(Type.FIRE)||you.equals(Type.ICE)) return true;}
-		else if (me.equals(Type.WATER)) {
-			if (you.equals(Type.GROUND)||you.equals(Type.ROCK)||you.equals(Type.FIRE)) return true; }
-		else if (me.equals(Type.DRAGON)) {
-			if (you.equals(Type.DRAGON)) return true; }
-		else if (me.equals(Type.EVIL)) {
-			if (you.equals(Type.GHOST)||you.equals(Type.PSYCHIC)) return true;}
-		else if (me.equals(Type.PSYCHIC)) {
-			if (you.equals(Type.FIGHTHING)||you.equals(Type.POISON)) return true;}
-		return false;
-	}
+	NORMAL("노말"), FIGHTING("격투"), POISON("독"), GROUND("땅"),
+	FLYING("비행"), BUG("벌레"), ROCK("바위"), GHOST("고스트"),IRON("강철"),
+	FIRE("불꽃"), WATER("물"), ELECTRIC("전기"), GRASS("풀"), ICE("얼음"),
+	PHYSIC("에스퍼"), DRAGON("드래곤"), DARK("악"), FAIRY("페어리"), NTH("");
+	Type(String _name) { this.name = _name; }
+	private String name; 
+	private static final int balance[][] = {
+			{0,0,0,0,0,0,-1,5,-1,0,0,0,0,0,0,0,0,0,0},			//노말
+			{1,0,-1,0,-1,-1,1,5,1,0,0,0,0,1,-1,0,1,0,0},		//격투
+			{0,0,-1,-1,0,0,-1,-1,5,0,0,0,1,0,0,0,0,1,0},		//독
+			{0,0,1,0,5,-1,1,0,1,1,0,1,-1,0,0,0,0,0,0},			//땅
+			{0,1,0,0,0,1,-1,0,-1,0,0,-1,1,0,0,0,0,0,0},		//비행
+			{0,-1,-1,0,-1,0,0,-1,-1,-1,0,0,1,0,1,0,1,-1,0},	//벌레
+			{0,-1,0,-1,1,1,0,0,-1,1,0,0,0,1,0,0,0,0,0},		//바위
+			{5,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,-1,0,0},			//고스트
+			{0,0,0,0,0,0,1,0,-1,-1,-1,-1,0,1,0,0,0,1,0,},		//강철
+			{0,0,0,0,0,1,-1,0,1,-1,-1,0,1,1,0,-1,0,0,0},		//불꽃
+			{0,0,0,1,0,0,1,0,0,1,-1,0,-1,0,0,-1,0,0,0},		//물
+			{0,0,0,5,1,0,0,0,0,0,1,-1,-1,0,0,-1,0,0,0},		//전기
+			{0,0,-1,1,-1,-1,1,0,-1,-1,1,0,-1,0,0,-1,0,0,0},	//풀
+			{0,0,0,1,1,0,0,0,-1,-1,-1,0,1,-1,0,1,0,0,0},		//얼음
+			{0,1,1,0,0,0,0,0,-1,0,0,0,0,0,-1,0,5,0,0},			//에스퍼
+			{0,0,0,0,0,0,0,1,-1,0,0,0,0,0,0,1,0,5,0},			//드래곤
+			{0,-1,0,0,0,0,0,1,0,0,0,0,0,0,1,0,-1,-1,0},		//악
+			{0,1,-1,0,0,0,0,0,-1,-1,0,0,0,0,0,1,1,0,0}	,		//페어리
+			{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}				//NTH
+		};		//-1 효과 별로, 0 기본, 1효과 굉장, 5 효과 없음
+	public String getName() { return name;}
+	public static int getBalance(int attack, int defense) { return balance[attack][defense];}
 }
+
 enum State{
 	BURN("화상"), PARALYSIS("마비"), DADDICTION("중독"),
 	ADDICTION("중독"), FROZEN("얼음"), SLEEPING("수면"),

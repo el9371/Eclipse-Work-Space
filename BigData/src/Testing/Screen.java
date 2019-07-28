@@ -4,6 +4,7 @@ import java.awt.*;
 
 import javax.swing.border.*;
 import javax.swing.*;
+import java.awt.event.ActionListener;
 
 public class Screen extends JFrame {
 
@@ -61,6 +62,10 @@ public class Screen extends JFrame {
 		b1.setBounds(9*resolution, resolution*3/4, 6*resolution, 5*resolution);
 		b2.setBounds(resolution, 7*resolution - resolution*3/4, 6*resolution, 5*resolution);
 		b3.setBounds(9*resolution, 7*resolution - resolution*3/4, 6*resolution, 5*resolution);
+		b0.addActionListener(new EventHandler());
+		b1.addActionListener(new EventHandler());
+		b2.addActionListener(new EventHandler());
+		b3.addActionListener(new EventHandler());
 		JButton b[] = {b0,b1,b2,b3};
 		return b;
 	}
@@ -119,4 +124,6 @@ public class Screen extends JFrame {
 		return new ImageIcon(tmp.getScaledInstance( w * resolution, h * resolution, java.awt.Image.SCALE_SMOOTH));
 		//tmp.getWidth(null) * resolution, tmp.getHeight(null) * resolution
 	}
+	
+	
 }

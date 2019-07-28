@@ -148,23 +148,19 @@ public class Pocketmon {
 			damage = damage * 1.5;
 		
 		//상성 계산 적용
-		if (Type.isGreat(selected.getType(), you.getType()[0])) balance = balance + 1;
-		if (Type.isGreat(selected.getType(), you.getType()[1])) balance = balance + 1;
-		if (Type.isWorse(selected.getType(), you.getType()[0])) balance = balance - 1;
-		if (Type.isWorse(selected.getType(), you.getType()[1])) balance = balance - 1;
-		if (Type.isEffect(selected.getType(), you.getType()[0])) balance = 5;
-		if (Type.isEffect(selected.getType(), you.getType()[1])) balance = 5;
-		if (balance > 0 && balance < 3) {
+		balance = Type.getBalance(selected.getType().ordinal(), you.getType()[0].ordinal()) + Type.getBalance(selected.getType().ordinal(), you.getType()[1].ordinal());
+		
+		if (balance > 3) {
+			System.out.println("효과가 없다");
+			damage = 0;
+		}
+		else if (balance > 0) {
 			System.out.println("효과가 굉장했다.");
 			damage = damage * 2 * balance ;
 		}
 		else if (balance < 0) {
 			System.out.println("효과가 별로인듯 하다.");
 			damage = damage / (-2 * balance);
-		}
-		else if (balance > 4) {
-			System.out.println("효과가 없다");
-			damage = 0;
 		}
 		
 		damage = damage * (Math.random() * 38 + 217) / 255; // 데미지 난수 

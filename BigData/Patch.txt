@@ -64,3 +64,9 @@ accumulated from pocketmon battle
 --Patched--
 1. Set size on resolution.
 2. Add pokemon icon and hp in screen.
+
+2019-07-28
+--Patched--
+1. Fix type balance using 2 dimensional array.
+--Patching--
+1. Fix EventHandler class to use when user click the skill button.
