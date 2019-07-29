@@ -52,8 +52,9 @@ enum State{
 
 public class Exec {
 	
-	public static Pocketmon myPock = null;
-	public static Pocketmon yourPock = null;
+	public static Pokemon myPoke = null;
+	public static Pokemon yourPoke = null;
+	public static Screen screen = null;
 	public static void main(String[] args)
 	{
 		/*
@@ -71,12 +72,12 @@ public class Exec {
 		*/
 		new Skill();
 		Skill skills[] = {Skill.skills[1], Skill.skills[2], Skill.skills[3], Skill.skills[4]};
-		Pocketmon lizamong = new Pocketmon(3);
-		Pocketmon ninetales = new Pocketmon(29);
+		Pokemon lizamong = new Pokemon(3);
+		Pokemon ninetales = new Pokemon(29);
 		lizamong.setSkill(skills); ninetales.setSkill(skills);
-		myPock = lizamong; yourPock = ninetales;
-		System.out.println(myPock.getName());
-		new Screen();
+		myPoke = lizamong; yourPoke = ninetales;
+		//System.out.println(myPoke.getName());
+		screen = new Screen();
 		/*
 		lizamong.printAbility(); ninetales.printAbility();
 		lizamong.useSkill(3, ninetales);

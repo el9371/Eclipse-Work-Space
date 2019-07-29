@@ -1,16 +1,19 @@
 package Testing;
 
 import java.awt.*;
-
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import javax.swing.border.*;
 import javax.swing.*;
-import java.awt.event.ActionListener;
 
 public class Screen extends JFrame {
 
-	private static final int resolution = 16;
+	private static final int resolution = 32;
 	private JPanel mainPan;
-
+	private static JPanel screen1 = null;
+	private static JPanel screen2 = null;
+	private static JLabel mainText = null;
+	
 	public Screen() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 20, 16*resolution + 6*resolution/16 + 15, 24*resolution + 6*resolution/16 + 42);
@@ -19,28 +22,33 @@ public class Screen extends JFrame {
 		mainPan.setLayout(null);
 		setContentPane(mainPan);
 		
-		JPanel screen1 = new JPanel();
+		screen1 = new JPanel();
 		screen1.setBackground(Color.WHITE);
 		screen1.setBounds(3*resolution/16, 3*resolution/16, 16*resolution, 12*resolution);
 		screen1.setBorder(new TitledBorder(new LineBorder(Color.BLACK)));
 		screen1.setLayout(null);
 		mainPan.add(screen1);
 		
-		setMyPoke(screen1, Exec.myPock);
-		setYourPoke(screen1, Exec.yourPock);
+		setMyPoke(screen1, Exec.myPoke);
+		setYourPoke(screen1, Exec.yourPoke);
 		
-		//screen1.add(setMyPoke(Exec.myPock.getNumber()));
-		//screen1.add(setYourPoke(Exec.yourPock.getNumber()));
+		mainText = new JLabel("");
+		mainText.setBounds(resolution, 10*resolution, 14*resolution, 3*resolution/2);
+		mainText.setBorder(new EtchedBorder(EtchedBorder.RAISED));
+		mainText.setVisible(false);
+		screen1.add(mainText);
+		//screen1.add(setMyPoke(Exec.myPoke.getNumber()));
+		//screen1.add(setYourPoke(Exec.yourPoke.getNumber()));
 		
 		
-		JPanel screen2 = new JPanel();
+		screen2 = new JPanel();
 		screen2.setBackground(Color.WHITE);
 		screen2.setBounds(3*resolution/16, 12*resolution + 6*resolution/16, 16*resolution, 12*resolution);
 		screen2.setBorder(new TitledBorder(new LineBorder(Color.BLACK)));
 		screen2.setLayout(null);
 		mainPan.add(screen2);
 		
-		if( Exec.myPock != null) {
+		if( Exec.myPoke != null) {
 			JButton b[] = constructSkillButton();
 			for (int i = 0; i < 4 ; i++)
 				screen2.add(b[i]);
@@ -50,27 +58,53 @@ public class Screen extends JFrame {
 		setVisible(true);
 	}
 
-	
+	public void sendMessage(String text) {
+		class pressA implements KeyListener {
+			public boolean wait = true;
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				if (e.getKeyChar() == 'a')
+					wait = false;
+			}
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		}
+		pressA key = new pressA();
+		mainText.setText(text);
+		mainText.setVisible(true);
+		mainText.addKeyListener(key);
+		//while(key.wait) {}
+
+	}
 	
 	public static JButton[] constructSkillButton() {
-		Skill s[] = Exec.myPock.getSkill();
-		JButton b0 = new JButton(s[0].getName() + "   \n   " + s[0].getType().getName() + "      " +Exec.myPock.getPp()[0] + "/" + s[0].getMaxPP());
-		JButton b1 = new JButton(s[1].getName() + "   \n   " + s[1].getType().getName() + "      " +Exec.myPock.getPp()[1] + "/" + s[1].getMaxPP());
-		JButton b2 = new JButton(s[2].getName() + "   \n   " + s[2].getType().getName() + "      " +Exec.myPock.getPp()[2] + "/" + s[2].getMaxPP());
-		JButton b3 = new JButton(s[3].getName() + "   \n   " + s[3].getType().getName() + "      " +Exec.myPock.getPp()[3] + "/" + s[3].getMaxPP());
+		Skill s[] = Exec.myPoke.getSkill();
+		Button b0 = new Button("<html>" + s[0].getName() + "<br />"+Exec.myPoke.getPP()[0] + "/" + s[0].getMaxPP() + "["+s[0].getType().getName()+"]" + "</html>");
+		Button b1 = new Button(s[1].getName() + "   \n   " + s[1].getType().getName() + "      " +Exec.myPoke.getPP()[1] + "/" + s[1].getMaxPP());
+		Button b2 = new Button(s[2].getName() + "   \n   " + s[2].getType().getName() + "      " +Exec.myPoke.getPP()[2] + "/" + s[2].getMaxPP());
+		Button b3 = new Button(s[3].getName() + "   \n   " + s[3].getType().getName() + "      " +Exec.myPoke.getPP()[3] + "/" + s[3].getMaxPP());
 		b0.setBounds(resolution, resolution*3/4, 6*resolution, 5*resolution);
 		b1.setBounds(9*resolution, resolution*3/4, 6*resolution, 5*resolution);
 		b2.setBounds(resolution, 7*resolution - resolution*3/4, 6*resolution, 5*resolution);
 		b3.setBounds(9*resolution, 7*resolution - resolution*3/4, 6*resolution, 5*resolution);
-		b0.addActionListener(new EventHandler());
-		b1.addActionListener(new EventHandler());
-		b2.addActionListener(new EventHandler());
-		b3.addActionListener(new EventHandler());
+		b0.setMyPoke(Exec.myPoke); b0.setYourPoke(Exec.yourPoke); b0.setIndex(0);
+		b1.setMyPoke(Exec.myPoke); b1.setYourPoke(Exec.yourPoke); b1.setIndex(1);
+		b2.setMyPoke(Exec.myPoke); b2.setYourPoke(Exec.yourPoke); b2.setIndex(2);
+		b3.setMyPoke(Exec.myPoke); b3.setYourPoke(Exec.yourPoke); b3.setIndex(3);
 		JButton b[] = {b0,b1,b2,b3};
 		return b;
 	}
 	
-	public static void setMyPoke(JPanel screen, Pocketmon poke) {
+	public static void setMyPoke(JPanel screen, Pokemon poke) {
 		String path = ""; int i = poke.getNumber();
 		
 		int iLength = (int)(Math.log10(i)+1);
@@ -92,7 +126,7 @@ public class Screen extends JFrame {
 	
 	
 	
-	public static void setYourPoke(JPanel screen, Pocketmon poke) {
+	public static void setYourPoke(JPanel screen, Pokemon poke) {
 		String path = ""; int i = poke.getNumber();
 		int iLength = (int)(Math.log10(i)+1);
 		if (iLength == 1) path = "00" + i;
@@ -124,6 +158,7 @@ public class Screen extends JFrame {
 		return new ImageIcon(tmp.getScaledInstance( w * resolution, h * resolution, java.awt.Image.SCALE_SMOOTH));
 		//tmp.getWidth(null) * resolution, tmp.getHeight(null) * resolution
 	}
+	
 	
 	
 }

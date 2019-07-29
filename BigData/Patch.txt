@@ -70,3 +70,7 @@ accumulated from pocketmon battle
 1. Fix type balance using 2 dimensional array.
 --Patching--
 1. Fix EventHandler class to use when user click the skill button.
+
+2019-07-29
+--Patched--
+1. Replace every Pocketmon to Pokemon

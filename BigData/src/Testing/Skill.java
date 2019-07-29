@@ -174,7 +174,7 @@ public class Skill {
 				String name; Type type; int maxPP; int accuracy; int order; boolean isBuff;
 				_number = scan.nextInt(); name = scan.next(); type = Type.valueOf(scan.next()); maxPP = scan.nextInt();
 				accuracy = scan.nextInt(); order = scan.nextInt(); isBuff = (scan.nextInt() != 0);
-				System.out.println(type);
+				//System.out.println(type);
 				skills[i] = new Skill(_number, name, type, maxPP, accuracy, order, isBuff);
 				if (isBuff) //น๖วม
 					{
@@ -198,7 +198,7 @@ public class Skill {
 			}
 		}
 		catch(FileNotFoundException e) {
-			System.out.println("Pocketmon Data File not Found");
+			System.out.println("Pokemon Data File not Found");
 			System.exit(0);
 		}
 		return skills;
