@@ -15,7 +15,7 @@ public class BattlePase extends Thread {
 			if (isEffect(yourEvasion)) {
 				int damage = randomDamage() + myStr;
 				your.getDamage(damage);
-				System.out.println(mine.getName()+"가 "+damage+"의 피해를 입혔습니다.");
+				//System.out.println(mine.getName()+"가 "+damage+"의 피해를 입혔습니다.");
 			}
 		} System.out.println("전투종료");
 	}

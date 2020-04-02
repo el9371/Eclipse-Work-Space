@@ -54,6 +54,7 @@ public class Character {
 	
 	public void getDamage(int dmg) {
 		this.hp = this.hp - dmg;
+		System.out.println(this.name + "이 " + this.hp + "가 남았습니다.");
 		if (dmg <= 0) {this.hp = 0; this.isAlive = false;}
 	}
 }
