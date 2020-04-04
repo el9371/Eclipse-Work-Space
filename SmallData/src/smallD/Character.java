@@ -1,13 +1,15 @@
 package smallD;
 
 public class Character {
+	static private int battleSpeed = 1;
 	private String name;
 	private int maxHp, str, dex, luk, hp;
+	private int hpAbility, strAbility, dexAbility, lukAbility;
 	boolean isAlive;
 	
 	public Character(String name) {
+		this.hpAbility = 0; this.dexAbility = 0; this.strAbility = 0; this.lukAbility = 0;
 		this.name = name;
-		this.maxHp = 100; this.str = 0; this.dex = 1000; this.luk = 0;
 	}
 	
 	public String getName() { return this.name;} 
@@ -15,25 +17,25 @@ public class Character {
 		return maxHp;
 	}
 	public void plusMaxHp() {
-		this.maxHp += 40;
+		this.hpAbility += 1;
 	}
 	public int getStr() {
 		return str;
 	}
 	public void plusStr() {
-		this.str += 4;
+		this.strAbility += 1;
 	}
 	public int getDex() {
 		return dex;
 	}
 	public void plusDex() {
-		this.dex -= 150;
+		this.dexAbility += 1;
 	}
 	public int getLuk() {
 		return luk;
 	}
 	public void plusLuk() {
-		this.luk += 15;
+		this.lukAbility += 1;
 	}
 	public int getHp() {
 		return hp;
@@ -49,6 +51,10 @@ public class Character {
 		this.isAlive = isAlive;
 	}
 	public void set4Battle() {
+		this.maxHp = 100 + this.hpAbility * 40;
+		this.str = 0 + this.strAbility * 5;
+		this.dex = (100 - this.dexAbility * 15) * battleSpeed;
+		this.luk = 0 + this.lukAbility * 15;
 		this.isAlive = true;
 		this.hp = this.maxHp;
 	}
@@ -66,7 +72,11 @@ public class Character {
 	}
 	
 	public void printAbility() {
-		System.out.println("maxHp : " + this.maxHp + " | str : " + this.str + " | dex : " + this.dex
-				+ " | luk : " + this.luk);
+		System.out.println(this.hpAbility + " | " + this.strAbility + " | "
+				+ this.dexAbility + " | " + this.lukAbility);
+	}
+	
+	public String returnAbility() {
+		return this.hpAbility +"." + this.strAbility + "." + this.dexAbility + "." + this.lukAbility;
 	}
 }

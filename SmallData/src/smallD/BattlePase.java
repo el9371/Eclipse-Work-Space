@@ -15,16 +15,16 @@ public class BattlePase extends Thread {
 			if (isEffect(yourEvasion)) {
 				int damage = randomDamage() + myStr;
 				if (mine.isAlive()) your.getDamage(damage);
-			}
+			} else System.out.println(your.getName() + "님이 공격을 피했습니다.");
 		} 
 	}
 	
 	public boolean isEffect(int accuracy) {
-		if (Math.random() * 99 + 1 <= accuracy)
+		if (Math.random() * 100 + 1 <= accuracy)
 			return false;
 		return true;
 	}
 	public int randomDamage() {
-		return (int)(Math.random() * 10) + 5;
+		return (int)(Math.random() * 11) + 5;
 	}
 }
