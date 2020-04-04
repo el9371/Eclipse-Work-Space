@@ -49,12 +49,24 @@ public class Character {
 		this.isAlive = isAlive;
 	}
 	public void set4Battle() {
+		this.isAlive = true;
 		this.hp = this.maxHp;
 	}
 	
-	public void getDamage(int dmg) {
+	public boolean getDamage(int dmg) {
+		if (this.isAlive) {
 		this.hp = this.hp - dmg;
-		System.out.println(this.name + "이 " + this.hp + "가 남았습니다.");
-		if (dmg <= 0) {this.hp = 0; this.isAlive = false;}
+		if (this.hp <= 0) {
+			this.hp = 0; this.isAlive = false;
+			System.out.println(this.name + "님이 쓰러지셨습니다."); 
+			}
+		else System.out.println(this.name + "이 " + dmg + "의 피해를 입어 " + this.hp + "가 남았습니다.");
+		return true;
+		} return false;
+	}
+	
+	public void printAbility() {
+		System.out.println("maxHp : " + this.maxHp + " | str : " + this.str + " | dex : " + this.dex
+				+ " | luk : " + this.luk);
 	}
 }
