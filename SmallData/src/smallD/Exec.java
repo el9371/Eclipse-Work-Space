@@ -16,7 +16,6 @@ public class Exec {
 		Thread t1 = new BattlePase(i, u), t2 = new BattlePase(u, i);
 		randomAbility(i); randomAbility(u);
 		i.set4Battle(); u.set4Battle();
-		i.printAbility(); u.printAbility();
 		t1.start();
 		t2.start();
 		while(i.isAlive && u.isAlive) Thread.sleep(100);
