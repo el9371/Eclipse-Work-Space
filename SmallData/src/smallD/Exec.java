@@ -3,10 +3,13 @@ package smallD;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import org.ini4j.Ini;
 import org.ini4j.InvalidFileFormatException;
 import org.ini4j.Wini;
+import org.apache.poi.hssf.usermodel.*;
+
 
 public class Exec {
 	
@@ -25,16 +28,26 @@ public class Exec {
 	}
 	
 	public void writeIni(Character winner, Character loser) throws IOException, Exception {
-		File smallData = new File("Data\\data.ini");
-		Ini rData = new Ini(smallData);
-		Wini wData = new Wini(smallData);
-			/* for setting
+		File iniData = new File("Data\\data.ini");
+		Ini rData = new Ini(iniData);
+		Wini wData = new Wini(iniData);
+			/* for setting 
+			String arrAbility[] = new String[100];
+			int numberOfAbility = 0;
+			boolean isHere;
 			for (int i = 0; i < 10000; i++) {
+				isHere = false;
 				Character c = new Character("test");
 				randomAbility(c);
 				System.out.println(c.returnAbility());
-				wData.put(c.returnAbility(), "Games", 0);
-				wData.put(c.returnAbility(), "Wins", 0);
+				for (int j = 0; j < numberOfAbility; j++)
+					if (arrAbility[j].equals(c.returnAbility())) {isHere = true; break;} 
+				if (!isHere) {
+					arrAbility[numberOfAbility] = c.returnAbility();
+					wData.put(c.returnAbility(), "number", numberOfAbility++);
+				}
+				//wData.put(c.returnAbility(), "Games", 0);
+				//wData.put(c.returnAbility(), "Wins", 0);
 			}
 			wData.store();
 		 */
@@ -43,7 +56,12 @@ public class Exec {
 		wData.put(wString, "Games",  Integer.parseInt(rData.get(wString, "Games")) + 1);
 		wData.put(wString, "Wins",  Integer.parseInt(rData.get(wString, "Wins")) + 1);
 		wData.put(lString, "Games",  Integer.parseInt(rData.get(lString, "Games")) + 1);
-		wData.store();
+		wData.store(); 
+	}
+	
+	public void writeExel() throws IOException {
+		FileInputStream cellData = new FileInputStream("Data\\statistic.xsl");
+		HSSFWorkbook cell = new HSSFWorkbook(cellData);
 	}
 	
 	public static void randomAbility(Character c) {

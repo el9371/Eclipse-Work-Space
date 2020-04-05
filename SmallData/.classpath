@@ -4,5 +4,11 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="C:/Users/Cyber/git/Eclipse-Work-Space/SmallData/ini4j-0.5.4.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Cyber/git/Eclipse-Work-Space/SmallData/ini4j-0.5.4-jdk14.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Cyber/git/Eclipse-Work-Space/SmallData/Apache POI/poi-4.1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Cyber/git/Eclipse-Work-Space/SmallData/Apache POI/poi-examples-4.1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Cyber/git/Eclipse-Work-Space/SmallData/Apache POI/poi-excelant-4.1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Cyber/git/Eclipse-Work-Space/SmallData/Apache POI/poi-ooxml-4.1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Cyber/git/Eclipse-Work-Space/SmallData/Apache POI/poi-ooxml-schemas-4.1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Cyber/git/Eclipse-Work-Space/SmallData/Apache POI/poi-scratchpad-4.1.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
