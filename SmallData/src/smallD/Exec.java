@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import org.ini4j.Ini;
 import org.ini4j.InvalidFileFormatException;
@@ -60,8 +61,14 @@ public class Exec {
 	}
 	
 	public void writeExel() throws IOException {
-		FileInputStream cellData = new FileInputStream("Data\\statistic.xsl");
-		HSSFWorkbook cell = new HSSFWorkbook(cellData);
+		FileInputStream cellData = new FileInputStream("Data\\statistic.xls");
+		HSSFWorkbook book = new HSSFWorkbook(cellData);
+		HSSFSheet sheet = book.createSheet("Sheet1");
+		HSSFRow row = sheet.createRow(1);
+		HSSFCell cell = row.createCell(2);
+		cell.setCellValue("test");
+		book.write(new FileOutputStream("Data\\statistic.xls"));
+		book.close();
 	}
 	
 	public static void randomAbility(Character c) {
