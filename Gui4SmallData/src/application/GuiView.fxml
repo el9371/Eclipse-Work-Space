@@ -9,7 +9,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
    <children>
-      <Pane prefHeight="300.0" prefWidth="400.0">
+      <Pane fx:id="page1" prefHeight="300.0" prefWidth="400.0" visible="false">
          <children>
             <Label layoutX="60.0" layoutY="75.0" text="최대HP" />
             <Label layoutX="60.0" layoutY="110.0" text="데미지" />
@@ -24,7 +24,55 @@
                   <Font size="14.0" />
                </font>
             </TextField>
+            <Label layoutX="47.0" layoutY="44.0" text="남은 스텟" />
+            <TextField fx:id="hpStat" editable="false" layoutX="161.0" layoutY="69.0" prefHeight="28.0" prefWidth="28.0" text="0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="strStat" editable="false" layoutX="161.0" layoutY="104.0" prefHeight="28.0" prefWidth="28.0" text="0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="dexStat" editable="false" layoutX="161.0" layoutY="139.0" prefHeight="28.0" prefWidth="28.0" text="0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="lukStat" editable="false" layoutX="161.0" layoutY="174.0" prefHeight="28.0" prefWidth="28.0" text="0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </TextField>
+            <Label layoutX="248.0" layoutY="75.0" text="최대HP" />
+            <Label layoutX="251.0" layoutY="110.0" text="데미지" />
+            <Label layoutX="239.0" layoutY="145.0" text="공격속도" />
+            <Label layoutX="251.0" layoutY="180.0" text="회피율" />
+            <TextField fx:id="enemyHpStat" editable="false" layoutX="299.0" layoutY="69.0" prefHeight="28.0" prefWidth="28.0" text="0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="enemyStrStat" editable="false" layoutX="299.0" layoutY="104.0" prefHeight="28.0" prefWidth="28.0" text="0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="enemyDexStat" editable="false" layoutX="299.0" layoutY="139.0" prefHeight="28.0" prefWidth="28.0" text="0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </TextField>
+            <TextField fx:id="enemyLukStat" editable="false" layoutX="299.0" layoutY="174.0" prefHeight="28.0" prefWidth="28.0" text="0">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </TextField>
+            <Button layoutX="180.0" layoutY="245.0" mnemonicParsing="false" onAction="#gameStart" text="시작" />
+            <Label fx:id="systemLabel" alignment="CENTER" layoutX="100.0" layoutY="218.0" prefWidth="200.0" />
          </children>
       </Pane>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" />
    </children>
 </AnchorPane>

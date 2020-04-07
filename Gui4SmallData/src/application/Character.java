@@ -12,6 +12,12 @@ public class Character {
 		this.name = name;
 	}
 	
+	public Character(String name, int stat[]) {
+		this.hpAbility = stat[0]; this.strAbility = stat[1];
+		this.dexAbility = stat[2]; this.lukAbility = stat[3];
+		this.name = name;
+	}
+	
 	public String getName() { return this.name;} 
 	public int getMaxHp() {
 		return maxHp;
@@ -50,7 +56,9 @@ public class Character {
 	public void setAlive(boolean isAlive) {
 		this.isAlive = isAlive;
 	}
-	public void set4Battle() {
+	public void set4Battle(int hpStat, int strStat, int dexStat, int lukStat) {
+		this.hpAbility = hpStat; this.strAbility = strStat;
+		this.dexAbility = dexStat; this.lukAbility = lukStat;
 		this.maxHp = 100 + this.hpAbility * 40;
 		this.str = 0 + this.strAbility * 5;
 		this.dex = (100 - this.dexAbility * 15) * battleSpeed;

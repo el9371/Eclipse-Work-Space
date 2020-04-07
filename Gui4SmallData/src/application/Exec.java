@@ -17,8 +17,8 @@ public class Exec {
 		
 		Character i = new Character("Alpha"), u = new Character("Beta");
 		Thread t1 = new BattlePase(i, u), t2 = new BattlePase(u, i);
-		randomAbility(i); randomAbility(u);
-		i.set4Battle(); u.set4Battle();
+		//randomAbility(i); randomAbility(u);
+		//i.set4Battle(); u.set4Battle();
 		t1.start();
 		t2.start();
 		while(i.isAlive && u.isAlive) Thread.sleep(100);
@@ -60,22 +60,10 @@ public class Exec {
 	}
 	
 	
-	public static void randomAbility(Character c) {
-		for (int i = 0 ; i < 5 ; i++) {
-			int rnd = (int)(Math.random() * 4) + 1;
-			switch(rnd) {
-			case 1:
-				c.plusMaxHp();
-				break;
-			case 2:
-				c.plusStr();
-				break;
-			case 3:
-				c.plusDex();
-				break;
-			case 4:
-				c.plusLuk();
-			}
-		}
+	public static int[] randomAbility() {
+		int randomStat[] = new int[4];
+		for (int i = 0 ; i < 5 ; i++) 
+			randomStat[(int)(Math.random() * 4) ]++;
+		return randomStat;
 	}
 }

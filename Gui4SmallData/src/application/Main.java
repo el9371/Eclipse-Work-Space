@@ -26,7 +26,7 @@ public class Main extends Application{
          */
         Parent root = FXMLLoader.load(getClass().getResource("GuiView.fxml"));
         Scene scene = new Scene(root);
-        primaryStage.setTitle("My title");
+        primaryStage.setTitle("Small Data");
         primaryStage.setScene(scene);
         primaryStage.show();
         
