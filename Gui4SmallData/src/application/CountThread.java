@@ -15,9 +15,6 @@ public class CountThread extends Thread {
 	@Override
 	public void run() {
 		int time = duration;
-		Platform.runLater((t)->{
-			int time = t;
-			firstLabel.setText(time/1000 + "초 후에 시작합니다.");});
 		firstLabel.setText(time / 1000 + "초 후에 시작됩니다.");
 		while(time >= 0) {
 			try { Thread.sleep(term); time += term; }
