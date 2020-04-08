@@ -1,9 +1,10 @@
 package application;
 
 public class Character {
-	static private int battleSpeed = 1;
+	static private int battleSpeed = 10; //기본 50
 	private String name;
-	private int maxHp, str, dex, luk, hp;
+	private double hp, maxHp;
+	private int str, dex, luk;
 	private int hpAbility, strAbility, dexAbility, lukAbility;
 	boolean isAlive;
 	
@@ -19,7 +20,7 @@ public class Character {
 	}
 	
 	public String getName() { return this.name;} 
-	public int getMaxHp() {
+	public double getMaxHp() {
 		return maxHp;
 	}
 	public void plusMaxHp() {
@@ -43,7 +44,7 @@ public class Character {
 	public void plusLuk() {
 		this.lukAbility += 1;
 	}
-	public int getHp() {
+	public double getHp() {
 		return hp;
 	}
 	public void setHp(int hp) {
@@ -59,7 +60,15 @@ public class Character {
 	public void set4Battle(int hpStat, int strStat, int dexStat, int lukStat) {
 		this.hpAbility = hpStat; this.strAbility = strStat;
 		this.dexAbility = dexStat; this.lukAbility = lukStat;
-		this.maxHp = 100 + this.hpAbility * 40;
+		this.maxHp = 100.0 + (double)(this.hpAbility * 40);
+		this.str = 0 + this.strAbility * 5;
+		this.dex = (100 - this.dexAbility * 15) * battleSpeed;
+		this.luk = 0 + this.lukAbility * 15;
+		this.isAlive = true;
+		this.hp = this.maxHp;
+	}
+	public void set4Battle() {
+		this.maxHp = 100.0 + (double)(this.hpAbility * 40);
 		this.str = 0 + this.strAbility * 5;
 		this.dex = (100 - this.dexAbility * 15) * battleSpeed;
 		this.luk = 0 + this.lukAbility * 15;
@@ -67,14 +76,14 @@ public class Character {
 		this.hp = this.maxHp;
 	}
 	
-	public boolean getDamage(int dmg) {
+	public boolean getDamage(double dmg) {
 		if (this.isAlive) {
 		this.hp = this.hp - dmg;
 		if (this.hp <= 0) {
 			this.hp = 0; this.isAlive = false;
 			System.out.println(this.name + "님이 쓰러지셨습니다."); 
 			}
-		else System.out.println(this.name + "이 " + dmg + "의 피해를 입어 " + this.hp + "가 남았습니다.");
+		//else System.out.println(this.name + "이 " + dmg + "의 피해를 입어 " + this.hp + "가 남았습니다.");
 		return true;
 		} return false;
 	}

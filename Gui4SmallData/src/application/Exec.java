@@ -16,11 +16,11 @@ public class Exec {
 	public void exec() throws Exception {
 		
 		Character i = new Character("Alpha"), u = new Character("Beta");
-		Thread t1 = new BattlePase(i, u), t2 = new BattlePase(u, i);
+		//Thread t1 = new BattlePage(i, u), t2 = new BattlePage(u, i);
 		//randomAbility(i); randomAbility(u);
 		//i.set4Battle(); u.set4Battle();
-		t1.start();
-		t2.start();
+		//t1.start();
+		//t2.start();
 		while(i.isAlive && u.isAlive) Thread.sleep(100);
 		System.out.println("전투종료");
 		if (i.isAlive) writeIni(i,u);

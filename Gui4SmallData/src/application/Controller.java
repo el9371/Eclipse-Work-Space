@@ -12,19 +12,30 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
-
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class Controller implements Initializable {
 	@FXML
 	private Pane page1;
+	@FXML
+	private AnchorPane page2;
 	@FXML
 	private Button btnHp, btnStr, btnDex, btnLuk;
 	@FXML
 	private TextField remains, hpStat, strStat, dexStat, lukStat,
 	enemyHpStat, enemyStrStat, enemyDexStat, enemyLukStat;
 	@FXML
-	private Label systemLabel;
+	private Label systemLabel, user1Log, user2Log;
+	@FXML
+	private ProgressBar user1Hp, user2Hp;
+	@FXML
+	private ImageView user1Image, user2Image;
+	
+	Character i, u;
 	
 	
 	@Override
@@ -55,13 +66,29 @@ public class Controller implements Initializable {
 			systemLabel.setText("¸ðµç ½ºÅÝÀ» Âï¾îÁÖ¼¼¿ä!");
 			return;
 		}
+		int ourStat[] = new int[4];
+		ourStat[0] = Integer.parseInt(hpStat.getText());
+		ourStat[1] = Integer.parseInt(strStat.getText());
+		ourStat[2] = Integer.parseInt(dexStat.getText());
+		ourStat[3] = Integer.parseInt(lukStat.getText());
+		i = new Character("USER", ourStat);
 		int enemyStat[] = Exec.randomAbility();
 		integerFieldText(enemyHpStat,enemyStat[0]);
 		integerFieldText(enemyStrStat,enemyStat[1]);
 		integerFieldText(enemyDexStat,enemyStat[2]);
 		integerFieldText(enemyLukStat,enemyStat[3]);
+		u = new Character("COMPUTER", enemyStat);
+		CountThread test1 = new CountThread(3000, systemLabel, page1, page2);
+		test1.start();
+		i.set4Battle(); u.set4Battle();
+	}
+	public void page2TestBtn() {
+		BattlePage player1, player2;
+		player1 = new BattlePage(i, u, user2Hp, user2Log);
+		player2 = new BattlePage(u, i, user1Hp, user1Log);
+		player1.start();
+		player2.start();
 		
-		page1.setVisible(false);
 	}
 	
 	
