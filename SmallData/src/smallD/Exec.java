@@ -16,9 +16,10 @@ public class Exec {
 	
 	public void exec() throws Exception {
 		
-		Character i = new Character("Alpha"), u = new Character("Beta");
+		Character i = new Character("alpha"), u = new Character("Beta");
 		Thread t1 = new BattlePase(i, u), t2 = new BattlePase(u, i);
-		randomAbility(i); randomAbility(u);
+		randomAbility(i); 
+		randomAbility(u);
 		i.set4Battle(); u.set4Battle();
 		t1.start();
 		t2.start();
@@ -28,36 +29,51 @@ public class Exec {
 		else writeIni(u,i);
 	}
 	
+	public static void resetData() throws IOException {
+		File iniData = new File("Data\\data.ini");
+		Wini wData = new Wini(iniData);
+		wData.put("Base", "Games", 0);
+		wData.put("Base", "Wins", 0);
+		wData.put("Base", "BestWinner", "0005");
+		String arrAbility[] = new String[100];
+		int numberOfAbility = 0;
+		boolean isHere;
+		for (int i = 0; i < 10000; i++) {
+			isHere = false;
+			Character c = new Character("test");
+			randomAbility(c);
+			System.out.println(c.returnAbility());
+			for (int j = 0; j < numberOfAbility; j++)
+				if (arrAbility[j].equals(c.returnAbility())) {isHere = true; break;} 
+			if (!isHere) {
+				arrAbility[numberOfAbility] = c.returnAbility();
+				wData.put(c.returnAbility(), "Games", 0);
+				wData.put(c.returnAbility(), "Wins", 0);
+				wData.put(c.returnAbility(), "WinRate", 0);
+			}
+		}
+		wData.store(); 
+	}
+	
 	public void writeIni(Character winner, Character loser) throws IOException, Exception {
 		File iniData = new File("Data\\data.ini");
 		Ini rData = new Ini(iniData);
 		Wini wData = new Wini(iniData);
-			/* for setting 
-			String arrAbility[] = new String[100];
-			int numberOfAbility = 0;
-			boolean isHere;
-			for (int i = 0; i < 10000; i++) {
-				isHere = false;
-				Character c = new Character("test");
-				randomAbility(c);
-				System.out.println(c.returnAbility());
-				for (int j = 0; j < numberOfAbility; j++)
-					if (arrAbility[j].equals(c.returnAbility())) {isHere = true; break;} 
-				if (!isHere) {
-					arrAbility[numberOfAbility] = c.returnAbility();
-					wData.put(c.returnAbility(), "number", numberOfAbility++);
-				}
-				//wData.put(c.returnAbility(), "Games", 0);
-				//wData.put(c.returnAbility(), "Wins", 0);
-			}
-			wData.store();
-		 */
+
+		
 		String wString = winner.returnAbility(), lString = loser.returnAbility();
 		wData.put("Base", "Games", Integer.parseInt(rData.get("Base", "Games")) + 1);
-		wData.put(wString, "Games",  Integer.parseInt(rData.get(wString, "Games")) + 1);
-		wData.put(wString, "Wins",  Integer.parseInt(rData.get(wString, "Wins")) + 1);
+		int winnerGames = Integer.parseInt(rData.get(wString, "Games")) + 1;
+		int winnerWins = Integer.parseInt(rData.get(wString, "Wins")) + 1;
+		double winRate = (double)winnerWins/(double)winnerGames * 100.0;
+		//wins / games 가 저장되는 데이터에 안맞는 경우 발견
+		wData.put(wString, "Games", winnerGames);
+		wData.put(wString, "Wins",  winnerWins);
+		wData.put(wString, "WinRate",  winRate);
+		if (winRate > Double.parseDouble(rData.get(rData.get("Base","BestWinner"),"WinRate")))
+			wData.put("Base", "BestWinner",wString);
 		wData.put(lString, "Games",  Integer.parseInt(rData.get(lString, "Games")) + 1);
-		wData.store(); 
+		wData.store();  
 	}
 	
 	public void writeExel() throws IOException {

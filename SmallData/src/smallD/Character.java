@@ -1,7 +1,7 @@
 package smallD;
 
 public class Character {
-	static private int battleSpeed = 1;
+	static private int battleSpeed = 1;//기본100
 	private String name;
 	private int maxHp, str, dex, luk, hp;
 	private int hpAbility, strAbility, dexAbility, lukAbility;
@@ -10,6 +10,11 @@ public class Character {
 	public Character(String name) {
 		this.hpAbility = 0; this.dexAbility = 0; this.strAbility = 0; this.lukAbility = 0;
 		this.name = name;
+	}
+	
+	public Character(int hp, int str, int dex, int luk) {
+		this.hpAbility = hp; this.strAbility = str; this.dexAbility = dex; this.lukAbility = luk;
+		this.name = "Custom";
 	}
 	
 	public String getName() { return this.name;} 
@@ -51,10 +56,10 @@ public class Character {
 		this.isAlive = isAlive;
 	}
 	public void set4Battle() {
-		this.maxHp = 100 + this.hpAbility * 40;
-		this.str = 0 + this.strAbility * 5;
-		this.dex = (100 - this.dexAbility * 15) * battleSpeed;
-		this.luk = 0 + this.lukAbility * 15;
+		this.maxHp = 100 + this.hpAbility * 30;
+		this.str = 0 + this.strAbility * 3;
+		this.dex = (10 - this.dexAbility * 1) * battleSpeed;
+		this.luk = 0 + this.lukAbility * 10;
 		this.isAlive = true;
 		this.hp = this.maxHp;
 	}
@@ -64,9 +69,9 @@ public class Character {
 		this.hp = this.hp - dmg;
 		if (this.hp <= 0) {
 			this.hp = 0; this.isAlive = false;
-			System.out.println(this.name + "님이 쓰러지셨습니다."); 
+			//System.out.println(this.name + "님이 쓰러지셨습니다."); 
 			}
-		else System.out.println(this.name + "이 " + dmg + "의 피해를 입어 " + this.hp + "가 남았습니다.");
+		//else System.out.println(this.name + "이 " + dmg + "의 피해를 입어 " + this.hp + "가 남았습니다.");
 		return true;
 		} return false;
 	}
@@ -77,6 +82,6 @@ public class Character {
 	}
 	
 	public String returnAbility() {
-		return this.hpAbility +"." + this.strAbility + "." + this.dexAbility + "." + this.lukAbility;
+		return this.hpAbility +"" + this.strAbility + "" + this.dexAbility + "" + this.lukAbility;
 	}
 }
