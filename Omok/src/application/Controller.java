@@ -8,23 +8,28 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Point2D;
-import javafx.scene.control.Button;
+import javafx.scene.Parent;
+import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import util.*;
+import javafx.stage.Stage;
 
 public class Controller implements Initializable{
 	//-------------------------------------------
 	// FXML FIELD
 	//-------------------------------------------
+	@FXML private Button testButton;
 	@FXML private AnchorPane mainPage;
 	@FXML private ImageView background;
+	@FXML private TextArea systemMessage;
 	//-------------------------------------------
 	// FXML FIELD
 	//-------------------------------------------
 	private GlassRobot robot = new GlassRobotImpl();
 	private int board[][] = new int[19][19]; //x축 y축 순서
+	static Stage stage = null;
 
 	
 	@Override
@@ -36,6 +41,7 @@ public class Controller implements Initializable{
 	}
 	
 	public void testButton() {
+		testButton.setVisible(false);
 		clearBoard();
 	}
 	
@@ -45,6 +51,15 @@ public class Controller implements Initializable{
 				board[i][j] = 0;
 		mainPage.getChildren().remove(2, mainPage.getChildren().size());
 	}
+	public void addSystemMessage(String text) {
+		systemMessage.setText(systemMessage.getText() + "\n" + text);
+	}
+	public void addSystemMessage(int text) {
+		systemMessage.setText(systemMessage.getText() + "\n" + text);
+	}
+	public void addSystemMessage(double text) {
+		systemMessage.setText(systemMessage.getText() + "\n" + text);
+	}
 	
 	//-------------------------------------------
 	// Handler for click on omok board
@@ -53,14 +68,16 @@ public class Controller implements Initializable{
 		@Override
 		public void handle(MouseEvent event) {
 			Point2D point = robot.getMouseLocation();
-			//It has index problems when window is moved. Find a way
-			int y = (int)point.getY() - 231, x = (int)point.getX() - 550;
+			int y = (int)point.getY() - 40 - (int)stage.getY();
+			int x = (int)point.getX() - 14 - (int)stage.getX();
 			int yDevided = y / 21, xDevided = x / 21, yRemains = y % 21, xRemains = x % 21;
 			if (yRemains <= 10) yRemains = 0;
 			else yRemains = 1;
 			if (xRemains <= 10) xRemains = 0;
 			else xRemains = 1;
 			int xIndex = xDevided + xRemains, yIndex = yDevided + yRemains;
+			if (xIndex < 0) xIndex = 0; if (xIndex > 18) xIndex = 18;
+			if (yIndex < 0) yIndex = 0; if (yIndex > 18) yIndex = 18;
 			/* for setting 
 			System.out.println("-----------------");
 			System.out.println(xDevided+"    "+xRemains+"    "+xIndex);
@@ -77,18 +94,20 @@ public class Controller implements Initializable{
 	        mainPage.setTopAnchor(blackStone, (double)(yDevided + yRemains) * 21.0 + 2.0);
 	        mainPage.setLeftAnchor(blackStone, (double)(xDevided + xRemains) * 21.0 + 4.0);
 	        mainPage.getChildren().add(blackStone);
-	        //System.out.println(xIndex+"    "+yIndex);
 	        board[xIndex][yIndex] = 1;
 	        } catch (FileNotFoundException e) {System.out.println("파일엄서");}
 	        
-	        if (isFive(xIndex, yIndex))
-	        	System.out.println("오목완성");
+	        if (isOurFive(xIndex, yIndex)) {
+	        	addSystemMessage("오목완성!");
+	        	testButton.setText("승리!");
+	        	testButton.setVisible(true);
+	        }
 		}
 	};
 	//-------------------------------------------
 	// function for omok rules
 	//-------------------------------------------
-	public boolean isFive(int x, int y) {
+	public boolean isOurFive(int x, int y) {
 		int sum = 0;
 		//horizontal
 		for (int j = 0; j <5; j++) {
@@ -147,5 +166,12 @@ public class Controller implements Initializable{
 
 		
 		return false;
+	}
+	
+	//-------------------------------------------
+	// static function
+	//-------------------------------------------
+	static void setStage(Stage s) {
+		Controller.stage = s;
 	}
 }

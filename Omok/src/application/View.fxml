@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -14,7 +15,8 @@
                   <Image url="@../../image/background.png" />
                </image>
             </ImageView>
-            <Button fx:id="testButton" layoutX="469.0" layoutY="27.0" mnemonicParsing="false" onAction="#testButton" text="test" />
+            <TextArea fx:id="systemMessage" editable="false" layoutX="400.0" prefHeight="380.0" prefWidth="200.0" text="System :" />
+            <Button fx:id="testButton" layoutX="235.0" layoutY="175.0" mnemonicParsing="false" onAction="#testButton" opacity="0.68" prefHeight="30.0" prefWidth="130.0" text="승리!" visible="false" />
          </children>
       </AnchorPane>
    </children>
