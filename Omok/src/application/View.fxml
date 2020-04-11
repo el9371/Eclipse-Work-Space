@@ -7,7 +7,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.Controller">
    <children>
-      <AnchorPane prefHeight="400.0" prefWidth="600.0">
+      <AnchorPane fx:id="mainPage" prefHeight="400.0" prefWidth="600.0">
          <children>
             <ImageView fx:id="background" fitHeight="400.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true">
                <image>
