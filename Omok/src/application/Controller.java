@@ -90,29 +90,61 @@ public class Controller implements Initializable{
 	//-------------------------------------------
 	public boolean isFive(int x, int y) {
 		int sum = 0;
-		//typically horizontal
+		//horizontal
 		for (int j = 0; j <5; j++) {
 			sum = 0;
-			for (int i = 0; i < 5; i++) 
+			for (int i = 0; i < 5; i++)  {
+				if (x-4+j+i < 0 || x-4+j+i > 18 ) break;
 				sum = sum + board[x-4+j+i][y];
+			}
+			if (sum == 5) return true;
 		}
-		if (sum == 5) return true;
-		sum = 0;
-		//typically vertical
-		for (int i = 0; i < 5; i++)
-			sum = sum + board[x][y-2+i];
-		if (sum == 5) return true;
-		sum = 0;
-		//typically diagonal1 (top left to bottom right
-		for (int i = 0; i < 5; i++) 
-			sum = sum + board[x-2+i][y-2+i];
-		if (sum == 5) return true;
-		sum = 0;
-		//typically diagonal1 (top right to bottom left
-		for (int i = 0; i < 5; i++) 
-			sum = sum + board[x+2-i][y-2+i];
-		if (sum == 5) return true;
-		sum = 0;
+		//vertical
+		for (int j = 0; j <5; j++) {
+			sum = 0;
+			for (int i = 0; i < 5; i++)  {
+				if (y-4+j+i < 0 || y-4+j+i > 18 ) break;
+				sum = sum + board[x][y-4+j+i];
+			}
+			if (sum == 5) return true;
+		}
+		//typically diagonal1 (top left to bottom right)
+		for (int j = 0; j <5; j++) {
+			sum = 0;
+			for (int i = 0; i < 5; i++)  {
+				if (x-4+j+i < 0 || x-4+j+i > 18 || y-4+j+i < 0 || y-4+j+i > 18) break;
+				sum = sum + board[x-4+j+i][y-4+j+i];
+			}
+			if (sum == 5) return true;
+		}
+		//typically diagonal1 (top right to bottom left)
+		for (int j = 0; j <5; j++) {
+			sum = 0;
+			for (int i = 0; i < 5; i++)  {
+				if (x+4-j-i < 0 || x+4-j-i > 18 || y-4+j+i < 0 || y-4+j+i > 18) break;
+				sum = sum + board[x+4-j-i][y-4+j+i];
+			}
+			if (sum == 5) return true;
+		}
+		//typically diagonal1 (bottom left to top right)
+		for (int j = 0; j <5; j++) {
+			sum = 0;
+			for (int i = 0; i < 5; i++)  {
+				if (x-4+j+i < 0 || x-4+j+i > 18 || y+4-j-i < 0 || y+4-j-i > 18) break;
+				sum = sum + board[x-4+j+i][y+4-j-i];
+			}
+			if (sum == 5) return true;
+		}
+		//typically diagonal1 (bottom right to top left)
+		for (int j = 0; j <5; j++) {
+			sum = 0;
+			for (int i = 0; i < 5; i++)  {
+				if (x+4-j-i < 0 || x+4-j-i > 18 || y-4+j+i < 0 || y-4+j+i > 18) break;
+				sum = sum + board[x+4-j-i][y-4+j+i];
+			}
+			if (sum == 5) return true;
+		}
+
 		
 		return false;
 	}
