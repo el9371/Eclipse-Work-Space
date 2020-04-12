@@ -186,6 +186,7 @@ public class Controller implements Initializable{
 	}
 	
 	public int[] rangeOfStone() {
+		//범위를 +2씩 해서 outOfIndex 오류안나게 return 하자
 		int xMax = 0, xMin = 18, yMax = 0, yMin = 18;
 		for (int i = 0; i < 19; i++)
 			for (int j = 0; j < 19; j++) 
@@ -202,7 +203,9 @@ public class Controller implements Initializable{
 	
 	public int examFive(int[] arr) {
 		//단순 흑백 갯수 비교로만 해보자
-		
+		int sum = 0;
+		for (int i:arr) sum = sum + i;
+		return sum;
 		/*
 		int value = 0, sum = 0;
 		for (int i:arr) sum = sum + i;
@@ -210,63 +213,69 @@ public class Controller implements Initializable{
 		return value; */
 	}
 	
-	public void selectFive(int x, int y) {
+	public int selectFive(int x, int y) {
 		//horizontal
+		int sum = 0, max = -7;
 		for (int j = 0; j <7; j++) {
 			int arr[] = new int[7];
 			for (int i = 0; i < 7; i++)  {
 				if (x-6+j+i < 0 || x-6+j+i > 18) break;
 				arr[i] = board[i][j];
-			} 
-		}
-		/*
+			} int alpha = examFive(arr);
+			max = alpha > max ? alpha : max;
+		} sum = sum + max; max = -7;
 		//vertical
-		for (int j = 0; j <5; j++) {
-			sum = 0;
-			for (int i = 0; i < 5; i++)  {
-				if (y-4+j+i < 0 || y-4+j+i > 18 ) break;
+		for (int j = 0; j <7; j++) {
+			int arr[] = new int[7];
+			for (int i = 0; i < 7; i++)  {
+				if (y-6+j+i < 0 || y-6+j+i > 18 ) break;
 				sum = sum + board[x][y-4+j+i];
-			}
-			if (sum == color) return true;
-		}
+				arr[i] = board[i][j];
+			} int alpha = examFive(arr);
+			max = alpha > max ? alpha : max;
+		} sum = sum + max; max = -7;
+		
 		//typically diagonal1 (top left to bottom right)
-		for (int j = 0; j <5; j++) {
-			sum = 0;
-			for (int i = 0; i < 5; i++)  {
-				if (x-4+j+i < 0 || x-4+j+i > 18 || y-4+j+i < 0 || y-4+j+i > 18) break;
-				sum = sum + board[x-4+j+i][y-4+j+i];
-			}
-			if (sum == color) return true;
-		}
+		for (int j = 0; j <7; j++) {
+			int arr[] = new int[7];
+			for (int i = 0; i < 7; i++)  {
+				if (x-6+j+i < 0 || x-6+j+i > 18 || y-6+i+j < 0 || y-6+i+j > 18 ) break;
+				sum = sum + board[x-6+i+j][y-6+j+i];
+				arr[i] = board[i][j];
+			} int alpha = examFive(arr);
+			max = alpha > max ? alpha : max;
+		} sum = sum + max; max = -7;
 		//typically diagonal1 (top right to bottom left)
-		for (int j = 0; j <5; j++) {
-			sum = 0;
-			for (int i = 0; i < 5; i++)  {
-				if (x+4-j-i < 0 || x+4-j-i > 18 || y-4+j+i < 0 || y-4+j+i > 18) break;
-				sum = sum + board[x+4-j-i][y-4+j+i];
-			}
-			if (sum == color) return true;
-		}
+		for (int j = 0; j <7; j++) {
+			int arr[] = new int[7];
+			for (int i = 0; i < 7; i++)  {
+				if (x+6-j-i < 0 || x+6-j-i > 18 || y-6+i+j < 0 || y-6+i+j > 18 ) break;
+				sum = sum + board[x+6-i-j][y-6+j+i];
+				arr[i] = board[i][j];
+			} int alpha = examFive(arr);
+			max = alpha > max ? alpha : max;
+		} sum = sum + max; max = -7;
 		//typically diagonal1 (bottom left to top right)
-		for (int j = 0; j <5; j++) {
-			sum = 0;
-			for (int i = 0; i < 5; i++)  {
-				if (x-4+j+i < 0 || x-4+j+i > 18 || y+4-j-i < 0 || y+4-j-i > 18) break;
-				sum = sum + board[x-4+j+i][y+4-j-i];
-			}
-			if (sum == color) return true;
-		}
+		for (int j = 0; j <7; j++) {
+			int arr[] = new int[7];
+			for (int i = 0; i < 7; i++)  {
+				if (x-6+j+i < 0 || x-6+j+i > 18 || y+6-i-j < 0 || y+6-i-j > 18 ) break;
+				sum = sum + board[x-6+j+i][y+6-i-j];
+				arr[i] = board[i][j];
+			} int alpha = examFive(arr);
+			max = alpha > max ? alpha : max;
+		} sum = sum + max; max = -7;
 		//typically diagonal1 (bottom right to top left)
-		for (int j = 0; j <5; j++) {
-			sum = 0;
-			for (int i = 0; i < 5; i++)  {
-				if (x+4-j-i < 0 || x+4-j-i > 18 || y-4+j+i < 0 || y-4+j+i > 18) break;
-				sum = sum + board[x+4-j-i][y-4+j+i];
-			}
-			if (sum == color) return true;
-		}
-
-	*/
+		for (int j = 0; j <7; j++) {
+			int arr[] = new int[7];
+			for (int i = 0; i < 7; i++)  {
+				if (x+6-j-i < 0 || x+6-j-i > 18 || y-6+i+j < 0 || y-6+i+j > 18 ) break;
+				sum = sum + board[x+6-j-i][y-6+i+j];
+				arr[i] = board[i][j];
+			} int alpha = examFive(arr);
+			max = alpha > max ? alpha : max;
+		} sum = sum + max;
+		return sum;
 	}
 	
 	public Tree makeTree() {
@@ -276,7 +285,26 @@ public class Controller implements Initializable{
 	}
 	
 	public void computersTurn() {
-		
+		int bestValue = -100, bestX = 0, bestY = 0;
+		int range[] = rangeOfStone();
+		/* for debug
+		for (int i : range)
+			System.out.println(i + " ");
+		System.out.println();
+		// for debug */
+		for (int i = range[0]; i <= range[1]; i++)
+			for (int j = range[2]; j <= range[3]; j++) {
+				if (board[i][j] == 0) {
+					int alpha = selectFive(i, j);
+					if (bestValue < alpha) {
+						bestValue = alpha;
+						bestX = i;
+						bestY = j;
+						System.out.println(bestValue + " " + bestX + " " + bestY);
+					}
+				}
+			}
+		setStone(bestX, bestY, false);
 	}
 	
 	//-------------------------------------------
