@@ -27,6 +27,7 @@ public class Controller implements Initializable{
 	//-------------------------------------------
 	// FXML FIELD
 	//-------------------------------------------
+	private boolean isEnd = false;
 	private GlassRobot robot = new GlassRobotImpl();
 	private int board[][] = new int[19][19]; //x축 y축 순서
 	static Stage stage = null;
@@ -45,11 +46,16 @@ public class Controller implements Initializable{
 		clearBoard();
 	}
 	
+	public int[][] getBoard() {
+		return this.board;
+	}
+	
 	public void clearBoard() {
 		for (int i = 0; i < 19; i++)
 			for(int j = 0; j < 19; j++)
 				board[i][j] = 0;
 		mainPage.getChildren().remove(2, mainPage.getChildren().size());
+		isEnd = false;
 	}
 	public void addSystemMessage(String text) {
 		systemMessage.setText(systemMessage.getText() + "\n" + text);
@@ -60,7 +66,33 @@ public class Controller implements Initializable{
 	public void addSystemMessage(double text) {
 		systemMessage.setText(systemMessage.getText() + "\n" + text);
 	}
-	
+
+	public boolean setStone(int xIndex, int yIndex, boolean isBlack) {
+		if (board[xIndex][yIndex] != 0)
+			return false;
+		try {
+			String fileName;
+			if (isBlack) fileName = "image\\black.png";
+			else fileName = "image\\white.png";
+			FileInputStream imageFile = new FileInputStream(fileName);
+			Image img = new Image(imageFile, 15, 15, false, false);
+			ImageView stone = new ImageView(img);
+			mainPage.setTopAnchor(stone, (double) yIndex * 21.0 + 2.0);
+			mainPage.setLeftAnchor(stone, (double) xIndex * 21.0 + 4.0);
+			mainPage.getChildren().add(stone);
+			board[xIndex][yIndex] = isBlack ? 1 : -1;
+		} catch (FileNotFoundException e) {
+			System.out.println("파일엄서");
+		}
+
+		if (isFive(xIndex, yIndex, isBlack)) {
+			addSystemMessage(xIndex + ", "+ yIndex + " 오목완성!");
+			testButton.setText("게임 종료.");
+			testButton.setVisible(true);
+		}
+		return true;
+	}
+
 	//-------------------------------------------
 	// Handler for click on omok board
 	//-------------------------------------------
@@ -84,31 +116,16 @@ public class Controller implements Initializable{
 			System.out.println(yDevided+"    "+yRemains+"    "+yIndex);
 			System.out.println("-----------------");
 			*/
-			if (board[xIndex][yIndex] != 0)
-				return;
-			
-	        try {
-	        FileInputStream imageFile = new FileInputStream("image\\black.png");
-	        Image black = new Image(imageFile, 15, 15, false, false);
-	        ImageView blackStone = new ImageView(black);
-	        mainPage.setTopAnchor(blackStone, (double)(yDevided + yRemains) * 21.0 + 2.0);
-	        mainPage.setLeftAnchor(blackStone, (double)(xDevided + xRemains) * 21.0 + 4.0);
-	        mainPage.getChildren().add(blackStone);
-	        board[xIndex][yIndex] = 1;
-	        } catch (FileNotFoundException e) {System.out.println("파일엄서");}
-	        
-	        if (isOurFive(xIndex, yIndex)) {
-	        	addSystemMessage("오목완성!");
-	        	testButton.setText("승리!");
-	        	testButton.setVisible(true);
-	        }
+			//computer's turn
+			if (!isEnd && setStone(xIndex, yIndex,true))
+				computersTurn();
 		}
 	};
 	//-------------------------------------------
 	// function for omok rules
 	//-------------------------------------------
-	public boolean isOurFive(int x, int y) {
-		int sum = 0;
+	public boolean isFive(int x, int y, boolean isBlack) {
+		int sum = 0, color = isBlack ? 5 : -5;
 		//horizontal
 		for (int j = 0; j <5; j++) {
 			sum = 0;
@@ -116,7 +133,7 @@ public class Controller implements Initializable{
 				if (x-4+j+i < 0 || x-4+j+i > 18 ) break;
 				sum = sum + board[x-4+j+i][y];
 			}
-			if (sum == 5) return true;
+			if (sum == color) return true;
 		}
 		//vertical
 		for (int j = 0; j <5; j++) {
@@ -125,7 +142,7 @@ public class Controller implements Initializable{
 				if (y-4+j+i < 0 || y-4+j+i > 18 ) break;
 				sum = sum + board[x][y-4+j+i];
 			}
-			if (sum == 5) return true;
+			if (sum == color) return true;
 		}
 		//typically diagonal1 (top left to bottom right)
 		for (int j = 0; j <5; j++) {
@@ -134,7 +151,7 @@ public class Controller implements Initializable{
 				if (x-4+j+i < 0 || x-4+j+i > 18 || y-4+j+i < 0 || y-4+j+i > 18) break;
 				sum = sum + board[x-4+j+i][y-4+j+i];
 			}
-			if (sum == 5) return true;
+			if (sum == color) return true;
 		}
 		//typically diagonal1 (top right to bottom left)
 		for (int j = 0; j <5; j++) {
@@ -143,7 +160,7 @@ public class Controller implements Initializable{
 				if (x+4-j-i < 0 || x+4-j-i > 18 || y-4+j+i < 0 || y-4+j+i > 18) break;
 				sum = sum + board[x+4-j-i][y-4+j+i];
 			}
-			if (sum == 5) return true;
+			if (sum == color) return true;
 		}
 		//typically diagonal1 (bottom left to top right)
 		for (int j = 0; j <5; j++) {
@@ -152,7 +169,7 @@ public class Controller implements Initializable{
 				if (x-4+j+i < 0 || x-4+j+i > 18 || y+4-j-i < 0 || y+4-j-i > 18) break;
 				sum = sum + board[x-4+j+i][y+4-j-i];
 			}
-			if (sum == 5) return true;
+			if (sum == color) return true;
 		}
 		//typically diagonal1 (bottom right to top left)
 		for (int j = 0; j <5; j++) {
@@ -161,11 +178,105 @@ public class Controller implements Initializable{
 				if (x+4-j-i < 0 || x+4-j-i > 18 || y-4+j+i < 0 || y-4+j+i > 18) break;
 				sum = sum + board[x+4-j-i][y-4+j+i];
 			}
-			if (sum == 5) return true;
+			if (sum == color) return true;
 		}
 
 		
 		return false;
+	}
+	
+	public int[] rangeOfStone() {
+		int xMax = 0, xMin = 18, yMax = 0, yMin = 18;
+		for (int i = 0; i < 19; i++)
+			for (int j = 0; j < 19; j++) 
+				if (board[i][j] != 0) {
+					if (i > xMax) xMax = i;
+					if (i < xMin) xMin = i;
+					if (j > yMax) yMax = j;
+					if (j < yMin) yMin = j;
+				}
+		int range[] = {xMin, xMax, yMin, yMax};
+		return range;
+			
+	}
+	
+	public int examFive(int[] arr) {
+		//단순 흑백 갯수 비교로만 해보자
+		
+		/*
+		int value = 0, sum = 0;
+		for (int i:arr) sum = sum + i;
+		if (sum == 4) return 10; //한방에 끝낼 수 있는 수
+		return value; */
+	}
+	
+	public void selectFive(int x, int y) {
+		//horizontal
+		for (int j = 0; j <7; j++) {
+			int arr[] = new int[7];
+			for (int i = 0; i < 7; i++)  {
+				if (x-6+j+i < 0 || x-6+j+i > 18) break;
+				arr[i] = board[i][j];
+			} 
+		}
+		/*
+		//vertical
+		for (int j = 0; j <5; j++) {
+			sum = 0;
+			for (int i = 0; i < 5; i++)  {
+				if (y-4+j+i < 0 || y-4+j+i > 18 ) break;
+				sum = sum + board[x][y-4+j+i];
+			}
+			if (sum == color) return true;
+		}
+		//typically diagonal1 (top left to bottom right)
+		for (int j = 0; j <5; j++) {
+			sum = 0;
+			for (int i = 0; i < 5; i++)  {
+				if (x-4+j+i < 0 || x-4+j+i > 18 || y-4+j+i < 0 || y-4+j+i > 18) break;
+				sum = sum + board[x-4+j+i][y-4+j+i];
+			}
+			if (sum == color) return true;
+		}
+		//typically diagonal1 (top right to bottom left)
+		for (int j = 0; j <5; j++) {
+			sum = 0;
+			for (int i = 0; i < 5; i++)  {
+				if (x+4-j-i < 0 || x+4-j-i > 18 || y-4+j+i < 0 || y-4+j+i > 18) break;
+				sum = sum + board[x+4-j-i][y-4+j+i];
+			}
+			if (sum == color) return true;
+		}
+		//typically diagonal1 (bottom left to top right)
+		for (int j = 0; j <5; j++) {
+			sum = 0;
+			for (int i = 0; i < 5; i++)  {
+				if (x-4+j+i < 0 || x-4+j+i > 18 || y+4-j-i < 0 || y+4-j-i > 18) break;
+				sum = sum + board[x-4+j+i][y+4-j-i];
+			}
+			if (sum == color) return true;
+		}
+		//typically diagonal1 (bottom right to top left)
+		for (int j = 0; j <5; j++) {
+			sum = 0;
+			for (int i = 0; i < 5; i++)  {
+				if (x+4-j-i < 0 || x+4-j-i > 18 || y-4+j+i < 0 || y-4+j+i > 18) break;
+				sum = sum + board[x+4-j-i][y-4+j+i];
+			}
+			if (sum == color) return true;
+		}
+
+	*/
+	}
+	
+	public Tree makeTree() {
+		
+		Tree t = new Tree(11);
+		return t;
+	}
+	
+	public void computersTurn() {
+		
 	}
 	
 	//-------------------------------------------
