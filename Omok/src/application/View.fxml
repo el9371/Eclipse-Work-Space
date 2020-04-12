@@ -15,8 +15,9 @@
                   <Image url="@../../image/background.png" />
                </image>
             </ImageView>
-            <TextArea fx:id="systemMessage" editable="false" layoutX="400.0" prefHeight="380.0" prefWidth="200.0" text="System :" />
-            <Button fx:id="testButton" layoutX="235.0" layoutY="175.0" mnemonicParsing="false" onAction="#testButton" opacity="0.68" prefHeight="30.0" prefWidth="130.0" text="승리!" visible="false" />
+            <TextArea fx:id="systemMessage" editable="false" layoutX="400.0" prefHeight="371.0" prefWidth="200.0" text="System :" />
+            <Button fx:id="gameButton" layoutX="400.0" layoutY="375.0" mnemonicParsing="false" onAction="#gameButton" prefHeight="20.0" prefWidth="70.0" text="START" />
+            <Button layoutX="474.0" layoutY="375.0" mnemonicParsing="false" onAction="#undo" text="UNDO" />
          </children>
       </AnchorPane>
    </children>

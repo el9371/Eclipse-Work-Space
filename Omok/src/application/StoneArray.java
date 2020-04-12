@@ -34,11 +34,12 @@ public class StoneArray {
 			if (this.arr[i] == color) this.sequence++;
 			else break;
 		} System.out.println(sequence);
-		if (this.sequence == 4) {
+		if (this.sequence == 4) 
 			return (this.sequence + 10);
-		} if (this.sequence == 3) {
-			return (this.sequence + 5);
-		}
+		if (this.sequence == 3 && last == 0)
+			return (this.sequence + 7);
+		else if (this.sequence == 3) 
+			return (this.sequence + 2);
 		if (last == 0) return (this.sequence + 1);
 		return this.sequence;
 	}
