@@ -11,7 +11,7 @@ public class StoneArray {
 	}
 	
 	public void addArr(int i) {
-		arr[this.size++] = i;
+		this.arr[this.size++] = i;
 	}
 	
 	public void reset() {
@@ -23,12 +23,23 @@ public class StoneArray {
 	}
 	
 	public int count() {
-		this.last = arr[size-1];
-		int color = arr[0];
-		for (int i = 0; i < size; i++) 
-			if (arr[0] == color) this.sequence++;
-		if (this.sequence == 4) return this.sequence + 4;
-		if (last == 0) return this.sequence + 3;
+		this.last = this.arr[size-1];
+		/*
+		for (int i = 0; i < this.size; i++)
+			System.out.print(this.arr[i] + ", ");
+		//System.out.println();*/
+		
+		int color = this.arr[0];
+		for (int i = 0; i < size; i++) {
+			if (this.arr[i] == color) this.sequence++;
+			else break;
+		} System.out.println(sequence);
+		if (this.sequence == 4) {
+			return (this.sequence + 10);
+		} if (this.sequence == 3) {
+			return (this.sequence + 5);
+		}
+		if (last == 0) return (this.sequence + 1);
 		return this.sequence;
 	}
 }

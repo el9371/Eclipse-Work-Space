@@ -57,6 +57,8 @@ public class Controller implements Initializable{
 				board[i][j] = 0;
 		mainPage.getChildren().remove(2, mainPage.getChildren().size());
 		isEnd = false;
+		lastStone[0] = 0; lastStone[1] = 0;
+		testButton.setVisible(false);
 	}
 	public void addSystemMessage(String text) {
 		systemMessage.setText(systemMessage.getText() + "\n" + text);
@@ -69,6 +71,7 @@ public class Controller implements Initializable{
 	}
 
 	public boolean setStone(int xIndex, int yIndex, boolean isBlack) {
+		if (isEnd) return false;
 		if (board[xIndex][yIndex] != 0)
 			return false;
 		try {
@@ -88,8 +91,7 @@ public class Controller implements Initializable{
 		}
 
 		if (isFive(xIndex, yIndex, isBlack)) {
-			addSystemMessage(xIndex + ", "+ yIndex + " 오목완성!");
-			testButton.setText("게임 종료.");
+			addSystemMessage(xIndex + ", "+ yIndex + " 오목완성!");;
 			testButton.setVisible(true);
 			this.isEnd = true;
 		}
@@ -120,7 +122,7 @@ public class Controller implements Initializable{
 			System.out.println("-----------------");
 			*/
 			//computer's turn
-			if (!isEnd && setStone(xIndex, yIndex,true))
+			if (setStone(xIndex, yIndex,true))
 				computersTurn();
 		}
 	};
@@ -215,11 +217,13 @@ public class Controller implements Initializable{
 			for (int j = range[2]; j <= range[3]; j++) {
 				if (board[i][j] == 0) {
 					int count = positionCount(i, j);
+					addSystemMessage(i+","+j+" : "+count);
 					if (bestCount < count) {
 						bestCount = count; bestX = i; bestY =j;
 					}
 				}
-			}
+			} 
+		addSystemMessage("");
 		int position[] = {bestX, bestY};
 		return position;
 	}
@@ -236,8 +240,8 @@ public class Controller implements Initializable{
 		//horizontal →  
 		if (x+1 < 19 && board[x+1][y] != 0) {
 			arr.reset();
-			for (int i = 0; x-1-i < 19 && i < 5; i++)
-				arr.addArr(board[x-1-i][y]);
+			for (int i = 0; x+1+i < 19 && i < 5; i++)
+				arr.addArr(board[x+1+i][y]);
 			count = count + arr.count();
 		}
 		//horizontal ↑
@@ -250,7 +254,7 @@ public class Controller implements Initializable{
 		//horizontal ↓
 		if (y+1 < 19 && board[x][y+1] != 0) {
 			arr.reset();
-			for (int i = 0; y+i < 19 && i < 5; i++) 
+			for (int i = 0; y+1+i < 19 && i < 5; i++) 
 				arr.addArr(board[x][y+1+i]);
 			count = count + arr.count();
 		}
@@ -276,7 +280,7 @@ public class Controller implements Initializable{
 			count = count + arr.count();
 		}
 		//horizontal ↖
-		if (x-1 >= 0 && y-1 > 0 && board[x-1][y-1] != 0) {
+		if (x-1 >= 0 && y-1 >= 0 && board[x-1][y-1] != 0) {
 			arr.reset();
 			for (int i = 0; x-1-i >= 0 && y-1-i >= 0 && i < 5; i++)
 				arr.addArr(board[x-1-i][y-1-i]);
