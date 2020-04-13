@@ -27,29 +27,41 @@ public class Controller implements Initializable{
 	//-------------------------------------------
 	// FXML FIELD
 	//-------------------------------------------
-	private boolean isEnd = true, userIsBlack;
+	private boolean isEnd = true, userIsBlack; //흑돌이 스타트
 	private GlassRobot robot = new GlassRobotImpl();
 	private int board[][] = new int[19][19]; //x축 y축 순서
 	private int stoneLog[][];
 	private int turns, pageChildSize;
+	private Tree mainTree;
 	static Stage stage = null;
 
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		pageChildSize = mainPage.getChildren().size();
+		background.setOnMousePressed(clickOnBoard);
+		initGame();
+	}
+	
+	public void initGame() {
+		mainTree = new Tree();
 		for (int i = 0; i < 19; i++)
 			for(int j = 0; j < 19; j++)
 				board[i][j] = 0;
 		this.stoneLog = new int[361][2];
-		background.setOnMousePressed(clickOnBoard);
 		this.turns = 0;
-		pageChildSize = mainPage.getChildren().size();
+	}
+	
+	public void clearBoard() {
+		if (pageChildSize != mainPage.getChildren().size())
+			mainPage.getChildren().remove(pageChildSize, mainPage.getChildren().size());
+		this.isEnd = false;
+		initGame();
 	}
 	
 	public void gameButton() {
 		clearBoard();
 		gameButton.setDisable(true);
-		this.isEnd = false;
 		if (Math.random() > 0.5) this.userIsBlack = true;
 		else this.userIsBlack = false;
 		if (!userIsBlack) computersTurn(!userIsBlack);
@@ -60,16 +72,7 @@ public class Controller implements Initializable{
 		return this.board;
 	}
 	
-	public void clearBoard() {
-		for (int i = 0; i < 19; i++)
-			for(int j = 0; j < 19; j++)
-				board[i][j] = 0;
-		if (pageChildSize != mainPage.getChildren().size())
-			mainPage.getChildren().remove(pageChildSize, mainPage.getChildren().size());
-		this.isEnd = false;
-		this.stoneLog = new int[361][2];
-		this.turns = 0;
-	}
+
 	public void addSystemMessage(String text) {
 		systemMessage.setText(systemMessage.getText() + "\n" + text);
 	}
@@ -93,7 +96,10 @@ public class Controller implements Initializable{
 			gameButton.setText("START");
 			gameButton.setDisable(true);
 			this.isEnd = false;
-		}
+		} if (!this.userIsBlack && turns % 2 == 0)
+			computersTurn(!userIsBlack);
+		else if(this.userIsBlack && turns % 2 == 1)
+			computersTurn(!userIsBlack);
 		addSystemMessage("after : " +turns);
 	}
 	
@@ -197,112 +203,6 @@ public class Controller implements Initializable{
 
 		
 		return false;
-	}
-	
-	public int[] rangeOfStone() {
-		//범위를 +1씩 해서 outOfIndex 오류안나게 return 하자
-		int xMax = 0, xMin = 18, yMax = 0, yMin = 18;
-		for (int i = 0; i < 19; i++)
-			for (int j = 0; j < 19; j++) 
-				if (board[i][j] != 0) {
-					if (i > xMax) xMax = i;
-					if (i < xMin) xMin = i;
-					if (j > yMax) yMax = j;
-					if (j < yMin) yMin = j;
-				}
-		if (xMin > 0) xMin --;
-		if (yMin > 0) yMin --;
-		if (xMax < 18) xMax++;
-		if (yMax < 18) yMax++;
-		int range[] = {xMin, xMax, yMin, yMax};
-		return range;
-			
-	}
-	
-	public int[] findBestPosition() {
-		int range[] = rangeOfStone();
-		int bestCount = 0, bestX = 0, bestY = 0;
-		for (int i = range[0]; i <= range[1]; i++)
-			for (int j = range[2]; j <= range[3]; j++) {
-				if (board[i][j] == 0) {
-					int count = positionCount(i, j);
-					addSystemMessage(i+","+j+" : "+count);
-					if (bestCount < count) {
-						bestCount = count; bestX = i; bestY =j;
-					}
-				}
-			} 
-		addSystemMessage("");
-		int position[] = {bestX, bestY};
-		return position;
-	}
-	
-	public int positionCount(int x, int y) {
-		int count = 0;
-		StoneArray arr = new StoneArray();
-		//horizontal ←
-		if (x-1 >= 0 && board[x-1][y] != 0) {
-			for (int i = 0; x-1-i >= 0 && i < 5 ; i++) 
-				arr.addArr(board[x-1-i][y]);
-			count = count + arr.count();
-		}
-		//horizontal →  
-		if (x+1 < 19 && board[x+1][y] != 0) {
-			arr.reset();
-			for (int i = 0; x+1+i < 19 && i < 5; i++)
-				arr.addArr(board[x+1+i][y]);
-			count = count + arr.count();
-		}
-		//horizontal ↑
-		if (y-1 >= 0 && board[x][y-1] != 0) {
-			arr.reset();
-			for (int i = 0; y-1-i >= 0 && i<5; i++)
-				arr.addArr(board[x][y-1-i]);
-			count = count + arr.count();
-		}
-		//horizontal ↓
-		if (y+1 < 19 && board[x][y+1] != 0) {
-			arr.reset();
-			for (int i = 0; y+1+i < 19 && i < 5; i++) 
-				arr.addArr(board[x][y+1+i]);
-			count = count + arr.count();
-		}
-		//horizontal ↗
-		if (x+1 < 19 && y-1 >= 0  && board[x+1][y-1] != 0) {
-			arr.reset();
-			for (int i = 0; x+1+i < 19 && y-1-i >= 0 && i < 5; i++)
-				arr.addArr(board[x+1+i][y-1-i]);
-			count = count + arr.count();
-		}
-		//horizontal ↘
-		if (x+1 < 19 && y+1 < 19 && board[x+1][y+1] != 0) {
-			arr.reset();
-			for (int i = 0; x+1+i < 19 && y+1+i < 19 && i < 5; i++)
-				arr.addArr(board[x+1+i][y+1+i]);
-			count = count + arr.count();
-		}
-		//horizontal ↙
-		if (x-1 >= 0 && y+1 < 19 && board[x-1][y+1] != 0) {
-			arr.reset();
-			for (int i = 0; x-1-i >= 0 && y+1+i < 19 && i < 5; i++)
-				arr.addArr(board[x-1-i][y+1+i]);
-			count = count + arr.count();
-		}
-		//horizontal ↖
-		if (x-1 >= 0 && y-1 >= 0 && board[x-1][y-1] != 0) {
-			arr.reset();
-			for (int i = 0; x-1-i >= 0 && y-1-i >= 0 && i < 5; i++)
-				arr.addArr(board[x-1-i][y-1-i]);
-			count = count + arr.count();
-		}
-		return count;
-	}
-	
-	
-	public Tree makeTree() {
-		
-		Tree t = new Tree(11);
-		return t;
 	}
 	
 	public void computersTurn(boolean isBlack) {
