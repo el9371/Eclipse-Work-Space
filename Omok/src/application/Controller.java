@@ -42,7 +42,6 @@ public class Controller implements Initializable{
 		background.setOnMousePressed(clickOnBoard);
 		initGame();
 	}
-	
 	public void initGame() {
 		mainTree = new Tree();
 		for (int i = 0; i < 19; i++)
@@ -51,14 +50,12 @@ public class Controller implements Initializable{
 		this.stoneLog = new int[361][2];
 		this.turns = 0;
 	}
-	
 	public void clearBoard() {
 		if (pageChildSize != mainPage.getChildren().size())
 			mainPage.getChildren().remove(pageChildSize, mainPage.getChildren().size());
 		this.isEnd = false;
 		initGame();
 	}
-	
 	public void gameButton() {
 		clearBoard();
 		gameButton.setDisable(true);
@@ -67,12 +64,9 @@ public class Controller implements Initializable{
 		if (!userIsBlack) computersTurn(!userIsBlack);
 			
 	}
-	
 	public int[][] getBoard() {
 		return this.board;
 	}
-	
-
 	public void addSystemMessage(String text) {
 		systemMessage.setText(systemMessage.getText() + "\n" + text);
 	}
@@ -82,7 +76,6 @@ public class Controller implements Initializable{
 	public void addSystemMessage(double text) {
 		systemMessage.setText(systemMessage.getText() + "\n" + text);
 	}
-
 	public void undo() {
 		if (turns < 3) return;
 		addSystemMessage(turns);
