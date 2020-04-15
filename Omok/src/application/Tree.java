@@ -26,7 +26,7 @@ public class Tree {
 		//첫 수를 둔 후 트리 호출
 		if (this.children.size() == 0) {
 			if (findError) System.out.println("error code : 5");
-			addChild(new Tree(x, y, new int[19][19], isBlack));
+			addChild(new Tree(x, y, new int[19][19], !isBlack));
 			if (findError) System.out.println("error code : 6");
 			return nextTree(0);
 		}
@@ -220,7 +220,7 @@ public class Tree {
 		//count2.1 →
 		arr.reset();
 		for (int i = -3; i < 4; i++) {
-			if (x+i < 0 || x+i > 19) arr.addArr(!this.isBlack ? -1 : 1);
+			if (x+i < 0 || x+i > 19) arr.addArr(this.isBlack ? -1 : 1);
 			else arr.addArr(board[x+i][y]);
 		} count = count + arr.count2();
 		arr.printArr();
@@ -228,23 +228,23 @@ public class Tree {
 		//count2.2 ↓
 		arr.reset();
 		for (int i = -3; i < 4; i++) {
-			if (y+i < 0 || y+i > 19) arr.addArr(!this.isBlack ? -1 : 1);
+			if (y+i < 0 || y+i > 18) arr.addArr(this.isBlack ? -1 : 1);
 			else arr.addArr(board[x][y+i]);
 		} count = count + arr.count2();
 		arr.printArr();
 		//count2.3 ↘
 		arr.reset();
 		for (int i = -3; i < 4; i++) {
-			if (y+i < 0 || y+i > 19 || x+i < 0 || x+i > 19) 
-				arr.addArr(!this.isBlack ? -1 : 1);
+			if (y+i < 0 || y+i > 18 || x+i < 0 || x+i > 18) 
+				arr.addArr(this.isBlack ? -1 : 1);
 			else arr.addArr(board[x+i][y+i]);
 		} count = count + arr.count2();
 		arr.printArr();
 		//count2.4 ↙
 		arr.reset();
 		for (int i = -3; i < 4; i++) {
-			if (y+i < 0 || y+i > 19 || x-i < 0 || x-i > 19) 
-				arr.addArr(!this.isBlack ? -1 : 1);
+			if (y+i < 0 || y+i > 18 || x-i < 0 || x-i > 18) 
+				arr.addArr(this.isBlack ? -1 : 1);
 			else arr.addArr(board[x-i][y+i]);
 		} count = count + arr.count2();
 		arr.printArr();
