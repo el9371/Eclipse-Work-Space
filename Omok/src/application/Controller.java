@@ -33,6 +33,7 @@ public class Controller implements Initializable{
 	private int stoneLog[][];
 	private int turns, pageChildSize;
 	private Tree mainTree;
+	private boolean findError = false;
 	static Stage stage = null;
 
 	
@@ -81,6 +82,7 @@ public class Controller implements Initializable{
 		addSystemMessage(turns);
 		int number = mainPage.getChildren().size();
 		mainPage.getChildren().remove(number - 2, number);
+		mainTree = mainTree.getParent().getParent();
 		for (int i = 0; i < 2; i++) {
 			turns--;
 			int x = stoneLog[turns][0], y = stoneLog[turns][1];
@@ -112,6 +114,9 @@ public class Controller implements Initializable{
 			mainPage.getChildren().add(stone);
 			board[xIndex][yIndex] = isBlack ? 1 : -1;
 			stoneLog[this.turns][0] = xIndex; stoneLog[this.turns++][1] = yIndex;
+			if (findError) System.out.println("error code : 3");
+			mainTree = mainTree.getXYChild(xIndex, yIndex, isBlack);
+			if (findError) System.out.println("error code : 4");
 		} catch (FileNotFoundException e) {
 			System.out.println("颇老决辑");
 		}
@@ -121,7 +126,7 @@ public class Controller implements Initializable{
 			gameButton.setText("REGAME");
 			gameButton.setDisable(false);
 			addSystemMessage(xIndex + ", "+ yIndex + " 坷格肯己!");;
-		}
+		}if (findError) System.out.println("error code : 1");
 		return true;
 	}
 
@@ -203,8 +208,12 @@ public class Controller implements Initializable{
 			setStone(8, 8, isBlack);
 			return;
 		}
-		int position[] = findBestPosition();
+		if (findError) System.out.println("error code : 14");
+		Tree t = mainTree.bestChild();
+		int position[] =  t.getLocation();
+		if (findError) System.out.println("error code : 13");
 		setStone(position[0],position[1],isBlack);
+		if (findError) System.out.println("error code : 2");
 	}
 	
 	public void myTurn() {
