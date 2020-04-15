@@ -120,7 +120,9 @@ public class Tree {
 				best = v;
 				bestIndex = i;
 			}
-		} return this.children.get(bestIndex);
+		} Tree bestChild = this.children.get(bestIndex);
+		System.out.println("BestChoice = ["+bestChild.getLocation()[0]+"]["+bestChild.getLocation()[1]+"]");
+		return bestChild;
 	}
 	
 	//-------------------------------------------
@@ -145,84 +147,108 @@ public class Tree {
 		int range[] = {xMin, xMax, yMin, yMax};
 		return range;
 	}
-	
-	public int[] findBestPosition() {
-		int range[] = rangeOfStone();
-		int bestCount = 0, bestX = 0, bestY = 0;
-		for (int i = range[0]; i <= range[1]; i++)
-			for (int j = range[2]; j <= range[3]; j++) {
-				if (board[i][j] == 0) {
-					int count = positionCount(i, j);
-					//addSystemMessage(i+","+j+" : "+count);
-					if (bestCount < count) {
-						bestCount = count; bestX = i; bestY =j;
-					}
-				}
-			} 
-		//addSystemMessage("");
-		int position[] = {bestX, bestY};
-		return position;
-	}
-	
 
 	public int positionCount(int x, int y) {
 		int count = 0;
 		StoneArray arr = new StoneArray();
-		//horizontal ←
+		System.out.print("["+x+"]["+y+"] || ");
+		//count1 ←
 		if (x-1 >= 0 && board[x-1][y] != 0) {
 			for (int i = 0; x-1-i >= 0 && i < 5 ; i++) 
 				arr.addArr(board[x-1-i][y]);
 			count = count + arr.count();
+			System.out.print("1:" + count + "  ");
 		}
-		//horizontal →  
+		//count2 →  
 		if (x+1 < 19 && board[x+1][y] != 0) {
 			arr.reset();
 			for (int i = 0; x+1+i < 19 && i < 5; i++)
 				arr.addArr(board[x+1+i][y]);
 			count = count + arr.count();
+			System.out.print("2:" + count + "  ");
 		}
-		//horizontal ↑
+		//count3 ↑
 		if (y-1 >= 0 && board[x][y-1] != 0) {
 			arr.reset();
 			for (int i = 0; y-1-i >= 0 && i<5; i++)
 				arr.addArr(board[x][y-1-i]);
 			count = count + arr.count();
+			System.out.print("3:" + count + "  ");
 		}
-		//horizontal ↓
+		//count4 ↓
 		if (y+1 < 19 && board[x][y+1] != 0) {
 			arr.reset();
 			for (int i = 0; y+1+i < 19 && i < 5; i++) 
 				arr.addArr(board[x][y+1+i]);
 			count = count + arr.count();
+			System.out.print("4:" + count + "  ");
 		}
-		//horizontal ↗
+		//count   ↗5
 		if (x+1 < 19 && y-1 >= 0  && board[x+1][y-1] != 0) {
 			arr.reset();
 			for (int i = 0; x+1+i < 19 && y-1-i >= 0 && i < 5; i++)
 				arr.addArr(board[x+1+i][y-1-i]);
 			count = count + arr.count();
+			System.out.print("5:" + count + "  ");
 		}
-		//horizontal ↘
+		//count  ↘6
 		if (x+1 < 19 && y+1 < 19 && board[x+1][y+1] != 0) {
 			arr.reset();
 			for (int i = 0; x+1+i < 19 && y+1+i < 19 && i < 5; i++)
 				arr.addArr(board[x+1+i][y+1+i]);
 			count = count + arr.count();
+			System.out.print("6:" + count + "  ");
 		}
-		//horizontal ↙
+		//count ↙7
 		if (x-1 >= 0 && y+1 < 19 && board[x-1][y+1] != 0) {
 			arr.reset();
 			for (int i = 0; x-1-i >= 0 && y+1+i < 19 && i < 5; i++)
 				arr.addArr(board[x-1-i][y+1+i]);
 			count = count + arr.count();
+			System.out.print("7:" + count + "  ");
 		}
-		//horizontal ↖
+		//count ↖8
 		if (x-1 >= 0 && y-1 >= 0 && board[x-1][y-1] != 0) {
 			arr.reset();
 			for (int i = 0; x-1-i >= 0 && y-1-i >= 0 && i < 5; i++)
 				arr.addArr(board[x-1-i][y-1-i]);
 			count = count + arr.count();
+			System.out.print("8:" + count + "  ");
 		}
+		
+		//사이 일부러 공간을 만든 ●●□●● 이런 수 검사하기
+		//count2.1 →
+		arr.reset();
+		for (int i = -3; i < 4; i++) {
+			if (x+i < 0 || x+i > 19) arr.addArr(!this.isBlack ? -1 : 1);
+			else arr.addArr(board[x+i][y]);
+		} count = count + arr.count2();
+		arr.printArr();
+		
+		//count2.2 ↓
+		arr.reset();
+		for (int i = -3; i < 4; i++) {
+			if (y+i < 0 || y+i > 19) arr.addArr(!this.isBlack ? -1 : 1);
+			else arr.addArr(board[x][y+i]);
+		} count = count + arr.count2();
+		arr.printArr();
+		//count2.3 ↘
+		arr.reset();
+		for (int i = -3; i < 4; i++) {
+			if (y+i < 0 || y+i > 19 || x+i < 0 || x+i > 19) 
+				arr.addArr(!this.isBlack ? -1 : 1);
+			else arr.addArr(board[x+i][y+i]);
+		} count = count + arr.count2();
+		arr.printArr();
+		//count2.4 ↙
+		arr.reset();
+		for (int i = -3; i < 4; i++) {
+			if (y+i < 0 || y+i > 19 || x-i < 0 || x-i > 19) 
+				arr.addArr(!this.isBlack ? -1 : 1);
+			else arr.addArr(board[x-i][y+i]);
+		} count = count + arr.count2();
+		arr.printArr();
+		System.out.println(" then "+ count);
 		return count;
 	}
 	

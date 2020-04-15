@@ -114,7 +114,7 @@ public class Controller implements Initializable{
 			mainPage.getChildren().add(stone);
 			board[xIndex][yIndex] = isBlack ? 1 : -1;
 			stoneLog[this.turns][0] = xIndex; stoneLog[this.turns++][1] = yIndex;
-			if (findError) System.out.println("error code : 3");
+			 System.out.println("error code : 3");
 			mainTree = mainTree.getXYChild(xIndex, yIndex, isBlack);
 			if (findError) System.out.println("error code : 4");
 		} catch (FileNotFoundException e) {
