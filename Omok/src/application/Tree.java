@@ -150,7 +150,7 @@ public class Tree {
 
 	public int positionCount(int x, int y) {
 		int count = 0;
-		StoneArray arr = new StoneArray();
+		StoneArray arr = new StoneArray(this.isBlack);
 		System.out.print("["+x+"]["+y+"] || ");
 		//count1 ก็
 		if (x-1 >= 0 && board[x-1][y] != 0) {

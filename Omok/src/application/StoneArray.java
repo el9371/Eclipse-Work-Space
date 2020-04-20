@@ -3,10 +3,12 @@ package application;
 public class StoneArray {
 	private int[] arr = new int[7];
 	private int size, sequence;
+	private boolean isBlack;
 	
-	public StoneArray() {
+	public StoneArray(boolean isBlack) {
 		this.size = 0;
 		this.sequence = 0;
+		this.isBlack = isBlack;
 		for (int i:this.arr)
 			i = -100;
 	}
@@ -37,8 +39,14 @@ public class StoneArray {
 				break;
 			}
 		}
-		if (this.sequence == 4) //돌 4개가 붙어있음
+		if (this.sequence == 4) {
+			//돌 4개가 붙어있음
+			if (this.isBlack && color == 1)
+				return this.sequence + 16;
+			else if(!this.isBlack && color == -1)
+				return this.sequence + 16;
 			return (this.sequence + 10);
+		}
 		if (this.sequence == 3 && last == 0) //안막혀 있는 돌 3개
 			return (this.sequence + 6);
 		else if (this.sequence == 3) //한쪽이 막혀있는 돌 3개
@@ -65,8 +73,11 @@ public class StoneArray {
 				break;
 			}
 		}
-		if (sequenceRight + sequenceLeft == 4) //?●●□●●? 상태 (□는 검사하는 구간 ☆빈곳
-			return 14;
+		if (sequenceRight + sequenceLeft == 4) { //?●●□●●? 상태 (□는 검사하는 구간 ☆빈곳
+			if (this.isBlack && color == 1) return 16;
+			else if (!this.isBlack && color == -1) return 16;
+			return 10;
+		}
 		if (sequenceRight * sequenceLeft != 0 && sequenceRight + sequenceLeft == 3) {
 			if (lastLeft == color * -1 && lastRight == color * - 1) //○●●□●○
 				return 0;
